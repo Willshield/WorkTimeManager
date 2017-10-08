@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkTimeManager.Bll.Dtos
+namespace WorkTimeManager.Redmine.Dto
 {
     public class TimeEntryListDto
     {
@@ -72,6 +72,21 @@ namespace WorkTimeManager.Bll.Dtos
     {
         public string key { get; set; }
         public Time_Entry time_entry { get; set; }
+
+        public Post_Time_Entry()
+        {
+
+        }
+
+        public Post_Time_Entry(WorkTimeManager.Model.Models.WorkTime wt)
+        {
+            Post_Time_Entry pt = new Post_Time_Entry();
+            pt.time_entry = new Time_Entry();
+            pt.time_entry.issue_id = wt.IssueID;
+            pt.time_entry.hours = (float)wt.Hours;
+            pt.time_entry.comments = wt.Comment;
+            pt.time_entry.activity_id = 1; //Todo: miért const?
+        }
     }
 
 

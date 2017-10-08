@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkTimeManager.Bll.Dtos
+namespace WorkTimeManager.Redmine.Dto
 {
     public class IssueListDto
     {
