@@ -8,7 +8,7 @@ namespace WorkTimeManager.Bll.Interfaces.Network
 {
     public interface IDbSynchronizationService
     {
-        void PullAll();
-        void PushAll();
+        Task PullAll();
+        Task PushAll();
     }
 }
