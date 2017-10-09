@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Template10.Mvvm;
 using Template10.Services.SettingsService;
 using Windows.UI.Xaml;
+using WorkTimeManager.Bll.Services;
+using WorkTimeManager.Services.SettingsServices;
 
 namespace WorkTimeManager.ViewModels
 {
@@ -15,7 +17,19 @@ namespace WorkTimeManager.ViewModels
 
     public class SettingsPartViewModel : ViewModelBase
     {
-        Services.SettingsServices.SettingsService _settings;
+
+        UISettingsService _UIsettings;
+        BllSettingsService _Bllsettings;
+        public bool Is1 { get { return _Bllsettings.Rounding == 1; } set { if (value) _Bllsettings.Rounding = 1; } }
+        public bool Is5 { get { return _Bllsettings.Rounding == 5; } set { if (value) _Bllsettings.Rounding = 5; } }
+        public bool Is15 { get { return _Bllsettings.Rounding == 15; } set { if (value) _Bllsettings.Rounding = 15; } }
+        public bool Is30 { get { return _Bllsettings.Rounding == 30; } set { if (value) _Bllsettings.Rounding = 30; } }
+        public bool Is60 { get { return _Bllsettings.Rounding == 60; } set { if (value) _Bllsettings.Rounding = 60; } }
+
+        public bool AutoTrack { get { return _Bllsettings.AutoTrack; } set { _Bllsettings.AutoTrack = value; } }
+        public bool AskIfStop { get { return _Bllsettings.AskIfStop; } set { _Bllsettings.AskIfStop = value; } }
+        public bool AlwaysUp { get { return _Bllsettings.AlwaysUp; } set { _Bllsettings.AlwaysUp = value; } }
+
 
         public SettingsPartViewModel()
         {
@@ -25,22 +39,23 @@ namespace WorkTimeManager.ViewModels
             }
             else
             {
-                _settings = Services.SettingsServices.SettingsService.Instance;
+                _UIsettings = UISettingsService.Instance;
+                _Bllsettings = BllSettingsService.Instance;
             }
         }
 
         public bool ShowHamburgerButton
         {
-            get { return _settings.ShowHamburgerButton; }
-            set { _settings.ShowHamburgerButton = value; base.RaisePropertyChanged(); }
+            get { return _UIsettings.ShowHamburgerButton; }
+            set { _UIsettings.ShowHamburgerButton = value; base.RaisePropertyChanged(); }
         }
 
         public bool IsFullScreen
         {
-            get { return _settings.IsFullScreen; }
+            get { return _UIsettings.IsFullScreen; }
             set
             {
-                _settings.IsFullScreen = value;
+                _UIsettings.IsFullScreen = value;
                 base.RaisePropertyChanged();
                 if (value)
                 {
@@ -53,16 +68,17 @@ namespace WorkTimeManager.ViewModels
             }
         }
 
+
         public bool UseShellBackButton
         {
-            get { return _settings.UseShellBackButton; }
-            set { _settings.UseShellBackButton = value; base.RaisePropertyChanged(); }
+            get { return _UIsettings.UseShellBackButton; }
+            set { _UIsettings.UseShellBackButton = value; base.RaisePropertyChanged(); }
         }
 
         public bool UseLightThemeButton
         {
-            get { return _settings.AppTheme.Equals(ApplicationTheme.Light); }
-            set { _settings.AppTheme = value ? ApplicationTheme.Light : ApplicationTheme.Dark; base.RaisePropertyChanged(); }
+            get { return _UIsettings.AppTheme.Equals(ApplicationTheme.Light); }
+            set { _UIsettings.AppTheme = value ? ApplicationTheme.Light : ApplicationTheme.Dark; base.RaisePropertyChanged(); }
         }
 
         private string _BusyText = "Please wait...";

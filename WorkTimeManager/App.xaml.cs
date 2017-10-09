@@ -23,22 +23,23 @@ namespace WorkTimeManager
         public App()
         {
             InitializeComponent();
-            using (var db = new WorkTimeContext())
-            {
-                db.Database.Migrate();
-            }
-
             SplashFactory = (e) => new Views.Splash(e);
 
             #region app settings
 
             // some settings must be set in app.constructor
-            var settings = SettingsService.Instance;
+            var settings = UISettingsService.Instance;
             RequestedTheme = settings.AppTheme;
             CacheMaxDuration = settings.CacheMaxDuration;
             ShowShellBackButton = settings.UseShellBackButton;
 
             #endregion
+
+            using (var db = new WorkTimeContext())
+            {
+                db.Database.Migrate();
+            }
+
         }
 
         public override UIElement CreateRootElement(IActivatedEventArgs e)

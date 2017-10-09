@@ -15,13 +15,13 @@ namespace WorkTimeManager.Views
     {
         public static Shell Instance { get; set; }
         public static HamburgerMenu HamburgerMenu => Instance.MyHamburgerMenu;
-        Services.SettingsServices.SettingsService _settings;
+        Services.SettingsServices.UISettingsService _settings;
 
         public Shell()
         {
             Instance = this;
             InitializeComponent();
-            _settings = Services.SettingsServices.SettingsService.Instance;
+            _settings = Services.SettingsServices.UISettingsService.Instance;
         }
 
         public Shell(INavigationService navigationService) : this()

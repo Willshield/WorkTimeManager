@@ -5,11 +5,11 @@ using Windows.UI.Xaml;
 
 namespace WorkTimeManager.Services.SettingsServices
 {
-    public class SettingsService
+    public class UISettingsService
     {
-        public static SettingsService Instance { get; } = new SettingsService();
+        public static UISettingsService Instance { get; } = new UISettingsService();
         Template10.Services.SettingsService.ISettingsHelper _helper;
-        private SettingsService()
+        private UISettingsService()
         {
             _helper = new Template10.Services.SettingsService.SettingsHelper();
         }
