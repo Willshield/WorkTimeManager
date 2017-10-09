@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkTimeManager.Bll.Interfaces;
+using WorkTimeManager.Dal.Context;
 using WorkTimeManager.Model.Models;
 
 namespace WorkTimeManager.Bll.Services
@@ -26,19 +28,34 @@ namespace WorkTimeManager.Bll.Services
             }
         }
 
-        public Task AddTimeEntry(WorkTime workTime)
+        public async Task AddTimeEntry(WorkTime workTime)
         {
-            throw new NotImplementedException();
+            using (var db = new WorkTimeContext())
+            {
+                var issue = await db.Issues.Where(i => i.IssueID == workTime.IssueID).SingleAsync();
+                workTime.Issue = issue;
+                workTime.Dirty = true;
+                db.WorkTimes.Add(workTime);
+                await db.SaveChangesAsync();
+            }
         }
 
-        public Task<ObservableCollection<WorkTime>> GetDirtyWorkTimes()
+        public async Task<ObservableCollection<WorkTime>> GetDirtyWorkTimes()
         {
-            throw new NotImplementedException();
+            using (var db = new WorkTimeContext())
+            {
+                return new ObservableCollection<WorkTime>(await db.WorkTimes.Include(wt => wt.Issue).Where(wt => wt.Dirty).Include(i => i.Issue.Project).OrderByDescending(i => i.StartTime).ToListAsync());
+            }
+            
         }
 
-        public Task<ObservableCollection<WorkTime>> GetWorkTimes()
+        public async Task<ObservableCollection<WorkTime>> GetWorkTimes()
         {
-            throw new NotImplementedException();
+            using (var db = new WorkTimeContext())
+            {
+                return new ObservableCollection<WorkTime>(await db.WorkTimes.Include(wt => wt.Issue).Include(i => i.Issue.Project).OrderByDescending(i => i.StartTime).ToListAsync());
+            }
         }
+
     }
 }

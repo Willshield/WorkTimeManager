@@ -27,10 +27,7 @@ namespace WorkTimeManager.Redmine.Service
                 }
                 else
                 {
-                    //Todo: catch exception, make popup
                     throw new HttpRequestException("Network error: Loading data failed. Try again later.");
-                    //PopupService p = new PopupService(); 
-                    //p.GetDefaultNotification("Loading data failed. Try again later.", "Network error");
                 }
 
                 return default(T);
@@ -45,10 +42,7 @@ namespace WorkTimeManager.Redmine.Service
                 HttpResponseMessage rpmsg = await client.PostAsync(uri, new StringContent(json, new UTF8Encoding(), "application/json"));
                 if (rpmsg.StatusCode != System.Net.HttpStatusCode.Created)
                 {
-                    //Todo: catch exception, make popup
                     throw new HttpRequestException("Network error: Sending data failed. Try again later.");
-                    //PopupService p = new PopupService();
-                    //p.GetDefaultNotification("Loading data failed. Try again later.", "Network error");
                 }
 
             }
@@ -73,7 +67,6 @@ namespace WorkTimeManager.Redmine.Service
         {
             var dto = new Post_Time_Entry(t);
             dto.key = UploadKey;
-            //dto.key = "4f56fb8188c5f48811efe9a47b7ef50ad3443318";
             await PostTAsync<Post_Time_Entry>(new Uri(serverUrl, $"time_entries.json"), dto);
         }
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 using WorkTimeManager.Bll.Interfaces.Network;
 using WorkTimeManager.CommonInterfaces;
 using WorkTimeManager.Dal.Context;
@@ -48,9 +49,7 @@ namespace WorkTimeManager.Bll.Services.Network
             }
             catch (HttpRequestException e)
             {
-                //Todo: throw exception
-                throw e;
-                //await new MessageDialog("You are currently not connected to the internet. Syncing data failed. You can use offline mode.", "Network Error").ShowAsync();
+                await new MessageDialog("You are currently not connected to the internet. Syncing data failed. You can use offline mode. Error message: " + e.Message , "Network Error").ShowAsync();
             }
         }
 
@@ -59,7 +58,7 @@ namespace WorkTimeManager.Bll.Services.Network
         {
             foreach (var project in await NetworkDataService.GetProjectsAsync())
             {
-                var exists = db.Projects.Where(p => p.ProjectID == project.ProjectID).SingleOrDefault();
+                var exists = await db.Projects.Where(p => p.ProjectID == project.ProjectID).SingleOrDefaultAsync();
                 if (exists is null)
                 {
                     db.Projects.Add(project);
@@ -79,7 +78,7 @@ namespace WorkTimeManager.Bll.Services.Network
         {
             foreach (var issue in await NetworkDataService.GetIssuesAsync())
             {
-                var exists = db.Issues.Where(i => i.IssueID == issue.IssueID).SingleOrDefault();
+                var exists = await db.Issues.Where(i => i.IssueID == issue.IssueID).SingleOrDefaultAsync();
                 if (exists is null)
                 {
                     var project = db.Projects.Where(p => p.ProjectID == issue.ProjectID).Single();
@@ -109,7 +108,7 @@ namespace WorkTimeManager.Bll.Services.Network
         {
             foreach (var timeEntry in await NetworkDataService.GetTimeEntriesAsync())
             {
-                var exists = db.WorkTimes.Where(w => w.WorkTimeID == timeEntry.WorkTimeID).SingleOrDefault();
+                var exists = await db.WorkTimes.Where(w => w.WorkTimeID == timeEntry.WorkTimeID).SingleOrDefaultAsync();
                 if (exists is null)
                 {
                     db.WorkTimes.Add(timeEntry);
@@ -133,16 +132,24 @@ namespace WorkTimeManager.Bll.Services.Network
         {
             using (var db = new WorkTimeContext())
             {
-                var wtList = db.WorkTimes.Include(wt => wt.Issue).Include(i => i.Issue.Project).OrderByDescending(i => i.StartTime).ToList();
-                foreach (var wt in wtList)
+                try
                 {
-                    if (wt.Dirty)
+                    var wtList = db.WorkTimes.Include(wt => wt.Issue).Include(i => i.Issue.Project).OrderByDescending(i => i.StartTime).ToList();
+                    foreach (var wt in wtList)
                     {
-                        wt.Dirty = false;
-                        await NetworkDataService.PostTimeEntry(wt, "dummykey"); //todo: get key as parameter
+                        if (wt.Dirty)
+                        {
+                            wt.Dirty = false;
+                            await NetworkDataService.PostTimeEntry(wt, "4f56fb8188c5f48811efe9a47b7ef50ad3443318"); //todo: get key as parameter                        
+                        }
                     }
+
+                    await db.SaveChangesAsync();
                 }
-                await db.SaveChangesAsync();
+                catch (HttpRequestException e)
+                {
+                    await new MessageDialog("You are currently not connected to the internet. Syncing data failed. You can use offline mode. Error message: " + e.Message, "Network Error").ShowAsync();
+                }
             }
         }
 

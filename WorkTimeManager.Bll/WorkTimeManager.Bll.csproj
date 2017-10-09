@@ -112,14 +112,19 @@
     <Compile Include="Interfaces\IIssueService.cs" />
     <Compile Include="Interfaces\IWorkingTimeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BllSettingsService.cs" />
     <Compile Include="Services\Network\DbSynchronizationService.cs" />
     <Compile Include="Services\IssueService.cs" />
     <Compile Include="Services\WorkingTimeService.cs" />
+    <Compile Include="Tracker.cs" />
     <EmbeddedResource Include="Properties\WorkTimeManager.Bll.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="Template10">
+      <Version>1.1.12</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />
