@@ -71,9 +71,9 @@ namespace WorkTimeManager.Bll.Services
             }
         }
 
-        public async Task StartTracking(int IssueID)
+        public async Task StartTracking(Issue issue)
         {
-            throw new NotImplementedException();
+            await Tracker.Instance.AskStartTracking(issue, "");
         }
 
     }

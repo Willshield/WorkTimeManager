@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="WorkTimeManager.ActuallyTrackingUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WorkTimeManager"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:WorkTimeManager.ViewModels"
+    mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <vm:ActuallyTrackingUserControlViewModel x:Name="ViewModel" />
+    </UserControl.DataContext>
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" Width="Auto" Height="50">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}">
+            <TextBlock Text="Actually tracking:" Margin="15,0" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            <TextBlock Text="{Binding Subject}" Margin="15,0"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding Project}" Margin="15,0"  Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding TimeStamp}" Margin="15,0"  Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</Page>

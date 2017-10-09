@@ -20,7 +20,7 @@ namespace WorkTimeManager.Bll.Interfaces
 
         Task<double> GetAllTrackedIssueTime(int IssueID);
 
-        Task StartTracking(int IssueID);
+        Task StartTracking(Issue issue);
 
 
     }

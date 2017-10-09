@@ -9,7 +9,7 @@ using WorkTimeManager.Model.Models;
 
 namespace WorkTimeManager.Bll.DesignTimeServices
 {
-    class DesignTimeDataService : IIssueService, IWorkingTimeService
+    public class DesignTimeDataService : IIssueService, IWorkingTimeService
     {
         public Task AddTimeEntry(WorkTime workTime)
         {
