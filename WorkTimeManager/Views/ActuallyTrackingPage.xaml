@@ -1,0 +1,104 @@
+﻿<Page
+    x:Class="WorkTimeManager.Views.ActuallyTrackingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WorkTimeManager.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:WorkTimeManager.ViewModels"
+    xmlns:usercontrols="using:WorkTimeManager.Views.UserControls"
+    xmlns:conv="using:WorkTimeManager.DataValueConverters" 
+    mc:Ignorable="d">
+
+
+    <Page.DataContext>
+        <vm:ActuallyTrackingViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+    <Page.Resources>
+        <conv:DateFormatConverter x:Name="DateFormatConverter" x:Key="DateFormatConverter"/>
+        <conv:DoubleFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="75,5,10,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition MaxHeight="800"/>
+            <RowDefinition Height="75"/>
+        </Grid.RowDefinitions>
+
+        <!--header-->
+        <usercontrols:TitledPageHeader Grid.Row="0" Label="Actually Tracked" />
+
+        <Grid Margin="30" Padding="0" Grid.Row="1" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="400" />
+                <ColumnDefinition Width="400" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="150"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                <TextBlock Text="Issue:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" />
+                <TextBlock Name="lbSubject" Text="{Binding Subject}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center"  MaxLines="3" FontSize="24" Margin="10,0,0,0" MaxWidth="350" TextWrapping="WrapWholeWords"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                <TextBlock Text="Project:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding ProjectName}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
+                <TextBlock Text="Tracker:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding IssueTracker}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+            </StackPanel>
+            <TextBlock Text="Issue description" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0"/>
+            <ScrollViewer VerticalScrollMode="Enabled" HorizontalScrollMode="Disabled" Height="100" Grid.Row="4" Grid.Column="0">
+                <TextBlock Text="{Binding Description}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="12" TextWrapping="Wrap" />
+            </ScrollViewer>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                <TextBlock Text="All tracked worktime:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding AllWorkingTime, Converter={StaticResource DoubleFormatConverter}}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center" Margin="10,0,0,0" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                <TextBlock Text="Priority:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Priority}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                <TextBlock Text="Work started:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd H:mm\} }" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+            </StackPanel>
+            <TextBlock Text="Description:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
+            <TextBox Text="{Binding Comment, Mode=TwoWay}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="12" TextWrapping="Wrap" Height="100" Grid.Row="4" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Disabled" />
+
+            <Grid Grid.Row="5" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="400" />
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="You are working for:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="0"/>
+                <TextBlock Text="{Binding TimeStamp}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,0" FontSize="40" Grid.Column="0"/>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" >
+                    <Button Name="StopSave" Command="{Binding StopSaveCommand}" Content="Stop and save tracking" HorizontalAlignment="Center" Width="170" Margin="5"/>
+                    <Button Name="Abort" Command="{Binding AbortCommand}" Content="Abort tracking" HorizontalAlignment="Center" Width="170" Margin="5"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" >
+                    <Button Name="Restart" Command="{Binding RestartCommand}" Content="Restart" HorizontalAlignment="Center" Width="170" Margin="5"/>
+                    <Button Name="Pause" Command="{Binding PauseCommand}" Content="Pause" HorizontalAlignment="Center" Width="170" Margin="5"/>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+</Page>

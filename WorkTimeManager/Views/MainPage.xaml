@@ -8,90 +8,87 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:WorkTimeManager.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:vm="using:WorkTimeManager.ViewModels" mc:Ignorable="d">
+      xmlns:vm="using:WorkTimeManager.ViewModels"
+      xmlns:usercontrols="using:WorkTimeManager.Views.UserControls"
+      xmlns:models="using:WorkTimeManager.Model.Models"
+      xmlns:conv="using:WorkTimeManager.DataValueConverters" 
+      mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:MainPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
+    <Page.Resources>
+        <conv:DateFormatConverter x:Name="DateFormatConverter" x:Key="DateFormatConverter"/>
+        <conv:DoubleFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
+    </Page.Resources>
 
-    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Margin="75,5,10,5" Canvas.ZIndex="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition MaxHeight="650"/>
+            <RowDefinition Height="75"/>
+        </Grid.RowDefinitions>
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
-                <VisualState x:Name="VisualStateNarrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <!--  TODO: change properties for narrow view  -->
-                        <Setter Target="stateTextBox.Text" Value="Narrow Visual State" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="VisualStateNormal">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <!--  TODO: change properties for normal view  -->
-                        <Setter Target="stateTextBox.Text" Value="Normal Visual State" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="VisualStateWide">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <!--  TODO: change properties for wide view  -->
-                        <Setter Target="stateTextBox.Text" Value="Wide Visual State" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
 
-        <controls:PageHeader x:Name="pageHeader" RelativePanel.AlignLeftWithPanel="True"
-                             RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True" Text="Main Page">
+        <!--header-->
+        <usercontrols:TitledPageHeader Grid.Row="0" Label="Favourite issues" />
+        <!--<TextBlock Text="Favourite issues" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" FontStyle="Italic" />-->
+        <!--table header-->
+        <Grid  Margin="0" Grid.Row="2" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="210"/>
+                <ColumnDefinition Width="145"/>
+                <ColumnDefinition Width="145"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="220"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="Subject" Text="Subject" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" />
+            <TextBlock Name="Project" Text="Project" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+            <TextBlock Name="Updated" Text="Updated" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+            <TextBlock Name="Hours" Text="Working Hours" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+            <TextBlock Name="Description" Text="Description" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+        </Grid>
 
-            <!--  secondary commands  -->
-            <controls:PageHeader.SecondaryCommands>
-                <AppBarButton Click="{x:Bind ViewModel.GotoSettings}" Label="Settings" />
-                <AppBarButton Click="{x:Bind ViewModel.GotoPrivacy}" Label="Privacy" />
-                <AppBarButton Click="{x:Bind ViewModel.GotoAbout}" Label="About" />
-            </controls:PageHeader.SecondaryCommands>
+        <ListView Width="900" MaxHeight="550" SelectionMode="Single" VerticalAlignment="Top" ItemsSource="{Binding List}" Grid.Row="3" Margin="0" SelectedItem="{Binding SelectedIssue, Mode=TwoWay}" HorizontalAlignment="Center">
 
-        </controls:PageHeader>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Issue" >
+                    <Grid Margin="2" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="210"/>
+                            <ColumnDefinition Width="145"/>
+                            <ColumnDefinition Width="145"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{x:Bind Subject}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" FontSize="14" Grid.Column="0"/>
+                        <TextBlock Text="{x:Bind Project.Name}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           VerticalAlignment="Center" FontSize="14" Grid.Column="1"/>
+                        <TextBlock Text="{x:Bind Updated, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd H:mm\} }"   Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center" FontSize="14" Grid.Column="2"/>
+                        <!--<TextBlock Text="{x:Bind AllTrackedTime, Converter={StaticResource DoubleFormatConverter}}"       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Right"  VerticalAlignment="Center" FontSize="14" Grid.Column="3" Padding="20,0" />-->
+                        <TextBlock Text="{x:Bind Description}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center"  FontSize="14" Grid.Column="4" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Height" Value="30" />
+                    <Setter Property="MinHeight" Value="30"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
 
-        <controls:Resizer x:Name="parameterResizer" Margin="16,16,16,0"
-                          RelativePanel.AlignLeftWithPanel="True"
-                          RelativePanel.Below="pageHeader">
+        <!--footer-->
+        <Button Content="Start tracking" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Row="4" Command="{Binding StartTrackingCommand}"/>
+        <usercontrols:ActuallyTrackingUserControl HorizontalAlignment="Center"  VerticalAlignment="Center"  Grid.Row="4"/>
 
-            <TextBox MinWidth="150" MinHeight="62"
-                     Header="Parameter to pass"
-                     Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     TextWrapping="Wrap">
-                <Interactivity:Interaction.Behaviors>
-                    <!--  enable submit on enter key  -->
-                    <Behaviors:KeyBehavior Key="Enter">
-                        <Core:CallMethodAction MethodName="GotoDetailsPage" TargetObject="{Binding}" />
-                    </Behaviors:KeyBehavior>
-                    <!--  focus on textbox when page loads  -->
-                    <Core:EventTriggerBehavior>
-                        <Behaviors:FocusAction />
-                    </Core:EventTriggerBehavior>
-                </Interactivity:Interaction.Behaviors>
-            </TextBox>
-
-        </controls:Resizer>
-
-        <Button x:Name="submitButton"
-                Click="{x:Bind ViewModel.GotoDetailsPage}" Content="Submit"
-                RelativePanel.AlignBottomWith="parameterResizer"
-                RelativePanel.RightOf="parameterResizer" />
-
-        <TextBlock x:Name="stateTextBox" Margin="16,16,0,0"
-                   RelativePanel.AlignLeftWith="parameterResizer"
-                   RelativePanel.Below="parameterResizer"
-                   Text="Current Visual State" />
-
-    </RelativePanel>
+    </Grid>
 </Page>

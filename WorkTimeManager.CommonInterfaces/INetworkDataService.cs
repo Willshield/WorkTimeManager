@@ -12,6 +12,6 @@ namespace WorkTimeManager.CommonInterfaces
         Task<List<Issue>> GetIssuesAsync();
         Task<List<Project>> GetProjectsAsync();
         Task<List<WorkTime>> GetTimeEntriesAsync();
-        Task PostTimeEntry(WorkTime t, string UploadKey)
+        Task PostTimeEntry(WorkTime t, string UploadKey);
     }
 }

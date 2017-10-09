@@ -60,7 +60,7 @@ namespace WorkTimeManager.ViewModels
                 return;
 
             await issueService.StartTracking(SelectedIssue);
-            //NavigationService.Navigate(typeof(Views.ActuallyTrackingPage)); //Todo: Uncomment
+            NavigationService.Navigate(typeof(Views.ActuallyTrackingPage));
 
             WorkTime wt = new WorkTime();
             wt.IssueID = 1;

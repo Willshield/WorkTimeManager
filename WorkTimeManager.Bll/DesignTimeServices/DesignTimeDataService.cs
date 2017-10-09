@@ -107,5 +107,10 @@ namespace WorkTimeManager.Bll.DesignTimeServices
         {
             throw new NotImplementedException();
         }
+
+        public Task StartTracking(Issue issue)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
