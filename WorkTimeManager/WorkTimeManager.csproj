@@ -108,6 +108,7 @@
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\SyncUserControlViewModel.cs" />
     <Compile Include="ViewModels\TrackListViewModel.cs" />
+    <Compile Include="ViewModels\WorkTimePageViewModel.cs" />
     <Compile Include="Views\ActuallyTrackingPage.xaml.cs">
       <DependentUpon>ActuallyTrackingPage.xaml</DependentUpon>
     </Compile>
@@ -143,6 +144,9 @@
     </Compile>
     <Compile Include="Views\UserControls\TrackList.xaml.cs">
       <DependentUpon>TrackList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WorkingTimePage.xaml.cs">
+      <DependentUpon>WorkingTimePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\TrackList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WorkingTimePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

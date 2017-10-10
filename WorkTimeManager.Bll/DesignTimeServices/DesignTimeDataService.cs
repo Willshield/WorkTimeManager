@@ -75,11 +75,17 @@ namespace WorkTimeManager.Bll.DesignTimeServices
             tmp.Description = "Description";
             tmp.Priority = "Priority";
             tmp.Updated = DateTime.Now;
+            tmp.WorkTimes = new List<WorkTime>() { new WorkTime() { IssueID = 1, Dirty = false, Hours = 11, WorkTimeID = 1, Comment = "comment", StartTime = DateTime.Now } };
 
             list.Add(tmp);
 
             return Task.FromResult(list);
 
+        }
+
+        public Task<ObservableCollection<Issue>> GetIssuesWithWorkTimes()
+        {
+            return GetIssues();
         }
 
         public Task<ObservableCollection<WorkTime>> GetWorkTimes()

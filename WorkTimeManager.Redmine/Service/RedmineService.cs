@@ -12,7 +12,7 @@ namespace WorkTimeManager.Redmine.Service
 {
     public class RedmineService : INetworkDataService
     {
-        public readonly Uri serverUrl = new Uri("http://onlab.m.redmine.org");
+        public readonly Uri serverUrl = new Uri("http://onlab.m.redmine.org");         //Todo: ?key=4f56fb8188c5f48811efe9a47b7ef50ad3443318
 
         private async Task<T> GetAsync<T>(Uri uri)
         {

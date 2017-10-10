@@ -23,25 +23,24 @@ namespace WorkTimeManager.Views
             TextBlock ClickedBox = sender as TextBlock;
             SetNormalOpícity();
             ClickedBox.Opacity = 0.6;
-            //Todo: uncomment this
-            //switch (ClickedBox.Name)
-            //{
-            //    case "Subject":
-            //        ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.SubjectKey;
-            //        break;
-            //    case "Project":
-            //        ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.ProjectNameKey;
-            //        break;
-            //    case "Updated":
-            //        ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.StartTimeKey;
-            //        break;
-            //    case "Hours":
-            //        ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.HoursKey;
-            //        break;
-            //    case "Description":
-            //        ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.CommentKey;
-            //        break;
-            //}
+            switch (ClickedBox.Name)
+            {
+                case "Subject":
+                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.SubjectKey;
+                    break;
+                case "Project":
+                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.ProjectNameKey;
+                    break;
+                case "Updated":
+                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.StartTimeKey;
+                    break;
+                case "Hours":
+                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.HoursKey;
+                    break;
+                case "Description":
+                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.CommentKey;
+                    break;
+            }
             ViewModel.OrderCats(OrderbyDesc);
             OrderbyDesc = !OrderbyDesc;
         }
