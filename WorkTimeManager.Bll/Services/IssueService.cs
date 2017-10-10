@@ -41,7 +41,7 @@ namespace WorkTimeManager.Bll.Services
         {
             using (var db = new WorkTimeContext())
             {
-                return new ObservableCollection<Issue>(await db.Issues.Where(i => i.IsFavourite).Include(i => i.Project).ToListAsync());
+                return new ObservableCollection<Issue>(await db.Issues.Where(i => i.IsFavourite).Include(i => i.Project).Include(i => i.WorkTimes).ToListAsync());
             }
         }
 
@@ -58,6 +58,14 @@ namespace WorkTimeManager.Bll.Services
             using (var db = new WorkTimeContext())
             {
                 return new ObservableCollection<Issue>(await db.Issues.Include(i => i.Project).ToListAsync());
+            }
+        }
+
+        public async Task<ObservableCollection<Issue>> GetIssuesWithWorkTimes()
+        {
+            using (var db = new WorkTimeContext())
+            {
+                return new ObservableCollection<Issue>(await db.Issues.Include(i => i.Project).Include(i => i.WorkTimes).ToListAsync());
             }
         }
 

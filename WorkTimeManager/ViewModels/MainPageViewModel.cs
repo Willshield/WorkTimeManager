@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.DesignTimeServices;
 using WorkTimeManager.Bll.Services;
+using WorkTimeManager.Models;
 
 namespace WorkTimeManager.ViewModels
 {
@@ -18,8 +19,8 @@ namespace WorkTimeManager.ViewModels
     {
         IIssueService issueService;
         IWorkingTimeService workingTimeService;
-        private ObservableCollection<Issue> list;
-        public ObservableCollection<Issue> List
+        private ObservableCollection<IssueTime> list;
+        public ObservableCollection<IssueTime> List
         {
             get { return list; }
             set { Set(ref list, value); }
@@ -50,7 +51,8 @@ namespace WorkTimeManager.ViewModels
 
         private async void getData()
         {
-            List = await issueService.GetFavouriteIssues();
+            var issueList = await issueService.GetFavouriteIssues();
+            List = new ObservableCollection<IssueTime>(issueList.Select(i => new IssueTime(i, i.WorkTimes.Sum(t => t.Hours))).ToList());
         }
 
         public DelegateCommand StartTrackingCommand { get; }
@@ -59,17 +61,11 @@ namespace WorkTimeManager.ViewModels
             if (SelectedIssue == null)
                 return;
 
-            await issueService.StartTracking(SelectedIssue);
+            await issueService.StartTracking(SelectedIssue.ToEntity());
             NavigationService.Navigate(typeof(Views.ActuallyTrackingPage));
-
-            WorkTime wt = new WorkTime();
-            wt.IssueID = 1;
-            wt.Hours = 1;
-            wt.Comment = "posttest";
-            await workingTimeService.AddTimeEntry(wt);
         }
-        private Issue selectedIssue;
-        public Issue SelectedIssue
+        private IssueTime selectedIssue;
+        public IssueTime SelectedIssue
         {
             get { return selectedIssue; }
             set
@@ -91,46 +87,40 @@ namespace WorkTimeManager.ViewModels
             {
                 case 0:
                     if (byDesc)
-                    { List = new ObservableCollection<Issue>(List.OrderByDescending(i => i.Subject)); }
+                    { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.Subject)); }
                     else
-                    { List = new ObservableCollection<Issue>(List.OrderBy(i => i.Subject)); }
+                    { List = new ObservableCollection<IssueTime>(List.OrderBy(i => i.Subject)); }
                     break;
                 case 1:
                     if (byDesc)
-                    { List = new ObservableCollection<Issue>(List.OrderByDescending(i => i.Project.Name)); }
+                    { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.Project.Name)); }
                     else
-                    { List = new ObservableCollection<Issue>(List.OrderBy(i => i.Project.Name)); }
+                    { List = new ObservableCollection<IssueTime>(List.OrderBy(i => i.Project.Name)); }
                     break;
                 case 2:
                     if (byDesc)
-                    { List = new ObservableCollection<Issue>(List.OrderByDescending(i => i.Updated)); }
+                    { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.Updated)); }
                     else
-                    { List = new ObservableCollection<Issue>(List.OrderBy(i => i.Updated)); }
+                    { List = new ObservableCollection<IssueTime>(List.OrderBy(i => i.Updated)); }
                     break;
                 case 3:
-                    //Todo: own model with worktimes
                     if (byDesc)
-                    { List = new ObservableCollection<Issue>(List.OrderByDescending(i => i.Description)); }
+                    { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.AllTrackedTime)); }
                     else
-                    { List = new ObservableCollection<Issue>(List.OrderBy(i => i.Description)); }
+                    { List = new ObservableCollection<IssueTime>(List.OrderBy(i => i.AllTrackedTime)); }
                     break;
-                    //if (byDesc)
-                    //{ List = new ObservableCollection<Issue>(List.OrderByDescending(i => i.AllTrackedTime)); }
-                    //else
-                    //{ List = new ObservableCollection<Issue>(List.OrderBy(i => i.AllTrackedTime)); }
-                    //break;
                 case 4:
                     if (byDesc)
-                    { List = new ObservableCollection<Issue>(List.OrderByDescending(i => i.Description)); }
+                    { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.Description)); }
                     else
-                    { List = new ObservableCollection<Issue>(List.OrderBy(i => i.Description)); }
+                    { List = new ObservableCollection<IssueTime>(List.OrderBy(i => i.Description)); }
                     break;
             }
         }
 
         public async void Refresh()
         {
-            List = await issueService.GetFavouriteIssues();
+            getData();
         }
 
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)

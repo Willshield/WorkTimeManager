@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
 using WorkTimeManager.Bll;
+using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Services;
 
 namespace WorkTimeManager.ViewModels
@@ -12,6 +13,7 @@ namespace WorkTimeManager.ViewModels
     public class ActuallyTrackingViewModel : ViewModelBase
     {
         private Tracker tracker;
+        private IIssueService issueService;
 
         public ActuallyTrackingViewModel()
         {
@@ -20,6 +22,7 @@ namespace WorkTimeManager.ViewModels
             RestartCommand = new DelegateCommand(RestartTracking, CanRestart);
             PauseCommand = new DelegateCommand(PauseTracking, CanPause);
 
+            issueService = IssueService.Instance;
             tracker = Tracker.Instance;
             timeStamp = "00:00:00";
             tracker.TimeChanged += TimeChangedEventHandler;
@@ -73,7 +76,7 @@ namespace WorkTimeManager.ViewModels
                 if (tracker.GetTrackedIssue() != null)
                 {
                     //Todo: check if works
-                    var task = IssueService.Instance.GetAllTrackedIssueTime(tracker.GetTrackedIssue().IssueID);
+                    var task = issueService.GetAllTrackedIssueTime(tracker.GetTrackedIssue().IssueID);
                     task.RunSynchronously();
                     return task.Result;
                 }

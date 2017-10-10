@@ -11,6 +11,7 @@
       xmlns:vm="using:WorkTimeManager.ViewModels"
       xmlns:usercontrols="using:WorkTimeManager.Views.UserControls"
       xmlns:models="using:WorkTimeManager.Model.Models"
+      xmlns:uimodels="using:WorkTimeManager.Models"
       xmlns:conv="using:WorkTimeManager.DataValueConverters" 
       mc:Ignorable="d">
 
@@ -61,7 +62,7 @@
         <ListView Width="900" MaxHeight="550" SelectionMode="Single" VerticalAlignment="Top" ItemsSource="{Binding List}" Grid.Row="3" Margin="0" SelectedItem="{Binding SelectedIssue, Mode=TwoWay}" HorizontalAlignment="Center">
 
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:Issue" >
+                <DataTemplate x:DataType="uimodels:IssueTime" >
                     <Grid Margin="2" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="210"/>

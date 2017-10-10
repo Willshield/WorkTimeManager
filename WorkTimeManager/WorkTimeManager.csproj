@@ -98,6 +98,7 @@
     <Compile Include="DataValueConverters\DateFormatConverter.cs" />
     <Compile Include="DataValueConverters\DoubleFormatConverter.cs" />
     <Compile Include="DataValueConverters\DoubleOrNoneFormatConverter.cs" />
+    <Compile Include="Models\IssueTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\SettingsServices\UISettingsService.cs" />
     <Compile Include="ViewModels\ActuallyTrackingUserControlViewModel.cs" />

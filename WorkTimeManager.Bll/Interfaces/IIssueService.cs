@@ -12,6 +12,8 @@ namespace WorkTimeManager.Bll.Interfaces
     {
         Task<ObservableCollection<Issue>> GetIssues();
 
+        Task<ObservableCollection<Issue>> GetIssuesWithWorkTimes();        
+
         Task<ObservableCollection<Issue>> GetFavouriteIssues();
 
         Task<Issue> GetIssueById(int IssueID);
