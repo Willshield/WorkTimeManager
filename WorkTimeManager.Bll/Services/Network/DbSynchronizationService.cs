@@ -51,12 +51,17 @@ namespace WorkTimeManager.Bll.Services.Network
             {
                 await new MessageDialog("You are currently not connected to the internet. Syncing data failed. You can use offline mode. Error message: " + e.Message , "Network Error").ShowAsync();
             }
+            catch(Exception ex)
+            {
+                await new MessageDialog("Error message: " + ex.Message, "Network Error").ShowAsync();
+            }
         }
 
 
         private async Task PullProjects(WorkTimeContext db)
         {
-            foreach (var project in await NetworkDataService.GetProjectsAsync())
+            var projectList = await NetworkDataService.GetProjectsAsync();
+            foreach (var project in projectList)
             {
                 var exists = await db.Projects.Where(p => p.ProjectID == project.ProjectID).SingleOrDefaultAsync();
                 if (exists is null)

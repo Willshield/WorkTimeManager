@@ -75,10 +75,12 @@ namespace WorkTimeManager.ViewModels
             {
                 if (tracker.GetTrackedIssue() != null)
                 {
-                    //Todo: check if works
-                    var task = issueService.GetAllTrackedIssueTime(tracker.GetTrackedIssue().IssueID);
-                    task.RunSynchronously();
-                    return task.Result;
+
+                    return Task.Run(() => {
+
+                        return issueService.GetAllTrackedIssueTime(tracker.GetTrackedIssue().IssueID);
+
+                    }).Result;
                 }
                 else { return 0; }
             }

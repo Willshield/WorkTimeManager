@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls;
 using WorkTimeManager.Dal.Context;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using WorkTimeManager.Bll.Services.Network;
 
 namespace WorkTimeManager
 {
@@ -40,6 +41,12 @@ namespace WorkTimeManager
                 db.Database.Migrate();
             }
 
+            Task.Run(() => {
+
+                return DbSynchronizationService.Instance.PullAll();
+
+            });
+            
         }
 
         public override UIElement CreateRootElement(IActivatedEventArgs e)

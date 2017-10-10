@@ -26,7 +26,7 @@ namespace WorkTimeManager.Bll
         DispatcherTimer stopWatch;
 
         private WorkTime trackedTime;
-        private Issue trackedIssue;
+        private Issue trackedIssue = null;
         private Issue TrackedIssue
         {
             get { return trackedIssue; }

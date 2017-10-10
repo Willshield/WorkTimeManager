@@ -15,7 +15,6 @@
     <Controls:HamburgerMenu x:Name="MyHamburgerMenu">
 
         <Controls:HamburgerMenu.PrimaryButtons>
-            Controls:HamburgerMenu.PrimaryButtons>
             <!--  mainpage button  -->
             <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:MainPage">
                 <StackPanel Orientation="Horizontal">
@@ -41,7 +40,7 @@
             </Controls:HamburgerButtonInfo>
 
             <!--  Worktime button  -->
-            <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:WorktimePage">
+            <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:WorkingTimePage">
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Width="48"
                                 Height="48"
