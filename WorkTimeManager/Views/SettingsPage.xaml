@@ -76,9 +76,28 @@
                RelativePanel.AlignLeftWithPanel="True"
                RelativePanel.AlignRightWithPanel="True"
                RelativePanel.Below="pageHeader">
-
             <!--  settings  -->
-            <PivotItem DataContext="{Binding SettingsPartViewModel}" Header="Settings">
+            <PivotItem Header="General">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="32" Text="Tracking" Margin="0,20,0,10" />
+                    <ToggleSwitch x:Name="AutoTrackSwitch" IsOn="{Binding SettingsPartViewModel.AutoTrack , Mode=TwoWay}" Header="Auto tracking on select"/>
+                    <ToggleSwitch x:Name="AskIfStopSwitch" IsOn="{Binding SettingsPartViewModel.AskIfStop , Mode=TwoWay}" Header="Ask before tracking stops"/>
+
+                    <TextBlock FontSize="32" Text="Rounding" Margin="0,20,0,10" />
+                    <TextBlock Text="Rounding to" Style="{ThemeResource BaseTextBlockStyle}"/>
+                    <StackPanel Orientation="Vertical">
+                        <RadioButton Content="1 minute" Tag="1"    IsChecked="{Binding SettingsPartViewModel.Is1, Mode=TwoWay}"/>
+                        <RadioButton Content="5 minutes" Tag="5"   IsChecked="{Binding SettingsPartViewModel.Is5, Mode=TwoWay}"/>
+                        <RadioButton Content="15 minutes" Tag="15" IsChecked="{Binding SettingsPartViewModel.Is15, Mode=TwoWay}"/>
+                        <RadioButton Content="30 minutes" Tag="30" IsChecked="{Binding SettingsPartViewModel.Is30, Mode=TwoWay}"/>
+                        <RadioButton Content="60 minutes" Tag="60" IsChecked="{Binding SettingsPartViewModel.Is60, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <ToggleSwitch x:Name="AlwaysUpSwitch" IsOn="{Binding SettingsPartViewModel.AlwaysUp , Mode=TwoWay}" Header="Always round worktime up" Margin="0,10,0,0" />
+                </StackPanel>
+            </PivotItem>
+
+
+            <PivotItem DataContext="{Binding SettingsPartViewModel}" Header="Display settings">
                 <ScrollViewer Margin="0,12,-12,0"
                               HorizontalContentAlignment="Left"
                               VerticalScrollBarVisibility="Auto">
@@ -101,19 +120,19 @@
                                       RelativePanel.Below="UseShellDrawnBackButtonToggleSwtich" />
 
                         <ToggleSwitch x:Name="ShowHamburgerButtonToggleSwitch"
-                                      Header="WorkTimeManager Button Visibility"
+                                      Header="Hamburger Button Visibility"
                                       IsEnabled="{Binding IsOn, ElementName=IsFullScreenToggleSwitch, Converter={StaticResource FalseWhenTrueConverter}}"
                                       IsOn="{Binding ShowHamburgerButton, Mode=TwoWay}"
-                                      OffContent="WorkTimeManager Button is hidden"
-                                      OnContent="WorkTimeManager Button is visible"
+                                      OffContent="Hamburger Button is hidden"
+                                      OnContent="Hamburger Button is visible"
                                       RelativePanel.AlignLeftWithPanel="True"
                                       RelativePanel.Below="UseLightThemeToggleSwitch" />
 
                         <ToggleSwitch x:Name="IsFullScreenToggleSwitch"
                                       Header="Page content is Full Screen"
                                       IsOn="{Binding IsFullScreen, Mode=TwoWay}"
-                                      OffContent="WorkTimeManager Menu is visible"
-                                      OnContent="WorkTimeManager Menu is hidden"
+                                      OffContent="Hamburger Menu is visible"
+                                      OnContent="Hamburger Menu is hidden"
                                       RelativePanel.AlignLeftWithPanel="True"
                                       RelativePanel.Below="ShowHamburgerButtonToggleSwitch" />
 
