@@ -39,7 +39,7 @@ namespace WorkTimeManager.ViewModels
 
         public async void Refresh()
         {
-            var issueList = await issueService.GetFavouriteIssues();
+            var issueList = await issueService.GetIssuesWithWorkTimes();
             List = new ObservableCollection<IssueTime>(issueList.Select(i => new IssueTime(i, i.WorkTimes.Sum(t => t.Hours))).ToList());
         }
 

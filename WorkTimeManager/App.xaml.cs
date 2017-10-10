@@ -41,11 +41,11 @@ namespace WorkTimeManager
                 db.Database.Migrate();
             }
 
-            Task.Run(() => {
+            //Task.Run(() => {
 
-                return DbSynchronizationService.Instance.PullAll();
+            //    return DbSynchronizationService.Instance.PullAll();
 
-            });
+            //});
             
         }
 
