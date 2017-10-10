@@ -29,7 +29,6 @@ namespace WorkTimeManager.Bll.Services.Network
                 if (instance == null)
                 {
                     instance = new DbSynchronizationService();
-                    instance.PullAll(); //Todo: kell?
                 }
 
                 return instance;
