@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Template10.Mvvm;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Model.Models;
 
@@ -33,8 +34,14 @@ namespace WorkTimeManager.Models
         public Project Project { get; set; }
         public double AllTrackedTime { get; set; }
 
+        //Actions
+        public AwaitableDelegateCommand TrackingCommand { get { return new AwaitableDelegateCommand(StartTracking); } }
+        public async Task StartTracking(AwaitableDelegateCommandParameter arg)
+        {
+            await IssueService.Instance.StartTracking(this.ToEntity());
+        }
 
-
+        //Ctors
         public IssueTime()
         {
 
