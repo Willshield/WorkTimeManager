@@ -108,6 +108,7 @@
     <Compile Include="ViewModels\DetailPageViewModel.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
+    <Compile Include="ViewModels\SyncPageViewModel.cs" />
     <Compile Include="ViewModels\SyncUserControlViewModel.cs" />
     <Compile Include="ViewModels\TrackListViewModel.cs" />
     <Compile Include="ViewModels\WorkTimePageViewModel.cs" />
@@ -137,6 +138,9 @@
     </Compile>
     <Compile Include="Views\Splash.xaml.cs">
       <DependentUpon>Splash.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SyncPage.xaml.cs">
+      <DependentUpon>SyncPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\ActuallyTrackingUserControl.xaml.cs">
       <DependentUpon>ActuallyTrackingUserControl.xaml</DependentUpon>
@@ -217,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Splash.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SyncPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
