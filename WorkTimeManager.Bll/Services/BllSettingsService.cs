@@ -14,23 +14,15 @@ namespace WorkTimeManager.Bll.Services
         private BllSettingsService()
         {
             _helper = new Template10.Services.SettingsService.SettingsHelper();
-
-            //todo: load it
-            //Profile = new Models.Profile() { Name = "Gáspár Vilmos", Url = "onlab.m.redmine.org" };
         }
 
         public Profile Profile
         {
-            get
-            {
-                string name = _helper.Read<string>("ProfileName", "Gáspár Vilmos");
-                string url = _helper.Read<string>("URL", "Gáspár Vilmos");
-                return new Profile() { Name = name, Url = url };
-            }
+            get  { return new Profile() { Name = ProfileName, Url = URL }; }
             set
             {
-                _helper.Write("ProfileName", value.Name);
-                _helper.Write("URL", value.Url);
+                ProfileName = value.Name;
+                URL = value.Url;
             }
         }
 
@@ -56,6 +48,18 @@ namespace WorkTimeManager.Bll.Services
         {
             get { return _helper.Read<bool>(nameof(AlwaysUp), true); }
             set { _helper.Write(nameof(AlwaysUp), value); }
+        }
+
+        public string ProfileName
+        {
+            get { return _helper.Read<string>("ProfileName", "Gáspár Vilmos"); }
+            set { _helper.Write("ProfileName", value); }
+        }
+
+        public string URL
+        {
+            get { return _helper.Read<string>("URL", "onlab.m.redmine.org"); }
+            set { _helper.Write("URL", value); }
         }
 
         public string UploadKey

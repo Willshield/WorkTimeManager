@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Input;
+using WorkTimeManager.Model.Enums;
 
 namespace WorkTimeManager.Views
 {
@@ -26,19 +27,19 @@ namespace WorkTimeManager.Views
             switch (ClickedBox.Name)
             {
                 case "Subject":
-                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.SubjectKey;
+                    ViewModel.OrderCatName = WorktimeOrderBy.Subject;
                     break;
                 case "Project":
-                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.ProjectNameKey;
+                    ViewModel.OrderCatName = WorktimeOrderBy.ProjectName;
                     break;
                 case "Updated":
-                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.StartTimeKey;
+                    ViewModel.OrderCatName = WorktimeOrderBy.StartTime;
                     break;
                 case "Hours":
-                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.HoursKey;
+                    ViewModel.OrderCatName = WorktimeOrderBy.Hours;
                     break;
                 case "Description":
-                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.CommentKey;
+                    ViewModel.OrderCatName = WorktimeOrderBy.Comment;
                     break;
             }
             ViewModel.OrderCats(OrderbyDesc);

@@ -12,6 +12,7 @@ using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.DesignTimeServices;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Models;
+using WorkTimeManager.Model.Enums;
 
 namespace WorkTimeManager.ViewModels
 {
@@ -75,8 +76,8 @@ namespace WorkTimeManager.ViewModels
             }
         }
 
-        private int orderCatName;
-        public int OrderCatName
+        private WorktimeOrderBy orderCatName;
+        public WorktimeOrderBy OrderCatName
         {
             get { return orderCatName; }
             set { orderCatName = value; }
@@ -85,31 +86,31 @@ namespace WorkTimeManager.ViewModels
         {
             switch (OrderCatName)
             {
-                case 0:
+                case WorktimeOrderBy.Subject:
                     if (byDesc)
                     { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.Subject)); }
                     else
                     { List = new ObservableCollection<IssueTime>(List.OrderBy(i => i.Subject)); }
                     break;
-                case 1:
+                case WorktimeOrderBy.ProjectName:
                     if (byDesc)
                     { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.Project.Name)); }
                     else
                     { List = new ObservableCollection<IssueTime>(List.OrderBy(i => i.Project.Name)); }
                     break;
-                case 2:
+                case WorktimeOrderBy.StartTime:
                     if (byDesc)
                     { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.Updated)); }
                     else
                     { List = new ObservableCollection<IssueTime>(List.OrderBy(i => i.Updated)); }
                     break;
-                case 3:
+                case WorktimeOrderBy.Hours:
                     if (byDesc)
                     { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.AllTrackedTime)); }
                     else
                     { List = new ObservableCollection<IssueTime>(List.OrderBy(i => i.AllTrackedTime)); }
                     break;
-                case 4:
+                case WorktimeOrderBy.Comment:
                     if (byDesc)
                     { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.Description)); }
                     else

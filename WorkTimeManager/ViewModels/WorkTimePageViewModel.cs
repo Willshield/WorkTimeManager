@@ -8,24 +8,23 @@ using Template10.Mvvm;
 using WorkTimeManager.Bll.DesignTimeServices;
 using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Services;
+using WorkTimeManager.Model.Enums;
 using WorkTimeManager.Model.Models;
+using WorkTimeManager.Services.SettingsServices;
 
 namespace WorkTimeManager.ViewModels
 {
     public class WorkTimePageViewModel : ViewModelBase
     {
 
-        public static readonly int SubjectKey = 0;
-        public static readonly int ProjectNameKey = 1;
-        public static readonly int StartTimeKey = 2;
-        public static readonly int HoursKey = 3;
-        public static readonly int CommentKey = 4;
-        public const int NoneKey = 0;
-        public const int DayKey = 1;
-        public const int WeekKey = 2;
-        public const int MonthKey = 3;
+        //public static readonly int SubjectKey = 0;
+        //public static readonly int ProjectNameKey = 1;
+        //public static readonly int StartTimeKey = 2;
+        //public static readonly int HoursKey = 3;
+        //public static readonly int CommentKey = 4;
         IIssueService issueService;
         IWorkingTimeService workingTimeService;
+        public List<WorktimeGroupBy> GroupByList { get; set; } = Enum.GetValues(typeof(WorktimeGroupBy)).Cast<WorktimeGroupBy>().ToList();
 
         public WorkTimePageViewModel()
         {
@@ -44,16 +43,18 @@ namespace WorkTimeManager.ViewModels
                 workingTimeService = WorkingTimeService.Instance;
                 Refresh();
             }
+            SelectedGroupBy = (WorktimeGroupBy) UISettingsService.Instance.WorktimeGroupBy;
 
         }
 
-        private int selectedGroupBy;
-        public int SelectedGroupBy
+        private WorktimeGroupBy selectedGroupBy;
+        public WorktimeGroupBy SelectedGroupBy
         {
             get { return selectedGroupBy; }
             set
             {
                 Set(ref selectedGroupBy, value);
+                UISettingsService.Instance.WorktimeGroupBy = value.GetHashCode();
                 //OrderCatName = StartTimeKey; ToDo: disable order other cats?
                 //OrderCats(true);
                 GroupItemsBy();
@@ -63,27 +64,27 @@ namespace WorkTimeManager.ViewModels
         private void GroupItemsBy()
         {
             Refresh();
-            if (selectedGroupBy != NoneKey)
+            if (selectedGroupBy != WorktimeGroupBy.None)
             {
                 ObservableCollection<WorkTime> newList = new ObservableCollection<WorkTime>();
                 WorkTime lastItem = new WorkTime();
                 lastItem = List[0];
                 switch (selectedGroupBy)
                 {
-                    case DayKey:
-                        newList.Add(CreateDummy(DayKey, lastItem.StartTime.Value.Date));
+                    case WorktimeGroupBy.Day:
+                        newList.Add(CreateDummy(lastItem.StartTime.Value.Date));
                         foreach (var item in List)
                         {
                             if (lastItem.StartTime.Value.Date != item.StartTime.Value.Date)
                             {
-                                CreateNewGroupBy(newList, item, DayKey);
+                                CreateNewGroupBy(newList, item);
                             }
                             newList.Add(item);
                             lastItem = item;
                         }
                         break;
-                    case WeekKey:
-                        newList.Add(CreateDummy(WeekKey, lastItem.StartTime.Value.Date));
+                    case WorktimeGroupBy.Week:
+                        newList.Add(CreateDummy(lastItem.StartTime.Value.Date));
                         foreach (var item in List)
                         {
                             int lastDayNum = (lastItem.StartTime.Value.DayOfWeek.GetHashCode() + 6) % 7;
@@ -91,20 +92,20 @@ namespace WorkTimeManager.ViewModels
                             var ts = lastItem.StartTime.Value.Subtract(item.StartTime.Value);
                             if (ts.Days >= 7 || (lastDayNum < itemDayNum && ts.Days < 7))
                             {
-                                CreateNewGroupBy(newList, item, WeekKey);
+                                CreateNewGroupBy(newList, item);
                             }
                             newList.Add(item);
                             lastItem = item;
                         }
                         break;
-                    case MonthKey:
-                        newList.Add(CreateDummy(MonthKey, lastItem.StartTime.Value.Date));
+                    case WorktimeGroupBy.Month:
+                        newList.Add(CreateDummy(lastItem.StartTime.Value.Date));
                         foreach (var item in List)
                         {
                             if ((lastItem.StartTime.Value.Date.Year == item.StartTime.Value.Date.Year && lastItem.StartTime.Value.Date.Month != item.StartTime.Value.Date.Month)
                              || (lastItem.StartTime.Value.Date.Year != item.StartTime.Value.Date.Year && lastItem.StartTime.Value.Date.Month != item.StartTime.Value.Date.Month))
                             {
-                                CreateNewGroupBy(newList, item, MonthKey);
+                                CreateNewGroupBy(newList, item);
                             }
                             newList.Add(item);
                             lastItem = item;
@@ -118,10 +119,10 @@ namespace WorkTimeManager.ViewModels
             }
 
         }
-        private void CreateNewGroupBy(ObservableCollection<WorkTime> newList, WorkTime item, int GroupKey)
+        private void CreateNewGroupBy(ObservableCollection<WorkTime> newList, WorkTime item)
         {
             newList.Add(CreateEmptyDummy());
-            newList.Add(CreateDummy(GroupKey, item.StartTime.Value.Date));
+            newList.Add(CreateDummy(item.StartTime.Value.Date));
         }
         private WorkTime CreateEmptyDummy()
         {
@@ -130,7 +131,7 @@ namespace WorkTimeManager.ViewModels
             dummy.Issue.Project = new Project();
             return dummy;
         }
-        private WorkTime CreateDummy(int GroupByCat, DateTime thisDate)
+        private WorkTime CreateDummy(DateTime thisDate)
         {
             WorkTime dummy = new WorkTime();
             dummy.Issue = new Issue();
@@ -139,7 +140,7 @@ namespace WorkTimeManager.ViewModels
             string align = "     ";
             switch (selectedGroupBy)
             {
-                case DayKey:
+                case WorktimeGroupBy.Day:
                     if (thisDate.Date == DateTime.Now.Date)
                     {
                         dummy.Issue.Subject = align + "Today:";
@@ -149,7 +150,7 @@ namespace WorkTimeManager.ViewModels
                         dummy.Issue.Subject = align + "On " + thisDate.Date.Year + "-" + thisDate.Date.Month + "-" + thisDate.Date.Day + ":";
                     }
                     break;
-                case WeekKey:
+                case WorktimeGroupBy.Week:
                     //int lastdayNum = (lastDate.DayOfWeek.GetHashCode() + 1) % 7;
                     int dayNum = (thisDate.DayOfWeek.GetHashCode() + 6) % 7;
                     var date = thisDate.Date.AddDays(-dayNum);
@@ -158,7 +159,7 @@ namespace WorkTimeManager.ViewModels
                     else
                         dummy.Issue.Subject = align + "This week:";
                     break;
-                case MonthKey:
+                case WorktimeGroupBy.Month:
                     if (thisDate.Date.Year == DateTime.Now.Year && thisDate.Date.Month == DateTime.Now.Month)
                     {
                         dummy.Issue.Subject = align + "This month:";
@@ -212,42 +213,42 @@ namespace WorkTimeManager.ViewModels
 
         public DelegateCommand RefreshCommand { get; }
         public DelegateCommand OrderCommand { get; }
-        private int orderCatName;
-        public int OrderCatName
+        private WorktimeOrderBy orderCatName;
+        public WorktimeOrderBy OrderCatName
         {
             get { return orderCatName; }
             set { orderCatName = value; }
         }
         public void OrderCats(bool byDesc)
         {
-            SelectedGroupBy = NoneKey;
+            SelectedGroupBy = WorktimeGroupBy.None;
             switch (OrderCatName)
             {
-                case 0:
+                case WorktimeOrderBy.Subject:
                     if (byDesc)
                     { List = new ObservableCollection<WorkTime>(List.OrderByDescending(i => i.Issue.Subject)); }
                     else
                     { List = new ObservableCollection<WorkTime>(List.OrderBy(i => i.Issue.Subject)); }
                     break;
-                case 1:
+                case WorktimeOrderBy.ProjectName:
                     if (byDesc)
                     { List = new ObservableCollection<WorkTime>(List.OrderByDescending(i => i.Issue.Project.Name)); }
                     else
                     { List = new ObservableCollection<WorkTime>(List.OrderBy(i => i.Issue.Project.Name)); }
                     break;
-                case 2:
+                case WorktimeOrderBy.StartTime:
                     if (byDesc)
                     { List = new ObservableCollection<WorkTime>(List.OrderBy(i => i.StartTime)); }
                     else
                     { List = new ObservableCollection<WorkTime>(List.OrderByDescending(i => i.StartTime)); }
                     break;
-                case 3:
+                case WorktimeOrderBy.Hours:
                     if (byDesc)
                     { List = new ObservableCollection<WorkTime>(List.OrderByDescending(i => i.Hours)); }
                     else
                     { List = new ObservableCollection<WorkTime>(List.OrderBy(i => i.Hours)); }
                     break;
-                case 4:
+                case WorktimeOrderBy.Comment:
                     if (byDesc)
                     { List = new ObservableCollection<WorkTime>(List.OrderByDescending(i => i.Comment)); }
                     else

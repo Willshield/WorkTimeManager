@@ -29,8 +29,6 @@ namespace WorkTimeManager.Redmine.Service
                 {
                     throw new HttpRequestException("Network error: Loading data failed. Try again later.");
                 }
-
-                return default(T);
             }
         }
         

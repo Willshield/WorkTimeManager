@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WorkTimeManager.Model.Enums;
 using WorkTimeManager.Model.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -24,18 +25,11 @@ namespace WorkTimeManager.Views
     /// </summary>
     public sealed partial class WorkingTimePage : Page
     {
-        ObservableCollection<string> OrderingCats;
-
         public WorkingTimePage()
         {
             this.InitializeComponent();
 
             WorkTimeListView.ContainerContentChanging += HighlightHeaders;
-
-            OrderingCats = new ObservableCollection<string>
-            {
-                "None", "Day", "Week", "Month"
-            };
 
         }
 
@@ -48,19 +42,19 @@ namespace WorkTimeManager.Views
             switch (ClickedBox.Name)
             {
                 case "Subject":
-                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.SubjectKey;
+                    ViewModel.OrderCatName = WorktimeOrderBy.Subject;
                     break;
                 case "Project":
-                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.ProjectNameKey;
+                    ViewModel.OrderCatName = WorktimeOrderBy.ProjectName;
                     break;
                 case "StartTime":
-                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.StartTimeKey;
+                    ViewModel.OrderCatName = WorktimeOrderBy.StartTime;
                     break;
                 case "Hours":
-                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.HoursKey;
+                    ViewModel.OrderCatName = WorktimeOrderBy.Hours;
                     break;
                 case "Comment":
-                    ViewModel.OrderCatName = ViewModels.WorkTimePageViewModel.CommentKey;
+                    ViewModel.OrderCatName = WorktimeOrderBy.Comment;
                     break;
             }
             ViewModel.OrderCats(OrderbyDesc);

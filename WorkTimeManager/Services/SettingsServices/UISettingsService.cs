@@ -73,5 +73,10 @@ namespace WorkTimeManager.Services.SettingsServices
                 Views.Shell.HamburgerMenu.IsFullScreen = value;
             }
         }
+
+        public int WorktimeGroupBy {
+            get { return _helper.Read<int>(nameof(WorktimeGroupBy), 1); }
+            set { _helper.Write(nameof(WorktimeGroupBy), value); }
+        }
     }
 }

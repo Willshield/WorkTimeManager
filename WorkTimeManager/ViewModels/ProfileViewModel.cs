@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
 using WorkTimeManager.Bll.Services;
+using WorkTimeManager.Views;
 
 namespace WorkTimeManager.ViewModels
 {
@@ -16,21 +17,27 @@ namespace WorkTimeManager.ViewModels
         private string profileName;
         public string ProfileName
         {
-            get { return profileName == null ? settingService.Profile.Name : profileName; }
-            set { Set(ref profileName, value); }
+            get { return profileName == null ? settingService.ProfileName : profileName; }
+            set {
+                Set(ref profileName, value);
+            }
         }
         private string url;
         public string URL
         {
-            get { return url == null ? settingService.Profile.Url : url; }
-            set { Set(ref url, value); }
+            get { return url == null ? settingService.URL : url; }
+            set {
+                Set(ref url, value);
+            }
         }
 
         private string key;
         public string Key
         {
             get { return key == null ? settingService.UploadKey : key; }
-            set { Set(ref key, value); }
+            set {
+                Set(ref key, value);
+            }
         }
 
 
@@ -43,8 +50,8 @@ namespace WorkTimeManager.ViewModels
         public void SetProfile()
         {
             settingService.UploadKey = Key;
-            settingService.Profile.Url = URL;
-            settingService.Profile.Name = ProfileName;
+            settingService.URL = URL;
+            settingService.ProfileName = ProfileName;
         }
     }
 }

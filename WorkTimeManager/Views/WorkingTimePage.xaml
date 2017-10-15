@@ -33,7 +33,7 @@
         <!--header-->
         <usercontrols:TitledPageHeader Grid.Row="0" Label="Tracked worktimes" />
 
-        <ComboBox x:Name="GroupByCombo" Grid.Row="1" Header="Group by:" Width="296" Height="70" SelectedIndex="{Binding SelectedGroupBy, Mode=TwoWay}" ItemsSource="{x:Bind OrderingCats}" Margin="20,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="GroupByCombo" Grid.Row="1" Header="Group by:" Width="296" Height="70" ItemsSource="{Binding GroupByList}" SelectedItem="{Binding SelectedGroupBy, Mode=TwoWay}" Margin="20,0" VerticalAlignment="Top"/>
         <!--<ScrollViewer VerticalScrollMode="Auto" Height="600" Grid.Row="1">
             <usercontrols:TrackList />
         </ScrollViewer>-->

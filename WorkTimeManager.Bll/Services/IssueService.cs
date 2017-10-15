@@ -75,7 +75,7 @@ namespace WorkTimeManager.Bll.Services
             {
                 Issue issue = db.Issues.Where(i => i.IssueID == IssueID).Include(i => i.Project).Single();
                 issue.IsFavourite = isFav;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 
