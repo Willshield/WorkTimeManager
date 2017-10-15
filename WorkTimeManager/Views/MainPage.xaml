@@ -22,8 +22,18 @@
         <conv:DateFormatConverter x:Name="DateFormatConverter" x:Key="DateFormatConverter"/>
         <conv:DoubleFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
     </Page.Resources>
+    
+    
+    <!--<RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    --><!--  header  --><!--
+    <controls:PageHeader x:Name="pageHeader"
+                             Content="Favourite Issues"
+                             Frame="{x:Bind Frame}"
+                             RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignRightWithPanel="True"
+                             RelativePanel.AlignTopWithPanel="True" />-->
 
-    <Grid Margin="75,5,10,5" Canvas.ZIndex="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid Margin="73,5,10,5" Canvas.ZIndex="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"> <!--RelativePanel.Below="pageHeader">-->
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="50"/>
@@ -91,4 +101,7 @@
         <usercontrols:ActuallyTrackingUserControl HorizontalAlignment="Center"  VerticalAlignment="Center"  Grid.Row="4"/>
 
     </Grid>
+
+
+    <!--</RelativePanel>-->
 </Page>
