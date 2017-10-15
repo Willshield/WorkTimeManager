@@ -5,15 +5,28 @@
     xmlns:local="using:WorkTimeManager.Views.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:conv="using:WorkTimeManager.DataValueConverters" 
+    xmlns:vm="using:WorkTimeManager.ViewModels"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
+    <UserControl.DataContext>
+        <vm:ProfileUserControlViewModel x:Name="ViewModel" />
+    </UserControl.DataContext>
+    
+    <UserControl.Resources>
+        <conv:DoubleFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
+    </UserControl.Resources>
+
     <StackPanel Height="80" Orientation="Horizontal" Padding="20,0,20,0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}">
-        <TextBlock Text="Active profile:" Margin="10" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
         <StackPanel Orientation="Vertical" Margin="10" VerticalAlignment="Center">
-            <TextBlock Text="{x:Bind profile.Name}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBlock Text="{x:Bind profile.Url}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="Working hours today:" Margin="8" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            <TextBlock Text="{Binding Hours, Converter={StaticResource DoubleFormatConverter}}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="10" VerticalAlignment="Center">
+            <TextBlock Text="{Binding UserProfile.Name}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding UserProfile.Url}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

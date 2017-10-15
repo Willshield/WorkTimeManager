@@ -12,6 +12,8 @@ namespace WorkTimeManager.Bll.Interfaces
     {
         Task AddTimeEntry(WorkTime workTime);
 
+        Task<double> GetWorkingHoursToday();
+
         Task<ObservableCollection<WorkTime>> GetWorkTimes();
 
         Task<ObservableCollection<WorkTime>> GetDirtyWorkTimes();

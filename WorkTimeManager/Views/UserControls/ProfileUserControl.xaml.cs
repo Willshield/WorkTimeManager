@@ -21,11 +21,23 @@ namespace WorkTimeManager.Views.UserControls
 {
     public sealed partial class ProfileUserControl : UserControl
     {
-        Profile profile;
+        //Profile profile;
+        //double Hours;
+        //public double Hours {
+        //    get;// { return WorkingTimeService.Instance.GetWorkingHoursToday(); }
+        //    set;
+        //}
+
         public ProfileUserControl()
         {
             this.InitializeComponent();
-            profile = BllSettingsService.Instance.Profile;
+            //profile = BllSettingsService.Instance.Profile;
+            //SetHours();
         }
+
+        //public async void SetHours()
+        //{
+        //    Hours = await WorkingTimeService.Instance.GetWorkingHoursToday();
+        //}
     }
 }

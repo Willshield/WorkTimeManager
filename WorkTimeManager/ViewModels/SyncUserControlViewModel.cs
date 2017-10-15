@@ -9,7 +9,7 @@ using WorkTimeManager.Bll.Services.Network;
 
 namespace WorkTimeManager.ViewModels
 {
-    class SyncUserControlViewModel
+    public class SyncUserControlViewModel : ViewModelBase
     {
         IDbSynchronizationService Syncer;
         public DelegateCommand PushCommand { get; }

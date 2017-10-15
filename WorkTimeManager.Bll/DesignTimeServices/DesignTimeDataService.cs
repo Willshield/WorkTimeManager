@@ -88,6 +88,11 @@ namespace WorkTimeManager.Bll.DesignTimeServices
             return GetIssues();
         }
 
+        public Task<double> GetWorkingHoursToday()
+        {
+            return Task.FromResult(7.5);
+        }
+
         public Task<ObservableCollection<WorkTime>> GetWorkTimes()
         {
             ObservableCollection<WorkTime> list = new ObservableCollection<WorkTime>();

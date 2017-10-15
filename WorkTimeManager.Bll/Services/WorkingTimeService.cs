@@ -49,6 +49,34 @@ namespace WorkTimeManager.Bll.Services
             
         }
 
+        public double GetWorkingHoursTodaySync()
+        {
+            using (var db = new WorkTimeContext())
+            {
+                return db.WorkTimes.Where(wt => OnToday(wt.StartTime)).Sum(wt => wt.Hours);
+            }
+        }
+
+        public async Task<double> GetWorkingHoursToday()
+        {
+            using (var db = new WorkTimeContext())
+            {
+                return await db.WorkTimes.Where(wt => OnToday(wt.StartTime)).SumAsync(wt => wt.Hours);
+            }
+        }
+
+        private bool OnToday(DateTime? checkedDay)
+        {
+            if (checkedDay == null)
+                return false;
+            var now = DateTime.Now;
+            if(now.Year == checkedDay.Value.Year && now.Month == checkedDay.Value.Month && now.Day == checkedDay.Value.Day)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public async Task<ObservableCollection<WorkTime>> GetWorkTimes()
         {
             using (var db = new WorkTimeContext())
