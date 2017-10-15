@@ -38,38 +38,37 @@
         <!--<TextBlock Text="Favourite issues" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
                                FontSize="20" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" FontStyle="Italic" />-->
         <!--table header-->
-        <Grid  Margin="0" Grid.Row="2" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" HorizontalAlignment="Center">
+        <Grid  Margin="50,0" Grid.Row="2" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30"/>
-                <ColumnDefinition Width="210"/>
+                <ColumnDefinition Width="220"/>
                 <ColumnDefinition Width="145"/>
                 <ColumnDefinition Width="145"/>
                 <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Name="Subject" Text="Subject" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" />
+                               FontSize="20" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" Margin="10,0,0,0"/>
             <TextBlock Name="Project" Text="Project" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+                               FontSize="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" Margin="10,0,0,0"/>
             <TextBlock Name="Updated" Text="Updated" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+                               FontSize="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" Margin="10,0,0,0"/>
             <TextBlock Name="Hours" Text="Working Hours" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+                               FontSize="20" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" Margin="10,0,0,0"/>
             <TextBlock Name="Description" Text="Description" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+                               FontSize="20" Grid.Column="4" VerticalAlignment="Center" Tapped="OrderData" Margin="10,0,0,0" HorizontalAlignment="Left"/>
         </Grid>
 
-        <ListView Width="900" MaxHeight="550" SelectionMode="Single" VerticalAlignment="Top" ItemsSource="{Binding List}" Grid.Row="3" Margin="0" SelectedItem="{Binding SelectedIssue, Mode=TwoWay}" HorizontalAlignment="Center">
+        <ListView Margin="50,0" MaxHeight="550" SelectionMode="Single" VerticalAlignment="Top" ItemsSource="{Binding List}" Grid.Row="3" SelectedItem="{Binding SelectedIssue, Mode=TwoWay}">
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="uimodels:IssueTime" >
                     <Grid Margin="2" >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="210"/>
+                            <ColumnDefinition Width="220"/>
                             <ColumnDefinition Width="145"/>
                             <ColumnDefinition Width="145"/>
                             <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{x:Bind Subject}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" FontSize="14" Grid.Column="0"/>
                         <TextBlock Text="{x:Bind Project.Name}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           VerticalAlignment="Center" FontSize="14" Grid.Column="1"/>

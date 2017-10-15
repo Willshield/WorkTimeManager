@@ -33,44 +33,47 @@
         <!--header-->
         <usercontrols:TitledPageHeader Grid.Row="0" Label="Tracked worktimes" />
 
-        <ComboBox x:Name="GroupByCombo" Grid.Row="1" Header="Group by:" Width="296" Height="70" ItemsSource="{Binding GroupByList}" SelectedItem="{Binding SelectedGroupBy, Mode=TwoWay}" Margin="20,0" VerticalAlignment="Top"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="50,0.2,0,0">
+            <ComboBox x:Name="GroupByCombo" Header="Group by:" Width="296" Height="70" ItemsSource="{Binding GroupByList}" SelectedItem="{Binding SelectedGroupBy, Mode=TwoWay}" Margin="20,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="searchbox" Text="{Binding SearchText, Mode=TwoWay}" Margin="20,18,20,0" Width="296" FontSize="22" VerticalAlignment="Center" TextAlignment="Left"/>
+        </StackPanel>
+        <!--<ComboBox x:Name="GroupByCombo" Grid.Row="1" Header="Group by:" Width="296" Height="70" ItemsSource="{Binding GroupByList}" SelectedItem="{Binding SelectedGroupBy, Mode=TwoWay}" Margin="20,0" VerticalAlignment="Top"/>-->
         <!--<ScrollViewer VerticalScrollMode="Auto" Height="600" Grid.Row="1">
             <usercontrols:TrackList />
         </ScrollViewer>-->
 
         <!--table header-->
-        <Grid  Margin="0" Grid.Row="2" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" HorizontalAlignment="Center">
+        <Grid  Margin="50,0" Grid.Row="2" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30"/>
-                <ColumnDefinition Width="210"/>
+                <ColumnDefinition Width="220"/>
                 <ColumnDefinition Width="145"/>
                 <ColumnDefinition Width="145"/>
                 <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Name="Subject" Text="Subject" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+                               FontSize="20" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" Margin="10,0,0,0"/>
             <TextBlock Name="Project" Text="Project" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+                               FontSize="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" Margin="10,0,0,0"/>
             <TextBlock Name="StartTime" Text="Work started" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+                               FontSize="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" Margin="10,0,0,0"/>
             <TextBlock Name="Hours" Text="Hours worked" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+                               FontSize="20" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" Margin="10,0,0,0"/>
             <TextBlock Name="Comment" Text="Comment" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData"/>
+                               FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" Margin="10,0,0,0"/>
         </Grid>
 
-        <ListView Name="WorkTimeListView" Width="900" MaxHeight="550" SelectionMode="Single" HorizontalAlignment="Center" VerticalAlignment="Top" ItemsSource="{Binding List}" Grid.Row="3" Margin="0" SelectedItem="{Binding SelectedWorkTime, Mode=TwoWay}">
+        <ListView Name="WorkTimeListView" MaxHeight="550" SelectionMode="Single" VerticalAlignment="Top" ItemsSource="{Binding List}" Grid.Row="3" Margin="50,0" SelectedItem="{Binding SelectedWorkTime, Mode=TwoWay}" SelectionChanged="WorkTimeListView_SelectionChanged">
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:WorkTime" >
                     <Grid Margin="2" >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="210"/>
+                            <ColumnDefinition Width="220"/>
                             <ColumnDefinition Width="145"/>
                             <ColumnDefinition Width="145"/>
                             <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{x:Bind Issue.Subject}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" FontSize="12" Grid.Column="0"/>
                         <TextBlock Text="{x:Bind Issue.Project.Name}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           VerticalAlignment="Center" FontSize="12" Grid.Column="1"/>

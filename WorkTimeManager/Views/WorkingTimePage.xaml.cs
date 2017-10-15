@@ -79,5 +79,15 @@ namespace WorkTimeManager.Views
             }
 
         }
+
+        private void GroupByCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void WorkTimeListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

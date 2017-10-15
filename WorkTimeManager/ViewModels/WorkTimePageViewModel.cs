@@ -17,11 +17,14 @@ namespace WorkTimeManager.ViewModels
     public class WorkTimePageViewModel : ViewModelBase
     {
 
-        //public static readonly int SubjectKey = 0;
-        //public static readonly int ProjectNameKey = 1;
-        //public static readonly int StartTimeKey = 2;
-        //public static readonly int HoursKey = 3;
-        //public static readonly int CommentKey = 4;
+        private string searchText;
+        public string SearchText
+        {
+            get { return searchText; }
+            set { Set(ref searchText, value); }
+        }
+
+
         IIssueService issueService;
         IWorkingTimeService workingTimeService;
         public List<WorktimeGroupBy> GroupByList { get; set; } = Enum.GetValues(typeof(WorktimeGroupBy)).Cast<WorktimeGroupBy>().ToList();
