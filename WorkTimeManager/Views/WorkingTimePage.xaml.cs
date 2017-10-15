@@ -32,8 +32,7 @@ namespace WorkTimeManager.Views
             WorkTimeListView.ContainerContentChanging += HighlightHeaders;
 
         }
-
-        private bool OrderbyDesc = false;
+        
         private void OrderData(object sender, TappedRoutedEventArgs e)
         {
             TextBlock ClickedBox = sender as TextBlock;
@@ -57,8 +56,8 @@ namespace WorkTimeManager.Views
                     ViewModel.OrderCatName = WorktimeOrderBy.Comment;
                     break;
             }
-            ViewModel.OrderCats(OrderbyDesc);
-            OrderbyDesc = !OrderbyDesc;
+            ViewModel.OrderCats();
+            
         }
 
         private void SetNormalOpícity()

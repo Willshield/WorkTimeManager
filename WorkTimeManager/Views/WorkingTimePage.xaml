@@ -63,7 +63,7 @@
                                FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" Margin="10,0,0,0"/>
         </Grid>
 
-        <ListView Name="WorkTimeListView" MaxHeight="550" SelectionMode="Single" VerticalAlignment="Top" ItemsSource="{Binding List}" Grid.Row="3" Margin="50,0" SelectedItem="{Binding SelectedWorkTime, Mode=TwoWay}" SelectionChanged="WorkTimeListView_SelectionChanged">
+        <ListView Name="WorkTimeListView" MaxHeight="550" SelectionMode="Single" VerticalAlignment="Top" ItemsSource="{Binding ManipulatedList}" Grid.Row="3" Margin="50,0" SelectedItem="{Binding SelectedWorkTime, Mode=TwoWay}" SelectionChanged="WorkTimeListView_SelectionChanged">
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:WorkTime" >

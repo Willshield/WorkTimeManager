@@ -17,37 +17,54 @@ namespace WorkTimeManager.ViewModels
     public class WorkTimePageViewModel : ViewModelBase
     {
 
-        private string searchText;
-        public string SearchText
-        {
-            get { return searchText; }
-            set { Set(ref searchText, value); }
-        }
-
-
+        private bool OrderbyDesc = false;
         IIssueService issueService;
         IWorkingTimeService workingTimeService;
         public List<WorktimeGroupBy> GroupByList { get; set; } = Enum.GetValues(typeof(WorktimeGroupBy)).Cast<WorktimeGroupBy>().ToList();
 
         public WorkTimePageViewModel()
         {
-            RefreshCommand = new DelegateCommand(Refresh);
+            RefreshCommand = new DelegateCommand(RefreshDbList);
             StartTrackingCommand = new DelegateCommand(StartTracking, CanStartTracking);
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 var dtservice = new DesignTimeDataService();
                 issueService = dtservice;
                 workingTimeService = dtservice;
-                Refresh();
+                RefreshDbList();
             }
             else
             {
                 issueService = IssueService.Instance;
                 workingTimeService = WorkingTimeService.Instance;
-                Refresh();
+                RefreshDbList();
             }
             SelectedGroupBy = (WorktimeGroupBy) UISettingsService.Instance.WorktimeGroupBy;
+        }
 
+
+        private string searchText;
+        public string SearchText
+        {
+            get { return searchText; }
+            set
+            {
+
+                Set(ref searchText, value);
+                SelectedGroupBy = (WorktimeGroupBy)UISettingsService.Instance.WorktimeGroupBy;
+            }
+        }
+
+        private void InitManipulatedListBySeatchtext()
+        {
+            if (searchText == null || searchText == "")
+            {
+                ManipulatedList = new ObservableCollection<WorkTime>(FromDbList);
+            }
+            else
+            {
+                ManipulatedList = new ObservableCollection<WorkTime>(FromDbList.Where(wt => wt.Issue.Subject.Contains(searchText)).ToList());
+            }
         }
 
         private WorktimeGroupBy selectedGroupBy;
@@ -58,71 +75,88 @@ namespace WorkTimeManager.ViewModels
             {
                 Set(ref selectedGroupBy, value);
                 UISettingsService.Instance.WorktimeGroupBy = value.GetHashCode();
-                //OrderCatName = StartTimeKey; ToDo: disable order other cats?
-                //OrderCats(true);
+                InitManipulatedListBySeatchtext();
                 GroupItemsBy();
+                //Order
+                //OrderCats(OrderbyDesc);
             }
         }
 
         private void GroupItemsBy()
         {
-            Refresh();
-            if (selectedGroupBy != WorktimeGroupBy.None)
+            if (ManipulatedList.Count == 0)
             {
-                ObservableCollection<WorkTime> newList = new ObservableCollection<WorkTime>();
+                ManipulatedList.Add(new WorkTime() { Issue = new Issue() { Subject = "--- no results ---" } });
+                return;
+            }
+            if (selectedGroupBy != WorktimeGroupBy.None )
+            {
+                List<WorkTime> newList = new List<WorkTime>();
+                List<WorkTime> orderList = new List<WorkTime>();
                 WorkTime lastItem = new WorkTime();
-                lastItem = List[0];
+                lastItem = ManipulatedList[0];
                 switch (selectedGroupBy)
                 {
                     case WorktimeGroupBy.Day:
                         newList.Add(CreateDummy(lastItem.StartTime.Value.Date));
-                        foreach (var item in List)
+                        foreach (var item in ManipulatedList)
                         {
                             if (lastItem.StartTime.Value.Date != item.StartTime.Value.Date)
                             {
+                                orderList = OrderGivenListCats(OrderbyDesc, orderList);
+                                newList.AddRange(orderList);
+                                orderList = new List<WorkTime>();
                                 CreateNewGroupBy(newList, item);
                             }
-                            newList.Add(item);
+                            orderList.Add(item);
                             lastItem = item;
                         }
+                        newList.AddRange(orderList);
                         break;
                     case WorktimeGroupBy.Week:
                         newList.Add(CreateDummy(lastItem.StartTime.Value.Date));
-                        foreach (var item in List)
+                        foreach (var item in ManipulatedList)
                         {
                             int lastDayNum = (lastItem.StartTime.Value.DayOfWeek.GetHashCode() + 6) % 7;
                             int itemDayNum = (item.StartTime.Value.DayOfWeek.GetHashCode() + 6) % 7;
                             var ts = lastItem.StartTime.Value.Subtract(item.StartTime.Value);
                             if (ts.Days >= 7 || (lastDayNum < itemDayNum && ts.Days < 7))
                             {
+                                orderList = OrderGivenListCats(OrderbyDesc, orderList);
+                                newList.AddRange(orderList);
+                                orderList = new List<WorkTime>();
                                 CreateNewGroupBy(newList, item);
                             }
-                            newList.Add(item);
+                            orderList.Add(item);
                             lastItem = item;
                         }
+                        newList.AddRange(orderList);
                         break;
                     case WorktimeGroupBy.Month:
                         newList.Add(CreateDummy(lastItem.StartTime.Value.Date));
-                        foreach (var item in List)
+                        foreach (var item in ManipulatedList)
                         {
                             if ((lastItem.StartTime.Value.Date.Year == item.StartTime.Value.Date.Year && lastItem.StartTime.Value.Date.Month != item.StartTime.Value.Date.Month)
                              || (lastItem.StartTime.Value.Date.Year != item.StartTime.Value.Date.Year && lastItem.StartTime.Value.Date.Month != item.StartTime.Value.Date.Month))
                             {
+                                orderList = OrderGivenListCats(OrderbyDesc, orderList);
+                                newList.AddRange(orderList);
+                                orderList = new List<WorkTime>();
                                 CreateNewGroupBy(newList, item);
                             }
-                            newList.Add(item);
+                            orderList.Add(item);
                             lastItem = item;
                         }
+                        newList.AddRange(orderList);
                         break;
                     default:
                         return;
                 }
-                List = newList;
-
+                ManipulatedList = new ObservableCollection<WorkTime>(newList);
             }
 
         }
-        private void CreateNewGroupBy(ObservableCollection<WorkTime> newList, WorkTime item)
+        private void CreateNewGroupBy(List<WorkTime> newList, WorkTime item)
         {
             newList.Add(CreateEmptyDummy());
             newList.Add(CreateDummy(item.StartTime.Value.Date));
@@ -177,11 +211,22 @@ namespace WorkTimeManager.ViewModels
             return dummy;
         }
 
+
+        private ObservableCollection<WorkTime> manipulatedList;
+        public ObservableCollection<WorkTime> ManipulatedList
+        {
+            get { return manipulatedList; }
+            set
+            {
+                Set(ref manipulatedList, value);
+            }
+        }
+
         private ObservableCollection<WorkTime> list;
-        public ObservableCollection<WorkTime> List
+        public ObservableCollection<WorkTime> FromDbList
         {
             get { return list; }
-            set
+            private set
             {
                 Set(ref list, value);
             }
@@ -222,48 +267,108 @@ namespace WorkTimeManager.ViewModels
             get { return orderCatName; }
             set { orderCatName = value; }
         }
-        public void OrderCats(bool byDesc)
+        public void OrderCats()
         {
-            SelectedGroupBy = WorktimeGroupBy.None;
+            SelectedGroupBy = (WorktimeGroupBy)UISettingsService.Instance.WorktimeGroupBy; //handles ordering
+            OrderbyDesc = !OrderbyDesc;
+            OrderCats(OrderbyDesc); //works if none groupby
+        }
+        private void OrderCats(bool byDesc)
+        {
+            if (SelectedGroupBy == WorktimeGroupBy.None)
+            {
+                switch (OrderCatName)
+                {
+                    case WorktimeOrderBy.Subject:
+                        OrderByManipulate(byDesc, i => i.Issue.Subject);
+                        //if (byDesc)
+                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderByDescending(i => i.Issue.Subject)); }
+                        //else
+                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderBy(subj())); }
+                        break;
+                    case WorktimeOrderBy.ProjectName:
+                        OrderByManipulate(byDesc, i => i.Issue.Project.Name);
+                        //if (byDesc)
+                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderByDescending(i => i.Issue.Project.Name)); }
+                        //else
+                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderBy(i => i.Issue.Project.Name)); }
+                        break;
+                    case WorktimeOrderBy.StartTime:
+                        OrderByManipulate(byDesc, i => i.StartTime);
+                        //if (byDesc)
+                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderBy(i => i.StartTime)); }
+                        //else
+                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderByDescending(i => i.StartTime)); }
+                        break;
+                    case WorktimeOrderBy.Hours:
+                        OrderByManipulate(byDesc, i => i.Hours);
+                        //if (byDesc)
+                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderByDescending(i => i.Hours)); }
+                        //else
+                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderBy(i => i.Hours)); }
+                        break;
+                    case WorktimeOrderBy.Comment:
+                        OrderByManipulate(byDesc, i => i.Comment);
+                        //if (byDesc)
+                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderByDescending(i => i.Comment)); }
+                        //else
+                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderBy(i => i.Comment)); }
+                        break;
+                }
+            }
+            
+        }
+
+        private List<WorkTime> OrderGivenListCats(bool byDesc, List<WorkTime> list)
+        {
             switch (OrderCatName)
             {
                 case WorktimeOrderBy.Subject:
-                    if (byDesc)
-                    { List = new ObservableCollection<WorkTime>(List.OrderByDescending(i => i.Issue.Subject)); }
-                    else
-                    { List = new ObservableCollection<WorkTime>(List.OrderBy(i => i.Issue.Subject)); }
-                    break;
+                    return OrderListByManipulate(byDesc, list, i => i.Issue.Subject);
                 case WorktimeOrderBy.ProjectName:
-                    if (byDesc)
-                    { List = new ObservableCollection<WorkTime>(List.OrderByDescending(i => i.Issue.Project.Name)); }
-                    else
-                    { List = new ObservableCollection<WorkTime>(List.OrderBy(i => i.Issue.Project.Name)); }
-                    break;
+                    return OrderListByManipulate(byDesc, list, i => i.Issue.Project.Name);
                 case WorktimeOrderBy.StartTime:
-                    if (byDesc)
-                    { List = new ObservableCollection<WorkTime>(List.OrderBy(i => i.StartTime)); }
-                    else
-                    { List = new ObservableCollection<WorkTime>(List.OrderByDescending(i => i.StartTime)); }
-                    break;
+                    return OrderListByManipulate(byDesc, list, i => i.StartTime);
                 case WorktimeOrderBy.Hours:
-                    if (byDesc)
-                    { List = new ObservableCollection<WorkTime>(List.OrderByDescending(i => i.Hours)); }
-                    else
-                    { List = new ObservableCollection<WorkTime>(List.OrderBy(i => i.Hours)); }
-                    break;
+                    return OrderListByManipulate(byDesc, list, i => i.Hours);
                 case WorktimeOrderBy.Comment:
-                    if (byDesc)
-                    { List = new ObservableCollection<WorkTime>(List.OrderByDescending(i => i.Comment)); }
-                    else
-                    { List = new ObservableCollection<WorkTime>(List.OrderBy(i => i.Comment)); }
-                    break;
+                    return OrderListByManipulate(byDesc, list, i => i.Comment);
+                default:
+                    return list;
             }
         }
 
-
-        public async void Refresh()
+        private List<WorkTime> OrderListByManipulate(bool byDesc, List<WorkTime> list, Func<WorkTime, object> lambda)
         {
-            List = await workingTimeService.GetWorkTimes();
+            if (byDesc)
+            {
+                return list.OrderByDescending(lambda).ToList();
+            }
+            else
+            {
+                return list.OrderBy(lambda).ToList();
+            }
+        }
+
+        private void OrderByManipulate(bool byDesc, Func<WorkTime, object> lambda)
+        {
+            if (byDesc)
+            {
+                ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderByDescending(lambda));
+            } else
+            {
+                ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderBy(lambda));
+            }
+        }
+
+        private static Func<WorkTime, string> subj()
+        {
+            return i => i.Issue.Subject;
+        }
+
+        public async void RefreshDbList()
+        {
+            FromDbList = await workingTimeService.GetWorkTimes();
         }
     }
 }
