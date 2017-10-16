@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Template10.Mvvm;
 using WorkTimeManager.Bll.DesignTimeServices;
@@ -63,7 +64,7 @@ namespace WorkTimeManager.ViewModels
             }
             else
             {
-                ManipulatedList = new ObservableCollection<WorkTime>(FromDbList.Where(wt => wt.Issue.Subject.Contains(searchText)).ToList());
+                ManipulatedList = new ObservableCollection<WorkTime>(FromDbList.Where(wt => wt.Issue.Subject.ToLower().Contains(searchText.ToLower())).ToList());
             }
         }
 
@@ -75,14 +76,17 @@ namespace WorkTimeManager.ViewModels
             {
                 Set(ref selectedGroupBy, value);
                 UISettingsService.Instance.WorktimeGroupBy = value.GetHashCode();
-                InitManipulatedListBySeatchtext();
-                GroupItemsBy();
-                //Order
-                //OrderCats(OrderbyDesc);
+                FilterOrderGroupby(); 
             }
         }
+        
+        private void FilterOrderGroupby()
+        {
+            InitManipulatedListBySeatchtext();
+            GroupOrderItemsBy();
+        }
 
-        private void GroupItemsBy()
+        private void GroupOrderItemsBy()
         {
             if (ManipulatedList.Count == 0)
             {
@@ -153,6 +157,9 @@ namespace WorkTimeManager.ViewModels
                         return;
                 }
                 ManipulatedList = new ObservableCollection<WorkTime>(newList);
+            } else
+            {
+                OrderCats(OrderbyDesc);
             }
 
         }
@@ -271,7 +278,6 @@ namespace WorkTimeManager.ViewModels
         {
             SelectedGroupBy = (WorktimeGroupBy)UISettingsService.Instance.WorktimeGroupBy; //handles ordering
             OrderbyDesc = !OrderbyDesc;
-            OrderCats(OrderbyDesc); //works if none groupby
         }
         private void OrderCats(bool byDesc)
         {
@@ -281,38 +287,18 @@ namespace WorkTimeManager.ViewModels
                 {
                     case WorktimeOrderBy.Subject:
                         OrderByManipulate(byDesc, i => i.Issue.Subject);
-                        //if (byDesc)
-                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderByDescending(i => i.Issue.Subject)); }
-                        //else
-                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderBy(subj())); }
                         break;
                     case WorktimeOrderBy.ProjectName:
                         OrderByManipulate(byDesc, i => i.Issue.Project.Name);
-                        //if (byDesc)
-                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderByDescending(i => i.Issue.Project.Name)); }
-                        //else
-                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderBy(i => i.Issue.Project.Name)); }
                         break;
                     case WorktimeOrderBy.StartTime:
                         OrderByManipulate(byDesc, i => i.StartTime);
-                        //if (byDesc)
-                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderBy(i => i.StartTime)); }
-                        //else
-                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderByDescending(i => i.StartTime)); }
                         break;
                     case WorktimeOrderBy.Hours:
                         OrderByManipulate(byDesc, i => i.Hours);
-                        //if (byDesc)
-                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderByDescending(i => i.Hours)); }
-                        //else
-                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderBy(i => i.Hours)); }
                         break;
                     case WorktimeOrderBy.Comment:
                         OrderByManipulate(byDesc, i => i.Comment);
-                        //if (byDesc)
-                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderByDescending(i => i.Comment)); }
-                        //else
-                        //{ ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderBy(i => i.Comment)); }
                         break;
                 }
             }
@@ -359,11 +345,6 @@ namespace WorkTimeManager.ViewModels
             {
                 ManipulatedList = new ObservableCollection<WorkTime>(ManipulatedList.OrderBy(lambda));
             }
-        }
-
-        private static Func<WorkTime, string> subj()
-        {
-            return i => i.Issue.Subject;
         }
 
         public async void RefreshDbList()
