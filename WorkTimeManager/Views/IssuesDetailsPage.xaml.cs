@@ -27,7 +27,6 @@ namespace WorkTimeManager.Views
             this.InitializeComponent();
         }
 
-        private bool OrderbyDesc = false;
         private void OrderData(object sender, TappedRoutedEventArgs e)
         {
             TextBlock ClickedBox = sender as TextBlock;
@@ -45,8 +44,6 @@ namespace WorkTimeManager.Views
                     ViewModel.OrderCatName = ViewModels.IssuesDetailsPageViewModel.TrackerKey;
                     break;
             }
-            ViewModel.OrderCats(OrderbyDesc);
-            OrderbyDesc = !OrderbyDesc;
         }
 
         private void SetNormalOpícity()

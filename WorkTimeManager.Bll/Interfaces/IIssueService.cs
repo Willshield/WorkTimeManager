@@ -10,11 +10,11 @@ namespace WorkTimeManager.Bll.Interfaces
 {
     public interface IIssueService
     {
-        Task<ObservableCollection<Issue>> GetIssues();
+        Task<List<Issue>> GetIssues();
 
-        Task<ObservableCollection<Issue>> GetIssuesWithWorkTimes();        
+        Task<List<Issue>> GetIssuesWithWorkTimes();        
 
-        Task<ObservableCollection<Issue>> GetFavouriteIssues();
+        Task<List<Issue>> GetFavouriteIssues();
 
         Task<Issue> GetIssueById(int IssueID);
 

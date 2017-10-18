@@ -35,7 +35,7 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="50,0.2,0,0">
             <ComboBox x:Name="GroupByCombo" Header="Group by:" Width="296" Height="70" ItemsSource="{Binding GroupByList}" SelectedItem="{Binding SelectedGroupBy, Mode=TwoWay}" Margin="20,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="searchbox" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="20,18,20,0" Width="296" FontSize="22" VerticalAlignment="Center" TextAlignment="Left"/>
+            <TextBox x:Name="searchbox" PlaceholderText="Search Subject" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="20,18,20,0" Width="296" FontSize="22" VerticalAlignment="Center" TextAlignment="Left"/>
         </StackPanel>
         <!--<ComboBox x:Name="GroupByCombo" Grid.Row="1" Header="Group by:" Width="296" Height="70" ItemsSource="{Binding GroupByList}" SelectedItem="{Binding SelectedGroupBy, Mode=TwoWay}" Margin="20,0" VerticalAlignment="Top"/>-->
         <!--<ScrollViewer VerticalScrollMode="Auto" Height="600" Grid.Row="1">

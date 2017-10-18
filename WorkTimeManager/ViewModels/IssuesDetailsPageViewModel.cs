@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
+using WorkTimeManager.Bll.DesignTimeServices;
 using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Model.Models;
@@ -15,63 +16,128 @@ namespace WorkTimeManager.ViewModels
     class IssuesDetailsPageViewModel : ViewModelBase
     {
 
+        private bool OrderbyDesc = false;
         public static readonly int SubjectKey = 0;
         public static readonly int ProjectNameKey = 1;
         public static readonly int TrackerKey = 2;
-
-        private ObservableCollection<IssueTime> list;
-        public ObservableCollection<IssueTime> List
-        {
-            get { return list; }
-            set { Set(ref list, value); }
-        }
 
         IIssueService issueService;
 
         public IssuesDetailsPageViewModel()
         {
-
-            issueService = IssueService.Instance;
-
-            List = new ObservableCollection<IssueTime>();
+            
+            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                issueService = new DesignTimeDataService();
+            }
+            else
+            {
+                issueService = IssueService.Instance;
+            }
             Refresh();
+            ManipulateList = new ObservableCollection<IssueTime>(FromDbList);
         }
 
-        public async void Refresh()
+        public List<IssueTime> FromDbList { get; set; }
+        private ObservableCollection<IssueTime> list;
+        public ObservableCollection<IssueTime> ManipulateList
         {
-            var issueList = await issueService.GetIssuesWithWorkTimes();
-            List = new ObservableCollection<IssueTime>(issueList.Select(i => new IssueTime(i, i.WorkTimes.Sum(t => t.Hours))).ToList());
+            get { return list; }
+            set { Set(ref list, value); }
         }
+
 
         private int orderCatName;
         public int OrderCatName
         {
             get { return orderCatName; }
-            set { orderCatName = value; }
+            set
+            {
+                Set(ref orderCatName, value);
+                FilterOrderList();
+            }
         }
-        public void OrderCats(bool byDesc)
+
+        private string searchText;
+        public string SearchText
+        {
+            get { return searchText; }
+            set
+            {
+
+                Set(ref searchText, value);
+                FilterOrderList();
+            }
+        }
+
+        private bool onlyWithTimelog;
+        public bool OnlyWithTimelog
+        {
+            get { return onlyWithTimelog; }
+            set
+            {
+                Set(ref onlyWithTimelog, value);
+                FilterOrderList();
+            }
+        }
+
+        public async void Refresh()
+        {
+            var issueList = await issueService.GetIssuesWithWorkTimes();
+            FromDbList = issueList.Select(i => new IssueTime(i, i.WorkTimes.Sum(t => t.Hours))).ToList();
+        }
+
+        private void FilterOrderList()
+        {
+            if (SearchText == null || SearchText == "")
+            {
+                if (OnlyWithTimelog)
+                {
+                    OrderCats(FromDbList.Where(i => i.AllTrackedTime != 0.0));
+                }
+                else
+                {
+                    OrderCats(FromDbList);
+                }
+            }
+            else
+            {
+                if (OnlyWithTimelog)
+                {
+                    OrderCats(FromDbList.Where(i => (i.AllTrackedTime != 0.0 && i.Subject.ToLower().Contains(SearchText.ToLower()))));
+                }
+                else
+                {
+                    OrderCats(FromDbList.Where(i => i.Subject.ToLower().Contains(SearchText.ToLower())));
+                }
+            }
+        }
+
+        private void OrderCats(IEnumerable<IssueTime> filteredList)
         {
             switch (OrderCatName)
             {
                 case 0:
-                    if (byDesc)
-                    { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.Subject)); }
+                    if (OrderbyDesc)
+                    { ManipulateList = new ObservableCollection<IssueTime>(filteredList.OrderByDescending(i => i.Subject)); }
                     else
-                    { List = new ObservableCollection<IssueTime>(List.OrderBy(i => i.Subject)); }
+                    { ManipulateList = new ObservableCollection<IssueTime>(filteredList.OrderBy(i => i.Subject)); }
                     break;
                 case 1:
-                    if (byDesc)
-                    { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.Project.Name)); }
+                    if (OrderbyDesc)
+                    { ManipulateList = new ObservableCollection<IssueTime>(filteredList.OrderByDescending(i => i.Project.Name)); }
                     else
-                    { List = new ObservableCollection<IssueTime>(List.OrderBy(i => i.Project.Name)); }
+                    { ManipulateList = new ObservableCollection<IssueTime>(filteredList.OrderBy(i => i.Project.Name)); }
                     break;
                 case 2:
-                    if (byDesc)
-                    { List = new ObservableCollection<IssueTime>(List.OrderByDescending(i => i.Tracker)); }
+                    if (OrderbyDesc)
+                    { ManipulateList = new ObservableCollection<IssueTime>(filteredList.OrderByDescending(i => i.Tracker)); }
                     else
-                    { List = new ObservableCollection<IssueTime>(List.OrderBy(i => i.Tracker)); }
+                    { ManipulateList = new ObservableCollection<IssueTime>(filteredList.OrderBy(i => i.Tracker)); }
                     break;
             }
+
+            OrderbyDesc = !OrderbyDesc;
         }
 
     }

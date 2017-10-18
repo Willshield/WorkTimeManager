@@ -40,11 +40,11 @@ namespace WorkTimeManager.Bll.Services
             }
         }
 
-        public async Task<ObservableCollection<WorkTime>> GetDirtyWorkTimes()
+        public async Task<List<WorkTime>> GetDirtyWorkTimes()
         {
             using (var db = new WorkTimeContext())
             {
-                return new ObservableCollection<WorkTime>(await db.WorkTimes.Include(wt => wt.Issue).Where(wt => wt.Dirty).Include(i => i.Issue.Project).OrderByDescending(i => i.StartTime).ToListAsync());
+                return await db.WorkTimes.Include(wt => wt.Issue).Where(wt => wt.Dirty).Include(i => i.Issue.Project).OrderByDescending(i => i.StartTime).ToListAsync();
             }
             
         }
@@ -77,11 +77,11 @@ namespace WorkTimeManager.Bll.Services
             return false;
         }
 
-        public async Task<ObservableCollection<WorkTime>> GetWorkTimes()
+        public async Task<List<WorkTime>> GetWorkTimes()
         {
             using (var db = new WorkTimeContext())
             {
-                return new ObservableCollection<WorkTime>(await db.WorkTimes.Include(wt => wt.Issue).Include(i => i.Issue.Project).OrderByDescending(i => i.StartTime).ToListAsync());
+                return await db.WorkTimes.Include(wt => wt.Issue).Include(i => i.Issue.Project).OrderByDescending(i => i.StartTime).ToListAsync();
             }
         }
 

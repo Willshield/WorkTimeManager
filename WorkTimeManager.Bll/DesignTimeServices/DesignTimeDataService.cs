@@ -36,12 +36,12 @@ namespace WorkTimeManager.Bll.DesignTimeServices
             return Task.FromResult(10.4);
         }
 
-        public Task<ObservableCollection<WorkTime>> GetDirtyWorkTimes()
+        public Task<List<WorkTime>> GetDirtyWorkTimes()
         {
             return GetWorkTimes();
         }
 
-        public Task<ObservableCollection<Issue>> GetFavouriteIssues()
+        public Task<List<Issue>> GetFavouriteIssues()
         {
             return GetIssues();
         }
@@ -61,9 +61,9 @@ namespace WorkTimeManager.Bll.DesignTimeServices
             return Task.FromResult(tmp);
         }
 
-        public Task<ObservableCollection<Issue>> GetIssues()
+        public Task<List<Issue>> GetIssues()
         {
-            ObservableCollection<Issue> list = new ObservableCollection<Issue>();
+            List<Issue> list = new List<Issue>();
 
             Issue tmp = new Issue();
             tmp.IssueID = 1;
@@ -83,7 +83,7 @@ namespace WorkTimeManager.Bll.DesignTimeServices
 
         }
 
-        public Task<ObservableCollection<Issue>> GetIssuesWithWorkTimes()
+        public Task<List<Issue>> GetIssuesWithWorkTimes()
         {
             return GetIssues();
         }
@@ -93,9 +93,9 @@ namespace WorkTimeManager.Bll.DesignTimeServices
             return Task.FromResult(7.5);
         }
 
-        public Task<ObservableCollection<WorkTime>> GetWorkTimes()
+        public Task<List<WorkTime>> GetWorkTimes()
         {
-            ObservableCollection<WorkTime> list = new ObservableCollection<WorkTime>();
+            List<WorkTime> list = new List<WorkTime>();
 
             WorkTime tmp = new WorkTime();
             tmp.WorkTimeID = 1;

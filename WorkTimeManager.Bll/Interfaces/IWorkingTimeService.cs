@@ -14,8 +14,8 @@ namespace WorkTimeManager.Bll.Interfaces
 
         Task<double> GetWorkingHoursToday();
 
-        Task<ObservableCollection<WorkTime>> GetWorkTimes();
+        Task<List<WorkTime>> GetWorkTimes();
 
-        Task<ObservableCollection<WorkTime>> GetDirtyWorkTimes();
+        Task<List<WorkTime>> GetDirtyWorkTimes();
     }
 }

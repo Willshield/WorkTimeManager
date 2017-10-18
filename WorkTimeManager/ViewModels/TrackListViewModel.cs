@@ -109,7 +109,7 @@ namespace WorkTimeManager.ViewModels
 
         public async void Refresh()
         {
-            List = await workingTimeService.GetWorkTimes();
+            List = new ObservableCollection<WorkTime>(await workingTimeService.GetWorkTimes());
         }
 
     }

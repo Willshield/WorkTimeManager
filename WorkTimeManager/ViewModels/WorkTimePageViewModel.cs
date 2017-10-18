@@ -64,7 +64,7 @@ namespace WorkTimeManager.ViewModels
             }
             else
             {
-                ManipulatedList = new ObservableCollection<WorkTime>(FromDbList.Where(wt => wt.Issue.Subject.ToLower().Contains(searchText.ToLower())).ToList());
+                ManipulatedList = new ObservableCollection<WorkTime>(FromDbList.Where(wt => wt.Issue.Subject.ToLower().Contains(searchText.ToLower())));
             }
         }
 
@@ -228,16 +228,9 @@ namespace WorkTimeManager.ViewModels
                 Set(ref manipulatedList, value);
             }
         }
+        public List<WorkTime> FromDbList { get; set; }
 
-        private ObservableCollection<WorkTime> list;
-        public ObservableCollection<WorkTime> FromDbList
-        {
-            get { return list; }
-            private set
-            {
-                Set(ref list, value);
-            }
-        }
+
         private WorkTime selectedWorktime;
         public WorkTime SelectedWorkTime
         {
