@@ -17,7 +17,6 @@ namespace WorkTimeManager.ViewModels
 {
     public class WorkTimePageViewModel : ViewModelBase
     {
-
         private bool OrderbyDesc = false;
         IIssueService issueService;
         IWorkingTimeService workingTimeService;

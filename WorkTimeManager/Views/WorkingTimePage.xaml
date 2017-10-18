@@ -17,6 +17,9 @@
     <Page.Resources>
         <conv:DateFormatConverter x:Name="DateFormatConverter" x:Key="DateFormatConverter"/>
         <conv:DoubleOrNoneFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
+        <conv:BoolToSyncIconTextConverter x:Name="BoolToSyncIconTextConverter" x:Key="BoolToSyncIconTextConverter"/>
+        <conv:IssueIdToOpacityConverter x:Name="IssueIdToOpacityConverter" x:Key="IssueIdToOpacityConverter"/>
+        <conv:BoolToSyncColorConverter x:Name="BoolToSyncColorConverter" x:Key="BoolToSyncColorConverter"/>
     </Page.Resources>
 
     <Grid Margin="75,5,10,5" Canvas.ZIndex="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -69,17 +72,19 @@
                 <DataTemplate x:DataType="models:WorkTime" >
                     <Grid Margin="2" >
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
                             <ColumnDefinition Width="220"/>
                             <ColumnDefinition Width="145"/>
                             <ColumnDefinition Width="145"/>
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{x:Bind Issue.Subject}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" FontSize="12" Grid.Column="0"/>
-                        <TextBlock Text="{x:Bind Issue.Project.Name}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           VerticalAlignment="Center" FontSize="12" Grid.Column="1"/>
-                        <TextBlock Text="{x:Bind StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd H:mm\} }"   Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center" FontSize="12" Grid.Column="2"/>
-                        <TextBlock Text="{x:Bind Hours, Converter={StaticResource DoubleFormatConverter}}"       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Right"  VerticalAlignment="Center" FontSize="12" Grid.Column="3" Padding="20,0" />
-                        <TextBlock Text="{x:Bind Comment}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center"  FontSize="12" Grid.Column="4" />
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="{Binding Dirty, Converter={StaticResource BoolToSyncIconTextConverter} }" FontSize="15" Foreground="{Binding Dirty, Converter={StaticResource BoolToSyncColorConverter}}" Opacity="{Binding IssueID, Converter={StaticResource IssueIdToOpacityConverter}}"/>
+                        <TextBlock Text="{x:Bind Issue.Subject}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" FontSize="12" Grid.Column="1"/>
+                        <TextBlock Text="{x:Bind Issue.Project.Name}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           VerticalAlignment="Center" FontSize="12" Grid.Column="2"/>
+                        <TextBlock Text="{x:Bind StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd H:mm\} }"   Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center" FontSize="12" Grid.Column="3"/>
+                        <TextBlock Text="{x:Bind Hours, Converter={StaticResource DoubleFormatConverter}}"       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Right"  VerticalAlignment="Center" FontSize="12" Grid.Column="4" Padding="20,0" />
+                        <TextBlock Text="{x:Bind Comment}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center"  FontSize="12" Grid.Column="5" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
