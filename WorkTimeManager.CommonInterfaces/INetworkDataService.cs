@@ -9,9 +9,9 @@ namespace WorkTimeManager.CommonInterfaces
 {
     public interface INetworkDataService
     {
-        Task<List<Issue>> GetIssuesAsync();
-        Task<List<Project>> GetProjectsAsync();
-        Task<List<WorkTime>> GetTimeEntriesAsync(DateTime? from = null, DateTime? to = null);
-        Task PostTimeEntry(WorkTime t, string UploadKey);
+        Task<List<Issue>> GetIssuesAsync(string token);
+        Task<List<Project>> GetProjectsAsync(string token);
+        Task<List<WorkTime>> GetTimeEntriesAsync(string token, DateTime? from = null, DateTime? to = null);
+        Task PostTimeEntry(string token, WorkTime t);
     }
 }

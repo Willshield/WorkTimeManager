@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
+using WorkTimeManager.Bll.Factories;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Views;
 
@@ -49,6 +50,16 @@ namespace WorkTimeManager.ViewModels
 
         public void SetProfile()
         {
+            try
+            {
+                var url = new Uri(URL);
+            } catch (UriFormatException)
+            {
+                var popup = new PopupService();
+                popup.GetDefaultNotification("Invalid url, saving data failed.", "Invalid url error").ShowAsync();
+                return;
+            }
+
             settingService.UploadKey = Key;
             settingService.URL = URL;
             settingService.ProfileName = ProfileName;

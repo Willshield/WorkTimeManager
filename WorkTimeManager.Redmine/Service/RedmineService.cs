@@ -13,7 +13,12 @@ namespace WorkTimeManager.Redmine.Service
 {
     public class RedmineService : INetworkDataService
     {
-        public readonly Uri serverUrl = new Uri("http://onlab.m.redmine.org");         //Todo: ?key=4f56fb8188c5f48811efe9a47b7ef50ad3443318
+        //public readonly Uri serverUrl = new Uri("http://onlab.m.redmine.org");         //Todo: ?key=4f56fb8188c5f48811efe9a47b7ef50ad3443318
+        private Uri serverUrl;
+        public RedmineService(Uri _serverUrl)
+        {
+            serverUrl = _serverUrl;
+        }
 
         private async Task<T> GetAsync<T>(Uri uri)
         {
@@ -47,50 +52,22 @@ namespace WorkTimeManager.Redmine.Service
             }
         }
 
-        public async Task<List<WorkTimeManager.Model.Models.Issue>> GetIssuesAsync()
+        public async Task<List<WorkTimeManager.Model.Models.Issue>> GetIssuesAsync(string token)
         {
-            //return (await GetAsync<IssueListDto>(new Uri(serverUrl, $"issues.json"))).ToEntityList();
-            return await FetchAll<WorkTimeManager.Model.Models.Issue, IssueListDto>($"issues.json?");
+            token = getTokenString(token);
+            return await FetchAll<WorkTimeManager.Model.Models.Issue, IssueListDto>($"issues.json?" + token);
         }
 
-        public async Task<List<WorkTimeManager.Model.Models.Project>> GetProjectsAsync()
+        public async Task<List<WorkTimeManager.Model.Models.Project>> GetProjectsAsync(string token)
         {
-            //var response = await GetAsync<ProjectListDto>(new Uri(serverUrl, $"projects.json"));
-            //var returnList = response.ToEntityList();
-            //if (response.total_count > response.projects.Length)
-            //{
-            //    var offset = response.projects.Length;
-            //    while (offset < response.total_count)
-            //    {
-            //        var offsetFilter = getOffsetFilterString(offset);
-            //        var nextFetch = await GetAsync<ProjectListDto>(new Uri(serverUrl, $"projects.json?" + offsetFilter));
-            //        returnList.AddRange(nextFetch.ToEntityList());
-            //        offset += nextFetch.projects.Length;
-            //    }
-            //}
-            //return returnList;
-
-            return await FetchAll<WorkTimeManager.Model.Models.Project, ProjectListDto>($"projects.json?");
+            token = getTokenString(token);
+            return await FetchAll<WorkTimeManager.Model.Models.Project, ProjectListDto>($"projects.json?" + token);
         }
 
-        public async Task<List<WorkTimeManager.Model.Models.WorkTime>> GetTimeEntriesAsync(DateTime? from = null, DateTime? to = null)
+        public async Task<List<WorkTimeManager.Model.Models.WorkTime>> GetTimeEntriesAsync(string token, DateTime? from = null, DateTime? to = null)
         {
-            //var dateFilter = getDateFilterString(from, to);
-            //var response = await GetAsync<TimeEntryListDto>(new Uri(serverUrl, $"time_entries.json?" + dateFilter));
-            //var returnList = response.ToEntityList();
-            //if (response.total_count > response.time_entries.Length)
-            //{
-            //    var offset = response.time_entries.Length;
-            //    while (offset < response.total_count)
-            //    {
-            //        var offsetFilter = getOffsetFilterString(offset);
-            //        var nextFetch = await GetAsync<TimeEntryListDto>(new Uri(serverUrl, $"time_entries.json?" + dateFilter + offsetFilter));
-            //        returnList.AddRange(nextFetch.ToEntityList());
-            //        offset += nextFetch.time_entries.Length;
-            //    }
-            //}
-
-            return await FetchAll<WorkTimeManager.Model.Models.WorkTime, TimeEntryListDto>($"time_entries.json?", getDateFilterString(from, to));
+            token = getTokenString(token);
+            return await FetchAll<WorkTimeManager.Model.Models.WorkTime, TimeEntryListDto>($"time_entries.json?" + token, getDateFilterString(from, to));
         }
 
         private async Task<List<TEntity>> FetchAll<TEntity,TDto>(string urlEnd, string additionalFilter = "") where TDto : IFetchableDto<TEntity>
@@ -111,10 +88,15 @@ namespace WorkTimeManager.Redmine.Service
             return returnList;
         }
 
-        public async Task PostTimeEntry(WorkTimeManager.Model.Models.WorkTime t, string UploadKey)
+        public async Task PostTimeEntry(string token, WorkTimeManager.Model.Models.WorkTime t)
         {
-            var dto = new Post_Time_Entry(t, UploadKey);
+            var dto = new Post_Time_Entry(t, token);
             await PostTAsync<Post_Time_Entry>(new Uri(serverUrl, $"time_entries.json"), dto);
+        }
+
+        private string getTokenString(string token)
+        {
+            return "&key=" + token;
         }
 
         private string getOffsetFilterString(int offset)
@@ -128,7 +110,7 @@ namespace WorkTimeManager.Redmine.Service
             {
                 return "";
             }
-            return String.Join("", "spent_on=><", from.Value.ToString("yyyy-MM-dd"), "|", to.Value.ToString("yyyy-MM-dd"));
+            return String.Join("", "&spent_on=><", from.Value.ToString("yyyy-MM-dd"), "|", to.Value.ToString("yyyy-MM-dd"));
         }
     }
 }

@@ -58,7 +58,7 @@ namespace WorkTimeManager.Bll.Services
 
         public string URL
         {
-            get { return _helper.Read<string>("URL", "onlab.m.redmine.org"); }
+            get { return _helper.Read<string>("URL", "http://onlab.m.redmine.org"); }
             set { _helper.Write("URL", value); }
         }
 
