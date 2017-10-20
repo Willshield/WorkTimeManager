@@ -41,6 +41,8 @@ namespace WorkTimeManager.Bll.Services.Network
             {
                 using (var db = new WorkTimeContext())
                 {
+                    await ResetWorktimes(db);
+
                     await PullProjects(db);
                     await PullIssues(db);
                     await PullTimeEntries(db);
@@ -53,6 +55,13 @@ namespace WorkTimeManager.Bll.Services.Network
 
         }
 
+        private async Task ResetWorktimes(WorkTimeContext db)
+        {
+            db.WorkTimes.RemoveRange(db.WorkTimes);
+            db.Issues.RemoveRange(db.Issues);
+            db.Projects.RemoveRange(db.Projects);
+            await db.SaveChangesAsync();
+        }
 
         private async Task PullProjects(WorkTimeContext db)
         {
@@ -64,13 +73,13 @@ namespace WorkTimeManager.Bll.Services.Network
                 {
                     db.Projects.Add(project);
                 }
-                else
-                {
-                    //exists but can be changed
-                    exists.ProjectID = project.ProjectID;
-                    exists.Name = project.Name;
-                    exists.Description = project.Description;
-                }
+                //else
+                //{
+                //    //exists but can be changed
+                //    exists.ProjectID = project.ProjectID;
+                //    exists.Name = project.Name;
+                //    exists.Description = project.Description;
+                //}
             }
             await db.SaveChangesAsync();
         }
@@ -86,21 +95,21 @@ namespace WorkTimeManager.Bll.Services.Network
                     issue.Project = project;
                     db.Issues.Add(issue);
                 }
-                else
-                {
-                    //exists but can change
-                    exists.Updated = issue.Updated;
-                    exists.Tracker = issue.Tracker;
-                    exists.Subject = issue.Subject;
-                    exists.ProjectID = issue.ProjectID;
-                    exists.Priority = issue.Priority;
-                    exists.IssueID = issue.IssueID;
-                    exists.Description = issue.Description;
+                //else
+                //{
+                //    //exists but can change
+                //    exists.Updated = issue.Updated;
+                //    exists.Tracker = issue.Tracker;
+                //    exists.Subject = issue.Subject;
+                //    exists.ProjectID = issue.ProjectID;
+                //    exists.Priority = issue.Priority;
+                //    exists.IssueID = issue.IssueID;
+                //    exists.Description = issue.Description;
 
-                    var project = db.Projects.Where(p => p.ProjectID == issue.ProjectID).Single();
-                    exists.Project = project;
-                    exists.Dirty = false;
-                }
+                //    var project = db.Projects.Where(p => p.ProjectID == issue.ProjectID).Single();
+                //    exists.Project = project;
+                //    exists.Dirty = false;
+                //}
             }
             await db.SaveChangesAsync();
         }
@@ -115,17 +124,17 @@ namespace WorkTimeManager.Bll.Services.Network
                 {
                     db.WorkTimes.Add(timeEntry);
                 }
-                else
-                {
-                    //exists but can be changed
-                    exists.IssueID = timeEntry.IssueID;
-                    exists.WorkTimeID = timeEntry.WorkTimeID;
-                    exists.StartTime = timeEntry.StartTime;
+                //else
+                //{
+                //    //exists but can be changed
+                //    exists.IssueID = timeEntry.IssueID;
+                //    exists.WorkTimeID = timeEntry.WorkTimeID;
+                //    exists.StartTime = timeEntry.StartTime;
 
-                    var issue = db.Issues.Where(i => i.IssueID == timeEntry.IssueID).Single();
-                    exists.Issue = issue;
-                    exists.Dirty = false;
-                }
+                //    var issue = db.Issues.Where(i => i.IssueID == timeEntry.IssueID).Single();
+                //    exists.Issue = issue;
+                //    exists.Dirty = false;
+                //}
             }
             await db.SaveChangesAsync();
         }

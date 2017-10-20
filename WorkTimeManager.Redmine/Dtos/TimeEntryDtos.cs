@@ -3,15 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorkTimeManager.Redmine.Interfaces;
 
 namespace WorkTimeManager.Redmine.Dto
 {
-    public class TimeEntryListDto
+    public class TimeEntryListDto : IFetchableDto<WorkTimeManager.Model.Models.WorkTime>
     {
         public Time_Entries[] time_entries { get; set; }
         public int total_count { get; set; }
         public int offset { get; set; }
         public int limit { get; set; }
+
+        public int getFetchedCount()
+        {
+            return time_entries.Length;
+        }
+
+        public int getTotalCount()
+        {
+            return total_count;
+        }
 
         public List<WorkTimeManager.Model.Models.WorkTime> ToEntityList()
         {
