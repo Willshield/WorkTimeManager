@@ -75,6 +75,9 @@ namespace WorkTimeManager.Views
             if (wt.IssueID == -1)
             {
                 args.ItemContainer.Background = Application.Current.Resources["SystemControlHighlightAccentBrush"] as SolidColorBrush;  //(SolidColorBrush)Application.Current.Resources["grey"];
+            } else
+            {
+                args.ItemContainer.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
             }
 
         }
