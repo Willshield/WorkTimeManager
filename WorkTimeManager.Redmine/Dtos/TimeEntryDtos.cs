@@ -36,7 +36,7 @@ namespace WorkTimeManager.Redmine.Dto
         public Activity activity { get; set; }
         public float hours { get; set; }
         public string comments { get; set; }
-        public string spent_on { get; set; }
+        public DateTime spent_on { get; set; }
         public DateTime created_on { get; set; }
         public DateTime updated_on { get; set; }
 
@@ -45,7 +45,7 @@ namespace WorkTimeManager.Redmine.Dto
             var tmp = new WorkTimeManager.Model.Models.WorkTime();
             tmp.WorkTimeID = id;
             tmp.Hours = hours;
-            tmp.StartTime = (created_on).AddHours(-tmp.Hours);
+            tmp.StartTime = spent_on;
             tmp.IssueID = issue.id;
             tmp.Comment = comments;
             tmp.Dirty = false;
@@ -80,14 +80,15 @@ namespace WorkTimeManager.Redmine.Dto
 
         }
 
-        public Post_Time_Entry(WorkTimeManager.Model.Models.WorkTime wt)
+        public Post_Time_Entry(WorkTimeManager.Model.Models.WorkTime wt, string key)
         {
-            Post_Time_Entry pt = new Post_Time_Entry();
-            pt.time_entry = new Time_Entry();
-            pt.time_entry.issue_id = wt.IssueID;
-            pt.time_entry.hours = (float)wt.Hours;
-            pt.time_entry.comments = wt.Comment;
-            pt.time_entry.activity_id = 1; //Todo: miért const?
+            time_entry = new Time_Entry();
+            time_entry.issue_id = wt.IssueID;
+            time_entry.hours = (float)wt.Hours;
+            time_entry.comments = wt.Comment;
+            time_entry.activity_id = 9; //Todo: miért const?
+            time_entry.spent_on = wt.StartTime.Value.Date.ToString("yyyy-MM-dd");
+            this.key = key;
         }
     }
 
@@ -98,5 +99,6 @@ namespace WorkTimeManager.Redmine.Dto
         public float hours { get; set; }
         public int activity_id { get; set; }
         public string comments { get; set; }
+        public string spent_on { get; set; }
     }
 }

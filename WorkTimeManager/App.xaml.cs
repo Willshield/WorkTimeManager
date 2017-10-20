@@ -41,6 +41,7 @@ namespace WorkTimeManager
                 db.Database.Migrate();
             }
 
+            //Todo: move to viewmodel, add busy view
             //Task.Run(() => {
 
             //    return DbSynchronizationService.Instance.PullAll();

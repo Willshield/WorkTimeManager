@@ -114,6 +114,7 @@ namespace WorkTimeManager.ViewModels
                             orderList.Add(item);
                             lastItem = item;
                         }
+                        orderList = OrderGivenListCats(OrderbyDesc, orderList);
                         newList.AddRange(orderList);
                         break;
                     case WorktimeGroupBy.Week:
@@ -133,6 +134,7 @@ namespace WorkTimeManager.ViewModels
                             orderList.Add(item);
                             lastItem = item;
                         }
+                        orderList = OrderGivenListCats(OrderbyDesc, orderList);
                         newList.AddRange(orderList);
                         break;
                     case WorktimeGroupBy.Month:
@@ -150,6 +152,7 @@ namespace WorkTimeManager.ViewModels
                             orderList.Add(item);
                             lastItem = item;
                         }
+                        orderList = OrderGivenListCats(OrderbyDesc, orderList);
                         newList.AddRange(orderList);
                         break;
                     default:

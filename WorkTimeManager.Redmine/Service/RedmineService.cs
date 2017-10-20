@@ -58,13 +58,12 @@ namespace WorkTimeManager.Redmine.Service
 
         public async Task<List<WorkTimeManager.Model.Models.WorkTime>> GetTimeEntriesAsync()
         {
-            return (await GetAsync<TimeEntryListDto>(new Uri(serverUrl, $"time_entries.json"))).ToEntityList();
+            return (await GetAsync<TimeEntryListDto>(new Uri(serverUrl, $"time_entries.json?spent_on=><2017-10-10|2017-10-20"))).ToEntityList();
         }
 
         public async Task PostTimeEntry(WorkTimeManager.Model.Models.WorkTime t, string UploadKey)
         {
-            var dto = new Post_Time_Entry(t);
-            dto.key = UploadKey;
+            var dto = new Post_Time_Entry(t, UploadKey);
             await PostTAsync<Post_Time_Entry>(new Uri(serverUrl, $"time_entries.json"), dto);
         }
     }

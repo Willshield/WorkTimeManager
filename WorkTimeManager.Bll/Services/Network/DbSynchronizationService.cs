@@ -50,10 +50,7 @@ namespace WorkTimeManager.Bll.Services.Network
             {
                 await new MessageDialog("You are currently not connected to the internet. Syncing data failed. You can use offline mode. Error message: " + e.Message , "Network Error").ShowAsync();
             }
-            catch(Exception ex)
-            {
-                await new MessageDialog("Error message: " + ex.Message, "Network Error").ShowAsync();
-            }
+
         }
 
 
@@ -110,7 +107,8 @@ namespace WorkTimeManager.Bll.Services.Network
 
         private async Task PullTimeEntries(WorkTimeContext db)
         {
-            foreach (var timeEntry in await NetworkDataService.GetTimeEntriesAsync())
+            var times = await NetworkDataService.GetTimeEntriesAsync();
+            foreach (var timeEntry in times)
             {
                 var exists = await db.WorkTimes.Where(w => w.WorkTimeID == timeEntry.WorkTimeID).SingleOrDefaultAsync();
                 if (exists is null)
@@ -138,14 +136,11 @@ namespace WorkTimeManager.Bll.Services.Network
             {
                 try
                 {
-                    var wtList = db.WorkTimes.Include(wt => wt.Issue).Include(i => i.Issue.Project).OrderByDescending(i => i.StartTime).ToList();
-                    foreach (var wt in wtList)
+                    var wtList = db.WorkTimes.Where(wt=> wt.Dirty).Include(wt => wt.Issue).ThenInclude(i => i.Project).OrderByDescending(i => i.StartTime).ToList();
+                    foreach (WorkTimeManager.Model.Models.WorkTime wt in wtList)
                     {
-                        if (wt.Dirty)
-                        {
-                            wt.Dirty = false;
-                            await NetworkDataService.PostTimeEntry(wt, "4f56fb8188c5f48811efe9a47b7ef50ad3443318"); //todo: get key as parameter                        
-                        }
+                        await NetworkDataService.PostTimeEntry(wt, "4f56fb8188c5f48811efe9a47b7ef50ad3443318"); //todo: get key as parameter 
+                        wt.Dirty = false;
                     }
 
                     await db.SaveChangesAsync();

@@ -83,7 +83,30 @@
         </ListView>
 
         <!--footer-->
-        <usercontrols:SyncUserControl HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="4"/>
+        <!--<usercontrols:SyncUserControl HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="4"/>-->
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="4" Orientation="Horizontal" >
+            <Button Width="150" Height="32" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,20,20,20" Command="{Binding PushCommand}">
+                <Grid Width="150" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Left"  >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <SymbolIcon Grid.Column="0" Symbol="Upload"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
+                    <TextBlock Grid.Column="1" Text="Push worktimes" FontSize="16" VerticalAlignment="Center"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
+                </Grid>
+            </Button>
+
+            <Button Width="150" Height="32" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,20,20,20" Command="{Binding PullCommand}">
+                <Grid Width="150" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Left"  >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <SymbolIcon Grid.Column="0" Symbol="Download"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
+                    <TextBlock Grid.Column="1" Text="Pull worktimes" FontSize="16" VerticalAlignment="Center"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
+                </Grid>
+            </Button>
+        </StackPanel>
 
     </Grid>
 
