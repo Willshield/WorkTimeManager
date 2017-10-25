@@ -147,14 +147,12 @@
                                Name="AboutText">
                         <Bold>Template10</Bold>
                         <LineBreak />
-                            Template10 Hamuburger template used as the base of the application. Only for educational purposes.
+                            Template10 Hamburger template used as the base of the application. Only for educational purposes.
                         <LineBreak />
                         <LineBreak />
                         <Bold>App icon</Bold>
                         <LineBreak />
-                            The icon of the application is made of two icons owned by Freepik, downloaded from flaticon.com
-                        <LineBreak />
-
+                            The icon of the application is made of two icons owned by Freepik.
                         </TextBlock>
                         <StackPanel Orientation="Vertical" RelativePanel.Below="AboutText" Margin="20,0,0,0">
                             <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
