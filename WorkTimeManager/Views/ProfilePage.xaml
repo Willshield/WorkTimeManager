@@ -8,21 +8,22 @@
     xmlns:usercontrols="using:WorkTimeManager.Views.UserControls"
     xmlns:vm="using:WorkTimeManager.ViewModels"
     xmlns:models="using:WorkTimeManager.Model.Models"
+    xmlns:controls="using:Template10.Controls"
     mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:ProfileViewModel x:Name="ViewModel" />
     </Page.DataContext>
-    <Grid Margin="75,5,10,5" Canvas.ZIndex="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!--  header  -->
+        <controls:PageHeader x:Name="pageHeader"
+                             Content="Set profile"
+                             Frame="{x:Bind Frame}"
+                             RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignRightWithPanel="True"
+                             RelativePanel.AlignTopWithPanel="True" />
 
-        <!--header-->
-        <usercontrols:TitledPageHeader Grid.Row="0" Label="Set profile" />
-
-        <Grid Grid.Row="1" HorizontalAlignment="Center">
+        <Grid Grid.Row="1" HorizontalAlignment="Center" RelativePanel.Below="pageHeader" Margin="75,5,10,5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
@@ -46,6 +47,5 @@
             <Button Grid.Row="3" Grid.Column="1" Content="Save" HorizontalAlignment="Right" Margin="20,0" Command="{Binding SaveCommand}"/>
 
         </Grid>
-
-    </Grid>
+    </RelativePanel>
 </Page>
