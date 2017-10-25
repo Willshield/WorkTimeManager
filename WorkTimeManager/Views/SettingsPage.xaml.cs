@@ -11,7 +11,7 @@ namespace WorkTimeManager.Views
         public SettingsPage()
         {
             InitializeComponent();
-            NavigationCacheMode = NavigationCacheMode.Required;
+            NavigationCacheMode = NavigationCacheMode.Disabled;
             _SerializationService = Template10.Services.SerializationService.SerializationService.Json;
         }
 

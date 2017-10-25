@@ -100,6 +100,8 @@ namespace WorkTimeManager.ViewModels
                 await Task.Delay(5000);
                 Views.Busy.SetBusy(false);
             }, () => !string.IsNullOrEmpty(BusyText)));
+
+        //public Uri Luggage => new Uri("../Assets/StoreLogo.png");
     }
 
     public class AboutPartViewModel : ViewModelBase

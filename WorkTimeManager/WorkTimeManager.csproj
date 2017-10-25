@@ -108,7 +108,6 @@
     <Compile Include="ViewModels\ActuallyTrackingViewModel.cs" />
     <Compile Include="ViewModels\IssuesDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="ViewModels\DetailPageViewModel.cs" />
     <Compile Include="ViewModels\ProfileUserControlViewModel.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
@@ -120,9 +119,6 @@
     </Compile>
     <Compile Include="Views\Busy.xaml.cs">
       <DependentUpon>Busy.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DetailPage.xaml.cs">
-      <DependentUpon>DetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\IssuesDetailsPage.xaml.cs">
       <DependentUpon>IssuesDetailsPage.xaml</DependentUpon>
@@ -167,6 +163,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\clock.png" />
+    <Content Include="Assets\luggage.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -195,10 +193,6 @@
     <Page Include="Views\Busy.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\DetailPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\IssuesDetailsPage.xaml">
       <SubType>Designer</SubType>
