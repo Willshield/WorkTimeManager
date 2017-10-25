@@ -89,8 +89,8 @@ namespace WorkTimeManager.ViewModels
 
             Views.Busy.SetBusy(true, "Pulling data...");
             await Syncer.PullAll();
-            Views.Busy.SetBusy(false);
             RefreshFromLocal();
+            Views.Busy.SetBusy(false);
         }
 
     }
