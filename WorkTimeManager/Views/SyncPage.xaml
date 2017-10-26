@@ -9,6 +9,7 @@
     xmlns:models="using:WorkTimeManager.Model.Models"
     xmlns:vm="using:WorkTimeManager.ViewModels"
     xmlns:conv="using:WorkTimeManager.DataValueConverters"
+    xmlns:controls="using:Template10.Controls"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -19,95 +20,112 @@
         <conv:DoubleOrNoneFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
     </Page.Resources>
 
-    <Grid Margin="75,5,10,5" Canvas.ZIndex="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition MaxHeight="620"/>
-            <RowDefinition Height="75"/>
-        </Grid.RowDefinitions>
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <controls:PageHeader x:Name="pageHeader"
+                             Content="Synchronization"
+                             Frame="{x:Bind Frame}"
+                             RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignRightWithPanel="True"
+                             RelativePanel.AlignTopWithPanel="True" />
 
+        <!--  content  -->
+        <Pivot x:Name="MyPivot"               
+               RelativePanel.AlignBottomWithPanel="True"
+               RelativePanel.AlignLeftWithPanel="True"
+               RelativePanel.AlignRightWithPanel="True"
+               RelativePanel.Below="pageHeader">
 
-        <!--header-->
-        <usercontrols:TitledPageHeader Grid.Row="0" Label="Unsynchronized Time Entries" />
-
-        <!--table header-->
-        <Grid  Margin="0" Grid.Row="2" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" HorizontalAlignment="Center">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30"/>
-                <ColumnDefinition Width="210"/>
-                <ColumnDefinition Width="145"/>
-                <ColumnDefinition Width="145"/>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="220"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Name="Subject" Text="Subject" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" />
-            <TextBlock Name="Project" Text="Project" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" />
-            <TextBlock Name="StartTime" Text="Work started" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" />
-            <TextBlock Name="Hours" Text="Hours worked" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" />
-            <TextBlock Name="Comment" Text="Comment" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        </Grid>
-
-        <ListView Name="WorkTimeListView" Width="900" MaxHeight="550" SelectionMode="Single" HorizontalAlignment="Center" VerticalAlignment="Top" ItemsSource="{Binding List}" Grid.Row="3" Margin="0" SelectedItem="{Binding SelectedWorkTime, Mode=TwoWay}">
-
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:WorkTime" >
-                    <Grid Margin="2" >
+            <!--  Unsynchronized worktime list   -->
+            <PivotItem Header="Unsynchronized Worktimes">
+                <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <!--table header-->
+                    <Grid Margin="50,80,50,0" Height="50" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" Name="tableHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="210"/>
+                            <ColumnDefinition Width="240"/>
                             <ColumnDefinition Width="145"/>
                             <ColumnDefinition Width="145"/>
                             <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{x:Bind Issue.Subject}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" FontSize="12" Grid.Column="0"/>
-                        <TextBlock Text="{x:Bind Issue.Project.Name}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           VerticalAlignment="Center" FontSize="12" Grid.Column="1"/>
-                        <TextBlock Text="{x:Bind StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd H:mm\} }"   Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center" FontSize="12" Grid.Column="2"/>
-                        <TextBlock Text="{x:Bind Hours, Converter={StaticResource DoubleFormatConverter}}"       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Right"  VerticalAlignment="Center" FontSize="12" Grid.Column="3" Padding="20,0" />
-                        <TextBlock Text="{x:Bind Comment}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center"  FontSize="12" Grid.Column="4" />
+                        <TextBlock Name="Subject" Text="Subject" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                        <TextBlock Name="Project" Text="Project" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                        <TextBlock Name="StartTime" Text="Work started" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                        <TextBlock Name="Hours" Text="Hours worked" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                        <TextBlock Name="Comment" Text="Comment" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
                     </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Height" Value="20" />
-                    <Setter Property="MinHeight" Value="20"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
 
-        <!--footer-->
-        <!--<usercontrols:SyncUserControl HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="4"/>-->
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="4" Orientation="Horizontal" >
-            <Button Width="150" Height="32" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,20,20,20" Command="{Binding PushCommand}">
-                <Grid Width="150" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Left"  >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="32" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <SymbolIcon Grid.Column="0" Symbol="Upload"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
-                    <TextBlock Grid.Column="1" Text="Push worktimes" FontSize="16" VerticalAlignment="Center"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
-                </Grid>
-            </Button>
+                    <ListView Margin="50,0,50,0" MaxHeight="550" SelectionMode="Single" ItemsSource="{Binding List}" SelectedItem="{Binding SelectedWorkTime, Mode=TwoWay}" RelativePanel.Below="tableHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Name="WorkTimeListView" >
 
-            <Button Width="150" Height="32" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,20,20,20" Command="{Binding PullCommand}">
-                <Grid Width="150" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Left"  >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="32" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <SymbolIcon Grid.Column="0" Symbol="Download"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
-                    <TextBlock Grid.Column="1" Text="Pull worktimes" FontSize="16" VerticalAlignment="Center"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
-                </Grid>
-            </Button>
-        </StackPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:WorkTime" >
+                                <Grid Margin="2" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="240"/>
+                                        <ColumnDefinition Width="145"/>
+                                        <ColumnDefinition Width="145"/>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Bind Issue.Subject}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" FontSize="12" Grid.Column="0"/>
+                                    <TextBlock Text="{x:Bind Issue.Project.Name}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           VerticalAlignment="Center" FontSize="12" Grid.Column="1"/>
+                                    <TextBlock Text="{x:Bind StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd H:mm\} }"   Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center" FontSize="12" Grid.Column="2"/>
+                                    <TextBlock Text="{x:Bind Hours, Converter={StaticResource DoubleFormatConverter}}"       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Right"  VerticalAlignment="Center" FontSize="12" Grid.Column="3" Padding="20,0" />
+                                    <TextBlock Text="{x:Bind Comment}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center"  FontSize="12" Grid.Column="4" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Height" Value="20" />
+                                <Setter Property="MinHeight" Value="20"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
 
-    </Grid>
+                    <!--footer-->
+                    <StackPanel Height="75" HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignHorizontalCenterWith="WorkTimeListView" Name="syncControl" Margin="10">
+                        <Button Width="150" Height="32" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,20,20,20" Command="{Binding PushCommand}">
+                            <Grid Width="150" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Left"  >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="0" Symbol="Upload"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
+                                <TextBlock Grid.Column="1" Text="Push worktimes" FontSize="16" VerticalAlignment="Center"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
+                            </Grid>
+                        </Button>
+
+                        <Button Width="150" Height="32" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,20,20,20" Command="{Binding PullCommand}">
+                            <Grid Width="150" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Left"  >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="0" Symbol="Download"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
+                                <TextBlock Grid.Column="1" Text="Pull worktimes" FontSize="16" VerticalAlignment="Center"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </RelativePanel>
+            </PivotItem>
+
+            <!--  Unsynchronized worktime list   -->
+            <PivotItem Header="Edit worktimes">
+                <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    
+                    
+                </RelativePanel>
+            </PivotItem>
+
+        </Pivot>
+
+
+
+    </RelativePanel>
 
 </Page>

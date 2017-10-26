@@ -48,7 +48,7 @@
         <!--table header-->
         <Grid  Margin="50,0" Grid.Row="2" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="240"/>
                 <ColumnDefinition Width="145"/>
                 <ColumnDefinition Width="145"/>
                 <ColumnDefinition Width="150"/>
@@ -73,7 +73,7 @@
                     <Grid Margin="2" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="20"/>
-                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="240"/>
                             <ColumnDefinition Width="145"/>
                             <ColumnDefinition Width="145"/>
                             <ColumnDefinition Width="150"/>

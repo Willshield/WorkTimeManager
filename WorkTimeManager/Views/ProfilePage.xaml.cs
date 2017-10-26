@@ -25,6 +25,7 @@ namespace WorkTimeManager.Views
         public ProfilePage()
         {
             this.InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Disabled;
         }
     }
 }

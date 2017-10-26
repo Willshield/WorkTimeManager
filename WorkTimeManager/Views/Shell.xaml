@@ -112,7 +112,7 @@
             </Controls:HamburgerButtonInfo>-->
 
             <!--  settingspage button  -->
-            <Controls:HamburgerButtonInfo x:Name="SettingsButton"
+            <Controls:HamburgerButtonInfo ClearHistory="True" x:Name="SettingsButton"
                                           PageParameter="0"
                                           PageType="views:SettingsPage">
                 <Controls:HamburgerButtonInfo.NavigationTransitionInfo>

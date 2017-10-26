@@ -32,14 +32,14 @@
 
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <VisualStateManager.VisualStateGroups>
+        <!--<VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
                 <VisualState x:Name="VisualStateNarrow">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <!--  TODO: change properties for narrow view  -->
+                        --><!--  TODO: change properties for narrow view  --><!--
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateNormal">
@@ -47,7 +47,7 @@
                         <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <!--  TODO: change properties for normal view  -->
+                        --><!--  TODO: change properties for normal view  --><!--
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateWide">
@@ -55,11 +55,11 @@
                         <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <!--  TODO: change properties for wide view  -->
+                        --><!--  TODO: change properties for wide view  --><!--
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+        </VisualStateManager.VisualStateGroups>-->
 
         <!--  header  -->
         <controls:PageHeader x:Name="pageHeader"
@@ -154,23 +154,22 @@
                         <LineBreak />
                             The icon of the application is made of two icons owned by Freepik.
                         </TextBlock>
-                        <StackPanel Orientation="Vertical" RelativePanel.Below="AboutText" Margin="20,0,0,0">
-                            <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
-                                <Image Margin="15"
+                        
+                        <RelativePanel Name="Icons" RelativePanel.Below="AboutText" Margin="100,0">
+                            <Image Margin="15"
                                Source="../Assets/clock.png"
                                Height="75"
-                               Stretch="None"/>
-                                <Image Margin="15"
+                               Stretch="None"
+                               Name="Clock"/>
+                            <Image Margin="15"
                                Source="../Assets/luggage.png"
                                Height="75"
-                               Stretch="None"/>
-                            </StackPanel>
-                            <TextBlock>
+                               Stretch="None"
+                               RelativePanel.RightOf="Clock"/>
+                        </RelativePanel>
+                        <TextBlock Margin="20,0" RelativePanel.Below="Icons" RelativePanel.AlignHorizontalCenterWith="Icons">
                                 <Run Text="Icons made by Freepik from www.flaticon.com"/>
-                            </TextBlock>
-                        </StackPanel>
-
-
+                        </TextBlock>
 
                     </RelativePanel>
                 </ScrollViewer>

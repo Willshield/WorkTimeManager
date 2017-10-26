@@ -15,10 +15,10 @@ namespace WorkTimeManager.Views
             _SerializationService = Template10.Services.SerializationService.SerializationService.Json;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            var index = int.Parse(_SerializationService.Deserialize(e.Parameter?.ToString()).ToString());
-            MyPivot.SelectedIndex = index;
-        }
+        //protected override void OnNavigatedTo(NavigationEventArgs e)
+        //{
+        //    var index = int.Parse(_SerializationService.Deserialize(e.Parameter?.ToString()).ToString());
+        //    MyPivot.SelectedIndex = index;
+        //}
     }
 }
