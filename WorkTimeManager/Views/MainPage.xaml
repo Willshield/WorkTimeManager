@@ -22,35 +22,25 @@
         <conv:DateFormatConverter x:Name="DateFormatConverter" x:Key="DateFormatConverter"/>
         <conv:DoubleFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
     </Page.Resources>
-    
-    
-    <!--<RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    --><!--  header  --><!--
-    <controls:PageHeader x:Name="pageHeader"
-                             Content="Favourite Issues"
-                             Frame="{x:Bind Frame}"
+
+
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!-- Page header -->
+        <usercontrols:PageHeader x:Name="pageHeader"
                              RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True" />-->
+                             RelativePanel.AlignTopWithPanel="True"
+                             Frame="{x:Bind Frame}" 
+                             Title="Favourite issues"/>
 
-        <Grid Margin="73,5,10,5" Canvas.ZIndex="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"> <!--RelativePanel.Below="pageHeader">-->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition MaxHeight="650"/>
-            <RowDefinition Height="75"/>
-        </Grid.RowDefinitions>
-
-
-        <!--header-->
-        <usercontrols:TitledPageHeader Grid.Row="0" Label="Favourite issues" />
-        <!--<TextBlock Text="Favourite issues" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" FontStyle="Italic" />-->
         <!--table header-->
-        <Grid  Margin="50,0" Grid.Row="2" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}">
+        <Grid  Margin="20,40,20,0" Height="50" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" 
+               RelativePanel.Below="pageHeader" 
+               Name="TableHeader"
+               RelativePanel.AlignLeftWithPanel="True" 
+               RelativePanel.AlignRightWithPanel="True">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="260"/>
                 <ColumnDefinition Width="145"/>
                 <ColumnDefinition Width="145"/>
                 <ColumnDefinition Width="150"/>
@@ -68,13 +58,21 @@
                                FontSize="20" Grid.Column="4" VerticalAlignment="Center" Tapped="OrderData" Margin="10,0,0,0" HorizontalAlignment="Left"/>
         </Grid>
 
-        <ListView Margin="50,0" MaxHeight="550" SelectionMode="Single" VerticalAlignment="Top" ItemsSource="{Binding List}" Grid.Row="3" SelectedItem="{Binding SelectedIssue, Mode=TwoWay}">
+        <ListView Margin="20,0"
+                  SelectionMode="Single" 
+                  ItemsSource="{Binding List}" 
+                  SelectedItem="{Binding SelectedIssue, Mode=TwoWay}"
+                  Name="WorkTimeListView"  
+                  RelativePanel.Below="TableHeader" 
+                  RelativePanel.AlignLeftWithPanel="True" 
+                  RelativePanel.AlignRightWithPanel="True"
+                  RelativePanel.Above="TrackButton">
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="uimodels:IssueTime" >
                     <Grid Margin="2" >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="260"/>
                             <ColumnDefinition Width="145"/>
                             <ColumnDefinition Width="145"/>
                             <ColumnDefinition Width="150"/>
@@ -96,12 +94,23 @@
             </ListView.ItemContainerStyle>
         </ListView>
 
-        <!--footer-->
-        <Button Content="Start tracking" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Row="4" Command="{Binding StartTrackingCommand}"/>
-        <usercontrols:ActuallyTrackingUserControl HorizontalAlignment="Center"  VerticalAlignment="Center"  Grid.Row="4"/>
+        <!-- track button-->
+        <Button Content="Start tracking"
+                Grid.Row="4" 
+                Command="{Binding StartTrackingCommand}"
+                RelativePanel.AlignRightWithPanel="True" 
+                RelativePanel.Above="footerBar"
+                Name="TrackButton"
+                Margin="20"/>
+        
+        <!--Footer-->
+        <usercontrols:PageFooter x:Name="footerBar" 
+                                RelativePanel.AlignBottomWithPanel="True"  
+                                RelativePanel.AlignRightWithPanel="True" 
+                                RelativePanel.AlignLeftWithPanel="True" 
+                                Margin="0"/>
 
-    </Grid>
+    </RelativePanel>
 
 
-    <!--</RelativePanel>-->
 </Page>

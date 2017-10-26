@@ -22,7 +22,7 @@
                              RelativePanel.AlignRightWithPanel="True"
                              RelativePanel.AlignTopWithPanel="True"
                              Frame="{x:Bind Frame}" 
-                             Title="Tracked worktimes"/>
+                             Title="Edit profile"/>
 
         <Grid Grid.Row="1" HorizontalAlignment="Center" RelativePanel.Below="pageHeader" Margin="75,5,10,5">
             <Grid.RowDefinitions>
