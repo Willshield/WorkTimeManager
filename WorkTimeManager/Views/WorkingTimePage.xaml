@@ -22,7 +22,18 @@
         <conv:BoolToSyncColorConverter x:Name="BoolToSyncColorConverter" x:Key="BoolToSyncColorConverter"/>
     </Page.Resources>
 
-    <Grid Margin="75,5,10,5" Canvas.ZIndex="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <!--<RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <controls:PageHeader x:Name="pageHeader"
+                             Content="Tracked worktimes"
+                             Frame="{x:Bind Frame}"
+                             RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignRightWithPanel="True"
+                             RelativePanel.AlignTopWithPanel="True" />
+        
+    </RelativePanel>-->
+
+        
+        <Grid Margin="75,5,10,5" Canvas.ZIndex="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="80"/>

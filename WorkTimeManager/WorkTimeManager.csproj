@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="DataValueConverters\BoolToSyncColorConverter.cs" />
     <Compile Include="DataValueConverters\BoolToSyncIconTextConverter.cs" />
+    <Compile Include="DataValueConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="DataValueConverters\DateFormatConverter.cs" />
     <Compile Include="DataValueConverters\DoubleFormatConverter.cs" />
     <Compile Include="DataValueConverters\DoubleOrNoneFormatConverter.cs" />
@@ -143,6 +144,9 @@
     </Compile>
     <Compile Include="Views\UserControls\ActuallyTrackingUserControl.xaml.cs">
       <DependentUpon>ActuallyTrackingUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\PageFooter.xaml.cs">
+      <DependentUpon>PageFooter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\ProfileUserControl.xaml.cs">
       <DependentUpon>ProfileUserControl.xaml</DependentUpon>
@@ -223,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\ActuallyTrackingUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\PageFooter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

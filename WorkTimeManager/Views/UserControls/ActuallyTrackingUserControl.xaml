@@ -14,7 +14,7 @@
     <UserControl.DataContext>
         <vm:ActuallyTrackingUserControlViewModel x:Name="ViewModel" />
     </UserControl.DataContext>
-    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" Width="Auto" Height="50">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" Width="Auto" Height="80">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}">
             <TextBlock Text="Actually tracking:" Margin="15,0" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
             <TextBlock Text="{Binding Subject}" Margin="15,0"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
