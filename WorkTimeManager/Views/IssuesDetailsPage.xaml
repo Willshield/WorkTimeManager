@@ -20,134 +20,161 @@
         <conv:DoubleFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid Margin="75,5,10,5" Canvas.ZIndex="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="150"/>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition MaxHeight="520"/>
-                <RowDefinition Height="75"/>
-            </Grid.RowDefinitions>
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!-- Page header -->
+        <usercontrols:PageHeader x:Name="pageHeader"
+                             RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignRightWithPanel="True"
+                             RelativePanel.AlignTopWithPanel="True"
+                             Frame="{x:Bind Frame}" 
+                             Title="Issues Details"/>
 
-            <!--header-->
-            <usercontrols:TitledPageHeader Grid.Row="0" Label="Issue details" />
 
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0">
-                <TextBox x:Name="searchbox" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="20,18,20,0" Width="296" FontSize="22" VerticalAlignment="Center" TextAlignment="Left" PlaceholderText="Search subject"/>
-                <CheckBox IsChecked="{Binding OnlyWithTimelog, Mode=TwoWay}" Content="Issues only with timelogs" FontSize="18" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="20,18,20,0" />
-            </StackPanel>
+        <!-- Filters -->
+        <RelativePanel Margin="50,20,0,10" RelativePanel.Below="pageHeader" Name="Filters">
+            <TextBox x:Name="searchbox" 
+                     Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="20,0" 
+                     Width="296" 
+                     FontSize="22" 
+                     TextAlignment="Left" 
+                     PlaceholderText="Search subject"
+                     RelativePanel.AlignLeftWithPanel="True"
+                     RelativePanel.AlignVerticalCenterWithPanel="True"/>
+            <CheckBox IsChecked="{Binding OnlyWithTimelog, Mode=TwoWay}" 
+                      Content="Issues only with timelogs" 
+                      FontSize="18" 
+                      VerticalContentAlignment="Center" 
+                      Margin="20,0" 
+                      RelativePanel.RightOf="searchbox"
+                      RelativePanel.AlignVerticalCenterWith="searchbox"/>
+        </RelativePanel>
 
-            <!--table header-->
-            <Grid Margin="0,0,50,0" Grid.Row="2" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="218"/>
-                    <ColumnDefinition Width="140"/>
-                    <ColumnDefinition Width="140"/>
-                    <ColumnDefinition Width="6"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Tapped="OrderData" Name="Subject" Text="Subject" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+        <!--table header-->
+        <Grid Margin="20,10,20,0" Height="50" 
+              Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}"
+              Name="TableHeader"
+              RelativePanel.Below="Filters"  
+              RelativePanel.AlignLeftWithPanel="True" 
+              RelativePanel.AlignRightWithPanel="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="218"/>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Tapped="OrderData" Name="Subject" Text="Subject" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
                                FontSize="20" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0"/>
-                <TextBlock Tapped="OrderData" Name="ProjectName" Text="Project" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+            <TextBlock Tapped="OrderData" Name="ProjectName" Text="Project" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
                                FontSize="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0"/>
-                <TextBlock Tapped="OrderData" Name="Tracker" Text="Tracker" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+            <TextBlock Tapped="OrderData" Name="Tracker" Text="Tracker" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
                                FontSize="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0"/>
-                <Rectangle VerticalAlignment="Center" Width="4" Height="48" Grid.Column="3" Fill="{ThemeResource ApplicationForegroundThemeBrush}" />
-                <TextBlock Text="Details" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+            <Rectangle VerticalAlignment="Center" Width="4" Height="48" Grid.Column="3" Fill="{ThemeResource ApplicationForegroundThemeBrush}" />
+            <TextBlock Text="Details" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
                                FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,0"/>
-            </Grid>
+        </Grid>
 
-            <!--masterdetails-->
-            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Row="3">
-                <controls:MasterDetailsView ItemsSource="{Binding ManipulateList}" SelectedItem="{Binding Selected, Mode=TwoWay}" 
+        <!--masterdetails-->
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
+              Margin="20,0,20,0"
+              Name="IssueMasterDetails"  
+              RelativePanel.Below="TableHeader" 
+              RelativePanel.AlignLeftWithPanel="True" 
+              RelativePanel.AlignRightWithPanel="True"
+              RelativePanel.Above="footerBar">
+            <controls:MasterDetailsView ItemsSource="{Binding ManipulateList}" SelectedItem="{Binding Selected, Mode=TwoWay}" 
                                     NoSelectionContent="Select an item to view"
                                     Foreground="Black" MasterPaneWidth="500" Margin="0,0,50,0">
-                    <controls:MasterDetailsView.ItemTemplate>
-                        <DataTemplate x:DataType="models:IssueTime">
-                            <Grid Margin="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="220"/>
-                                    <ColumnDefinition Width="140"/>
-                                    <ColumnDefinition Width="140"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{x:Bind Subject }" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center" Grid.Column="0"  FontSize="18"/>
-                                <TextBlock Text="{x:Bind Project.Name}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="1"  FontSize="18"/>
-                                <TextBlock Text="{x:Bind Tracker}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="2"  FontSize="18"/>
-                            </Grid>
-                        </DataTemplate>
-                    </controls:MasterDetailsView.ItemTemplate>
+                <controls:MasterDetailsView.ItemTemplate>
+                    <DataTemplate x:DataType="models:IssueTime">
+                        <Grid Margin="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="140"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{x:Bind Subject }" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center" Grid.Column="0"  FontSize="18"/>
+                            <TextBlock Text="{x:Bind Project.Name}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="1"  FontSize="18"/>
+                            <TextBlock Text="{x:Bind Tracker}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="2"  FontSize="18"/>
+                        </Grid>
+                    </DataTemplate>
+                </controls:MasterDetailsView.ItemTemplate>
 
-                    <controls:MasterDetailsView.DetailsTemplate>
-                        <DataTemplate>
-                            <Grid Margin="24" MinWidth="350">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="100"/>
-                                    <RowDefinition Height="60"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <StackPanel Orientation="Horizontal" Grid.Row="0">
-                                    <TextBlock Text="All tracked worktime:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding AllTrackedTime, Converter={StaticResource DoubleFormatConverter}}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center" Margin="10,0,0,0" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Row="1">
-                                    <TextBlock Text="Priority:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding Priority}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Row="2">
-                                    <TextBlock Text="Updated:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding Updated, Converter={StaticResource DateFormatConverter}}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
-                                </StackPanel>
-                                <TextBlock Text="Description" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Row="3"/>
-                                <ScrollViewer VerticalScrollMode="Enabled" HorizontalScrollMode="Disabled" Height="100" Grid.Row="4">
-                                    <TextBlock Text="{Binding Description}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="12" TextWrapping="Wrap" />
-                                </ScrollViewer>
-                                <ToggleSwitch IsOn="{Binding FavouriteSetter, Mode=TwoWay}" Header="Favourite" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="5" />
+                <controls:MasterDetailsView.DetailsTemplate>
+                    <DataTemplate>
+                        <Grid Margin="24" MinWidth="350">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                                <TextBlock Text="All tracked worktime:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding AllTrackedTime, Converter={StaticResource DoubleFormatConverter}}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center" Margin="10,0,0,0" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                <TextBlock Text="Priority:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Priority}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                                <TextBlock Text="Updated:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Updated, Converter={StaticResource DateFormatConverter}}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+                            </StackPanel>
+                            <TextBlock Text="Description" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Row="3"/>
+                            <ScrollViewer VerticalScrollMode="Enabled" HorizontalScrollMode="Disabled" Height="100" Grid.Row="4">
+                                <TextBlock Text="{Binding Description}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="12" TextWrapping="Wrap" />
+                            </ScrollViewer>
+                            <ToggleSwitch IsOn="{Binding FavouriteSetter, Mode=TwoWay}" Header="Favourite" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="5" />
 
-                                <Button Content="Start tracking" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Grid.Row="5" Command="{Binding TrackingCommand}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </controls:MasterDetailsView.DetailsTemplate>
+                            <Button Content="Start tracking" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Grid.Row="5" Command="{Binding TrackingCommand}"/>
+                        </Grid>
+                    </DataTemplate>
+                </controls:MasterDetailsView.DetailsTemplate>
 
-                    <controls:MasterDetailsView.NoSelectionContentTemplate>
-                        <DataTemplate>
-                            <Grid Margin="24">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="100"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <StackPanel Orientation="Horizontal" Grid.Row="0">
-                                    <TextBlock Text="All tracked worktime:" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding AllTrackedTime, Mode=TwoWay}" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Row="1">
-                                    <TextBlock Text="Priority:" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding Priority}" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Row="2">
-                                    <TextBlock Text="Due date:" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding DueDate}" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
-                                </StackPanel>
-                                <TextBlock Text="Description" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Row="3"/>
-                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" Height="100" Grid.Row="4">
-                                    <TextBlock Text="{Binding Description}" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="12"  />
-                                </ScrollViewer>
-                            </Grid>
-                        </DataTemplate>
-                    </controls:MasterDetailsView.NoSelectionContentTemplate>
-                </controls:MasterDetailsView>
-            </Grid>
-
-            <!--footer-->
-            <usercontrols:ActuallyTrackingUserControl HorizontalAlignment="Center"  VerticalAlignment="Center"  Grid.Row="4"/>
+                <controls:MasterDetailsView.NoSelectionContentTemplate>
+                    <DataTemplate>
+                        <Grid Margin="24">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                                <TextBlock Text="All tracked worktime:" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding AllTrackedTime, Mode=TwoWay}" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                <TextBlock Text="Priority:" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Priority}" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                                <TextBlock Text="Due date:" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding DueDate}" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+                            </StackPanel>
+                            <TextBlock Text="Description" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Row="3"/>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" Height="100" Grid.Row="4">
+                                <TextBlock Text="{Binding Description}" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="12"  />
+                            </ScrollViewer>
+                        </Grid>
+                    </DataTemplate>
+                </controls:MasterDetailsView.NoSelectionContentTemplate>
+            </controls:MasterDetailsView>
         </Grid>
-    </Grid>
+
+        <!--Footer-->
+        <usercontrols:PageFooter x:Name="footerBar" 
+                                 RelativePanel.AlignBottomWithPanel="True"  
+                                 RelativePanel.AlignRightWithPanel="True" 
+                                 RelativePanel.AlignLeftWithPanel="True" 
+                                 Margin="0"/>
+
+    </RelativePanel>
 </Page>

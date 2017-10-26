@@ -68,7 +68,7 @@
               RelativePanel.AlignLeftWithPanel="True" 
               RelativePanel.AlignRightWithPanel="True">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260"/>
+                <ColumnDefinition Width="280"/>
                 <ColumnDefinition Width="145"/>
                 <ColumnDefinition Width="145"/>
                 <ColumnDefinition Width="150"/>
@@ -86,7 +86,7 @@
                                FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="OrderData" Margin="10,0,0,0"/>
         </Grid>
 
-        <ListView Margin="20,0,20,0" MaxHeight="550" SelectionMode="Single" VerticalAlignment="Top" 
+        <ListView Margin="20,0" SelectionMode="Single" VerticalAlignment="Top" 
                   ItemsSource="{Binding ManipulatedList}" 
                   SelectedItem="{Binding SelectedWorkTime, Mode=TwoWay}" 
                   SelectionChanged="WorkTimeListView_SelectionChanged" 
@@ -94,7 +94,7 @@
                   RelativePanel.Below="TableHeader" 
                   RelativePanel.AlignLeftWithPanel="True" 
                   RelativePanel.AlignRightWithPanel="True"
-                  RelativePanel.Above="footerBar">
+                  RelativePanel.Above="footerBar" Padding="0">
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:WorkTime" >
