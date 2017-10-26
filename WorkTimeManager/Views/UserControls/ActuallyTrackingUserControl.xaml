@@ -7,19 +7,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:WorkTimeManager.ViewModels"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400"
     >
 
     <UserControl.DataContext>
         <vm:ActuallyTrackingUserControlViewModel x:Name="ViewModel" />
     </UserControl.DataContext>
-    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" Width="Auto" Height="80">
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}">
-            <TextBlock Text="Actually tracking:" Margin="15,0" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
-            <TextBlock Text="{Binding Subject}" Margin="15,0"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBlock Text="{Binding Project}" Margin="15,0"  Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBlock Text="{Binding TimeStamp}" Margin="15,0"  Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </StackPanel>
-    </Grid>
+    <RelativePanel VerticalAlignment="Center" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" Width="Auto" Height="80">
+        <RelativePanel RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Name="ActualSubject">
+            <TextBlock Text="Actually tracking:" Margin="15,0" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="12" Name="DefLabel" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+            <TextBlock Text="{Binding Subject}" Margin="15,0"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="20" Name="SubjectText" RelativePanel.Below="DefLabel" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+            <TextBlock Text="{Binding Project}" Margin="15,0"  Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" FontSize="12" RelativePanel.Below="SubjectText" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+        </RelativePanel>
+        <TextBlock Text="{Binding TimeStamp}" Margin="15,0"  Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" FontSize="26" RelativePanel.RightOf="ActualSubject" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+
+    </RelativePanel>
+
 </UserControl>
