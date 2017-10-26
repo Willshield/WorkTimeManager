@@ -19,20 +19,24 @@
         <conv:DoubleFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="75,5,10,5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
-            <RowDefinition MaxHeight="800"/>
-            <RowDefinition Height="75"/>
-        </Grid.RowDefinitions>
-
-        <!--header-->
-        <usercontrols:TitledPageHeader Grid.Row="0" Label="Actually Tracked" />
-
-        <Grid Margin="30" Padding="0" Grid.Row="1" HorizontalAlignment="Center">
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!-- Page header -->
+        <usercontrols:PageHeader x:Name="pageHeader"
+                             RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignRightWithPanel="True"
+                             RelativePanel.AlignTopWithPanel="True"
+                             Frame="{x:Bind Frame}" 
+                             Title="Actually Tracking"/>
+        
+        <!-- Content -->
+        <Grid Margin="20,40,20,0" Padding="0" Grid.Row="1" 
+              RelativePanel.Above="footerBar"
+              RelativePanel.Below="pageHeader"
+              RelativePanel.AlignLeftWithPanel="True" 
+              RelativePanel.AlignRightWithPanel="True">
             <Grid.ColumnDefinitions >
-                <ColumnDefinition Width="400" />
-                <ColumnDefinition Width="400" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -75,30 +79,39 @@
             <TextBlock Text="Description:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
             <TextBox Text="{Binding Comment, Mode=TwoWay}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="12" TextWrapping="Wrap" Height="100" Grid.Row="4" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Disabled" />
 
-            <Grid Grid.Row="5" Grid.ColumnSpan="2">
-                <Grid.ColumnDefinitions >
-                    <ColumnDefinition Width="400" />
-                    <ColumnDefinition Width="200" />
-                    <ColumnDefinition Width="200" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
-                <TextBlock Text="You are working for:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="0"/>
-                <TextBlock Text="{Binding TimeStamp}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,0" FontSize="40" Grid.Column="0"/>
+            <RelativePanel Grid.Row="5" Grid.ColumnSpan="2" Margin="0,20">
+                <RelativePanel Margin="0,20"
+                               RelativePanel.AlignLeftWithPanel="True" 
+                               RelativePanel.AlignHorizontalCenterWithPanel="True"
+                               RelativePanel.AlignVerticalCenterWith="ButtonPanel">
+                    <TextBlock Text="You are working for:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" 
+                               RelativePanel.AlignVerticalCenterWithPanel="True"
+                               Name="WorkforText"/>
+                    <TextBlock Text="{Binding TimeStamp}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" 
+                               RelativePanel.RightOf="WorkforText"
+                               Margin="20,0" 
+                               FontSize="40"/>
+                </RelativePanel>
 
-                <StackPanel Grid.Column="1" VerticalAlignment="Center" >
-                    <Button Name="StopSave" Command="{Binding StopSaveCommand}" Content="Stop and save tracking" HorizontalAlignment="Center" Width="170" Margin="5"/>
-                    <Button Name="Abort" Command="{Binding AbortCommand}" Content="Abort tracking" HorizontalAlignment="Center" Width="170" Margin="5"/>
-                </StackPanel>
-                <StackPanel Grid.Column="2" VerticalAlignment="Center" >
-                    <Button Name="Restart" Command="{Binding RestartCommand}" Content="Restart" HorizontalAlignment="Center" Width="170" Margin="5"/>
-                    <Button Name="Pause" Command="{Binding PauseCommand}" Content="Pause" HorizontalAlignment="Center" Width="170" Margin="5"/>
-                </StackPanel>
-            </Grid>
+                <RelativePanel VerticalAlignment="Center" Name="ButtonPanel" RelativePanel.LeftOf="seconcBtnCol">
+                    <Button Name="StopSave" Command="{Binding StopSaveCommand}" Content="Stop and save tracking" HorizontalAlignment="Center" Width="170" Margin="10"/>
+                    <Button Name="Abort" RelativePanel.Below="StopSave" Command="{Binding AbortCommand}" Content="Abort tracking" HorizontalAlignment="Center" Width="170" Margin="10"/>
+                </RelativePanel>
+                <RelativePanel VerticalAlignment="Center" RelativePanel.AlignRightWithPanel="True" Name="seconcBtnCol">
+                    <Button Name="Restart" Command="{Binding RestartCommand}" Content="Restart" HorizontalAlignment="Center" Width="170" Margin="10"/>
+                    <Button Name="Pause" RelativePanel.Below="Restart" Command="{Binding PauseCommand}" Content="Pause" HorizontalAlignment="Center" Width="170" Margin="10"/>
+                </RelativePanel>
+            </RelativePanel>
 
         </Grid>
 
-    </Grid>
+        <!--Footer-->
+        <usercontrols:PageFooter x:Name="footerBar" 
+                                 RelativePanel.AlignBottomWithPanel="True"  
+                                 RelativePanel.AlignRightWithPanel="True" 
+                                 RelativePanel.AlignLeftWithPanel="True" 
+                                 Margin="0"
+                                 ActuallyTrackedIsVisible="False"/>
+    </RelativePanel>
+
 </Page>
