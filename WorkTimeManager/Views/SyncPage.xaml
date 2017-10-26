@@ -114,7 +114,11 @@
                     </StackPanel>
                     
                     <!--Footer-->
-                    <usercontrols:PageFooter x:Name="footerBar" RelativePanel.AlignBottomWithPanel="True"  RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Margin="-12,0"/>
+                    <usercontrols:PageFooter x:Name="footerBar" 
+                                             RelativePanel.AlignBottomWithPanel="True"  
+                                             RelativePanel.AlignRightWithPanel="True" 
+                                             RelativePanel.AlignLeftWithPanel="True" 
+                                             Margin="-12,0"/>
 
                 </RelativePanel>
             </PivotItem>
