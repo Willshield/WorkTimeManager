@@ -40,7 +40,7 @@
             <PivotItem Header="Unsynchronized Worktimes">
                 <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <!--table header-->
-                    <Grid Margin="50,80,50,0" Height="50" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" Name="tableHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                    <Grid Margin="20,80,20,0" Height="50" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" Name="tableHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="240"/>
                             <ColumnDefinition Width="145"/>
@@ -60,7 +60,12 @@
                                FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
                     </Grid>
 
-                    <ListView Margin="50,0,50,0" MaxHeight="550" SelectionMode="Single" ItemsSource="{Binding List}" SelectedItem="{Binding SelectedWorkTime, Mode=TwoWay}" RelativePanel.Below="tableHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Name="WorkTimeListView" >
+                    <ListView Margin="20,0,20,0" SelectionMode="Single" ItemsSource="{Binding List}" SelectedItem="{Binding SelectedWorkTime, Mode=TwoWay}" 
+                              RelativePanel.Below="tableHeader" 
+                              RelativePanel.AlignLeftWithPanel="True" 
+                              RelativePanel.AlignRightWithPanel="True" 
+                              RelativePanel.Above="syncControl"
+                              Name="WorkTimeListView" >
 
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:WorkTime" >
@@ -89,7 +94,7 @@
                     </ListView>
 
                     <!--Buttons-->
-                    <StackPanel Height="75" HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal" RelativePanel.Above="footerBar" RelativePanel.AlignHorizontalCenterWith="WorkTimeListView" Name="syncControl" Margin="10">
+                    <StackPanel Height="75" HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal" RelativePanel.Above="footerBar" RelativePanel.AlignHorizontalCenterWithPanel="True" Name="syncControl" Margin="10">
                         <Button Width="150" Height="32" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,20,20,20" Command="{Binding PushCommand}">
                             <Grid Width="150" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Left"  >
                                 <Grid.ColumnDefinitions>

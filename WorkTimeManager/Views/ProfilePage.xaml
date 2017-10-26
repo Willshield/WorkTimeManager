@@ -15,13 +15,14 @@
         <vm:ProfileViewModel x:Name="ViewModel" />
     </Page.DataContext>
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <!--  header  -->
-        <controls:PageHeader x:Name="pageHeader"
-                             Content="Set profile"
-                             Frame="{x:Bind Frame}"
+
+        <!-- Page header -->
+        <usercontrols:PageHeader x:Name="pageHeader"
                              RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True" />
+                             RelativePanel.AlignTopWithPanel="True"
+                             Frame="{x:Bind Frame}" 
+                             Title="Tracked worktimes"/>
 
         <Grid Grid.Row="1" HorizontalAlignment="Center" RelativePanel.Below="pageHeader" Margin="75,5,10,5">
             <Grid.RowDefinitions>
@@ -47,5 +48,13 @@
             <Button Grid.Row="3" Grid.Column="1" Content="Save" HorizontalAlignment="Right" Margin="20,0" Command="{Binding SaveCommand}"/>
 
         </Grid>
+
+        <!--Footer-->
+        <usercontrols:PageFooter x:Name="footerBar" 
+                                 RelativePanel.AlignBottomWithPanel="True"  
+                                 RelativePanel.AlignRightWithPanel="True" 
+                                 RelativePanel.AlignLeftWithPanel="True" 
+                                 ProfileIsVisible="False"
+                                 Margin="0"/>
     </RelativePanel>
 </Page>
