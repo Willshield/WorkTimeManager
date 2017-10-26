@@ -21,27 +21,13 @@
     </Page.Resources>
 
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:PageHeader x:Name="pageHeader"
-                             Content="Synchronization"
-                             Frame="{x:Bind Frame}"
+
+        <usercontrols:PageHeader x:Name="pageHeader"
                              RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True" />
-
-        <Image Margin="0,0,20,0"
-            Source="../Assets/StoreLogo.png"
-            Height="48"
-            Stretch="None"
-            RelativePanel.AlignRightWithPanel="True"
-            Name="AppIcon"/>
-
-        <TextBlock
-            RelativePanel.AlignVerticalCenterWith="AppIcon"
-            RelativePanel.LeftOf="AppIcon"
-            Text="Worktime Manager"
-            FontSize="18" Margin="5,0"/>
-
-
+                             RelativePanel.AlignTopWithPanel="True"
+                             Frame="{x:Bind Frame}" 
+                             Title="Synchronization"/>
 
         <!--  content  -->
         <Pivot x:Name="MyPivot"               
