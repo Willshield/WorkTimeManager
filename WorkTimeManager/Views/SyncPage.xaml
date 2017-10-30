@@ -106,29 +106,19 @@
                                 RelativePanel.AlignHorizontalCenterWithPanel="True" 
                                 Name="syncControl" 
                                 Margin="10">
-                        <Button Width="150" Height="32" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,20,20,20" Command="{Binding PushCommand}">
-                            <Grid Width="150" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Left"  >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="32" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <SymbolIcon Grid.Column="0" Symbol="Upload"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
-                                <TextBlock Grid.Column="1" Text="Push worktimes" FontSize="16" VerticalAlignment="Center"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
-                            </Grid>
+
+                        <Button Width="150" Height="32" Padding="0" Margin="0,20,20,20" Command="{Binding PushCommand}" 
+                                HorizontalContentAlignment="Left">
+                            <usercontrols:IconedButton IconText ="&#xE898;"
+                                                       LabelText="Push worktimes"/>
                         </Button>
 
-                        <Button Width="150" Height="32" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,20,20,20" Command="{Binding PullCommand}">
-                            <Grid Width="150" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Left"  >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="32" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <SymbolIcon Grid.Column="0" Symbol="Download"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
-                                <TextBlock Grid.Column="1" Text="Pull worktimes" FontSize="16" VerticalAlignment="Center"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
-                            </Grid>
+                        <Button Width="150" Height="32" Padding="0" Margin="0,20,20,20" Command="{Binding PullCommand}" 
+                                HorizontalContentAlignment="Left">
+                            <usercontrols:IconedButton IconText ="&#xE896;"
+                                                       LabelText="Pull worktimes"/>
                         </Button>
                     </StackPanel>
-                    
 
 
                 </RelativePanel>
