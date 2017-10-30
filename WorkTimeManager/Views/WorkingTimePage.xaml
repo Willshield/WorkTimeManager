@@ -51,13 +51,25 @@
                      TextAlignment="Left"
                      RelativePanel.RightOf="GroupByCombo"
                      RelativePanel.AlignBottomWithPanel="True"/>
-            
-            <Button Content="Start tracking" 
-                    Command="{Binding StartTrackingCommand}"
-                    Name="TrackButton"
-                    Margin="20,0"
+
+            <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding StartTrackingCommand}"
                     RelativePanel.RightOf="searchbox"
-                    RelativePanel.AlignVerticalCenterWith="searchbox"/>
+                    RelativePanel.AlignVerticalCenterWith="searchbox"
+                    x:Name="TrackButton"
+                    HorizontalContentAlignment="Left">
+                <usercontrols:IconedButton IconText ="&#xE916;"
+                                           LabelText="Start tracking"/>
+            </Button>
+
+            <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding EditWorktimeCommand}" 
+                    RelativePanel.RightOf="TrackButton"
+                    RelativePanel.AlignVerticalCenterWith="TrackButton"
+                    x:Name="EditButton"
+                    HorizontalContentAlignment="Left">
+                <usercontrols:IconedButton IconText ="&#xE70F;"
+                                           LabelText="Edit worktime"/>
+            </Button>
+            
         </RelativePanel>
 
 

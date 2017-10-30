@@ -25,7 +25,8 @@ namespace WorkTimeManager.ViewModels
         public WorkTimePageViewModel()
         {
             RefreshCommand = new DelegateCommand(RefreshDbList);
-            StartTrackingCommand = new DelegateCommand(StartTracking, CanStartTracking);
+            StartTrackingCommand = new DelegateCommand(StartTracking, IsValidWorktime);
+            EditWorktimeCommand = new DelegateCommand(EditWorktime, IsValidWorktime);
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 var dtservice = new DesignTimeDataService();
@@ -241,6 +242,7 @@ namespace WorkTimeManager.ViewModels
             {
                 Set(ref selectedWorktime, value);
                 StartTrackingCommand.RaiseCanExecuteChanged();
+                EditWorktimeCommand.RaiseCanExecuteChanged();
             }
         }
         public DelegateCommand StartTrackingCommand { get; }
@@ -249,14 +251,22 @@ namespace WorkTimeManager.ViewModels
             await issueService.StartTracking(await issueService.GetIssueById(SelectedWorkTime.IssueID));
             NavigationService.Navigate(typeof(Views.ActuallyTrackingPage));
         }
-        public bool CanStartTracking()
+        public bool IsValidWorktime()
         {
             if (SelectedWorkTime == null)
                 return false;
             if (SelectedWorkTime.Hours == 0)
                 return false;
+            if (SelectedWorkTime.IssueID <= 0)
+                return false;
 
             return true;
+        }
+
+        public DelegateCommand EditWorktimeCommand { get; }
+        public void EditWorktime()
+        {
+            NavigationService.Navigate(typeof(Views.EditWorktimes), SelectedWorkTime.WorkTimeID);
         }
 
 

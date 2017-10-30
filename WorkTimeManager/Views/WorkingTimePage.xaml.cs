@@ -30,7 +30,8 @@ namespace WorkTimeManager.Views
             this.InitializeComponent();
 
             WorkTimeListView.ContainerContentChanging += HighlightHeaders;
-
+            EditButton.Opacity = 0.6;
+            TrackButton.Opacity = 0.6;
         }
         
         private void OrderData(object sender, TappedRoutedEventArgs e)
@@ -82,14 +83,17 @@ namespace WorkTimeManager.Views
 
         }
 
-        private void GroupByCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void WorkTimeListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (!ViewModel.IsValidWorktime())
+            {
+                EditButton.Opacity = 0.6;
+                TrackButton.Opacity = 0.6;
+            } else
+            {
+                EditButton.Opacity = 1;
+                TrackButton.Opacity = 1;
+            }
         }
     }
 }
