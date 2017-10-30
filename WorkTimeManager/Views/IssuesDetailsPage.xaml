@@ -131,7 +131,12 @@
                             </ScrollViewer>
                             <ToggleSwitch IsOn="{Binding FavouriteSetter, Mode=TwoWay}" Header="Favourite" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="5" />
 
-                            <Button Content="Start tracking" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Grid.Row="5" Command="{Binding TrackingCommand}"/>
+                            <!--<Button Content="Start tracking" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Grid.Row="5" Command="{Binding TrackingCommand}"/>-->
+                            <Button Width="150" Height="32" Padding="0" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Grid.Row="5" Command="{Binding TrackingCommand}"
+                                    HorizontalContentAlignment="Left">
+                                <usercontrols:IconedButton IconText ="&#xE916;"
+                                                           LabelText="Start tracking"/>
+                            </Button>
                         </Grid>
                     </DataTemplate>
                 </controls:MasterDetailsView.DetailsTemplate>

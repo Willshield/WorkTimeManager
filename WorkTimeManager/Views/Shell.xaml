@@ -30,9 +30,11 @@
             <!--  ActuallyTraxked button  -->
             <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:ActuallyTrackingPage">
                 <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Width="48"
-                                Height="48"
-                                Symbol="Clock" />
+                    <FontIcon FontFamily="Segoe MDL2 Assets" 
+                              Width="48"
+                              Height="48" 
+                              FontSize="22" 
+                              Glyph="&#xE916;" />
                     <TextBlock Margin="12,0,0,0"
                                VerticalAlignment="Center"
                                Text="Actually tracked" />
@@ -42,9 +44,11 @@
             <!--  Worktime button  -->
             <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:WorkingTimePage">
                 <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Width="48"
-                                Height="48"
-                                Symbol="List" />
+                    <FontIcon FontFamily="Segoe MDL2 Assets" 
+                              Width="48"
+                              Height="48" 
+                              FontSize="24" 
+                              Glyph="&#xE821;" />
                     <TextBlock Margin="12,0,0,0"
                                VerticalAlignment="Center"
                                Text="Tracked worktimes" />
@@ -56,7 +60,7 @@
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Width="48"
                                 Height="48"
-                                Symbol="Page" />
+                                Symbol="List" />
                     <TextBlock Margin="12,0,0,0"
                                VerticalAlignment="Center"
                                Text="Issue details" />
