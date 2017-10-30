@@ -9,7 +9,7 @@
     xmlns:models="using:WorkTimeManager.Model.Models"
     xmlns:vm="using:WorkTimeManager.ViewModels"
     xmlns:conv="using:WorkTimeManager.DataValueConverters"
-    xmlns:controls="using:Template10.Controls"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -31,16 +31,20 @@
 
         <!--  content  -->
         <Pivot x:Name="MyPivot"               
-               RelativePanel.AlignBottomWithPanel="True"
                RelativePanel.AlignLeftWithPanel="True"
                RelativePanel.AlignRightWithPanel="True"
-               RelativePanel.Below="pageHeader">
+               RelativePanel.Below="pageHeader"
+               RelativePanel.Above="footerBar">
 
             <!--  Unsynchronized worktime list   -->
             <PivotItem Header="Unsynchronized Worktimes">
                 <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <!--table header-->
-                    <Grid Margin="20,20,20,0" Height="50" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" Name="tableHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                    <Grid Margin="20,20,20,0" Height="50" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" 
+                          Name="tableHeader" 
+                          RelativePanel.AlignLeftWithPanel="True" 
+                          RelativePanel.AlignRightWithPanel="True"
+                          RelativePanel.AlignTopWithPanel="True">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="260"/>
                             <ColumnDefinition Width="145"/>
@@ -94,7 +98,14 @@
                     </ListView>
 
                     <!--Buttons-->
-                    <StackPanel Height="75" HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal" RelativePanel.Above="footerBar" RelativePanel.AlignHorizontalCenterWithPanel="True" Name="syncControl" Margin="10">
+                    <StackPanel Height="75" 
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"  
+                                Orientation="Horizontal" 
+                                RelativePanel.AlignBottomWithPanel="True"  
+                                RelativePanel.AlignHorizontalCenterWithPanel="True" 
+                                Name="syncControl" 
+                                Margin="10">
                         <Button Width="150" Height="32" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,20,20,20" Command="{Binding PushCommand}">
                             <Grid Width="150" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Left"  >
                                 <Grid.ColumnDefinitions>
@@ -118,27 +129,190 @@
                         </Button>
                     </StackPanel>
                     
-                    <!--Footer-->
-                    <usercontrols:PageFooter x:Name="footerBar" 
-                                             RelativePanel.AlignBottomWithPanel="True"  
-                                             RelativePanel.AlignRightWithPanel="True" 
-                                             RelativePanel.AlignLeftWithPanel="True" 
-                                             Margin="-12,0"/>
+
 
                 </RelativePanel>
             </PivotItem>
 
             <!--  Unsynchronized worktime list   -->
             <PivotItem Header="Edit worktimes">
+                
                 <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                    
-                    
+
+                    <!--table header--><!--
+                    <Grid Margin="20,10,20,0" Height="50" 
+                          Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}"
+                          Name="TableHeader"
+                          RelativePanel.AlignLeftWithPanel="True" 
+                          RelativePanel.AlignRightWithPanel="True"
+                          RelativePanel.AlignTopWithPanel="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="218"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Name="SubjectText" Text="Subject" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+                        <TextBlock Name="ProjectName" Text="Project" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+                        <TextBlock Name="Date" Text="Date" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+                        <TextBlock Name="HoursText" Text="Hours" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+                        <Rectangle VerticalAlignment="Center" Width="4" Height="48" Grid.Column="4" Fill="{ThemeResource ApplicationForegroundThemeBrush}" />
+                        <TextBlock Text="Details" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,0"/>
+                    </Grid>
+
+
+                    --><!-- masterdetails--><!--
+                    <controls:MasterDetailsView ItemsSource="{Binding ManipulateList}" SelectedItem="{Binding Selected, Mode=TwoWay}" 
+                                    NoSelectionContent="Select an item to view"
+                                    Foreground="Black" 
+                                    MasterPaneWidth="640" 
+                                    Margin="0,0,50,0"
+                                    RelativePanel.Below="TableHeader" 
+                                    RelativePanel.AlignLeftWithPanel="True" 
+                                    RelativePanel.AlignRightWithPanel="True" 
+                                    RelativePanel.AlignBottomWithPanel="True"  
+                                    Name="masterDetails" >
+                        <controls:MasterDetailsView.ItemTemplate>
+                            <DataTemplate x:DataType="models:WorkTime">
+                                <Grid Margin="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="220"/>
+                                        <ColumnDefinition Width="140"/>
+                                        <ColumnDefinition Width="140"/>
+                                        <ColumnDefinition Width="140"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Bind Issue.Subject }" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center" Grid.Column="0"  FontSize="18"/>
+                                    <TextBlock Text="{x:Bind Issue.Project.Name}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="1"  FontSize="18"/>
+                                    <TextBlock Text="{x:Bind StartTime, Converter={StaticResource DateFormatConverter}}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="2"  FontSize="18"/>
+                                    <TextBlock Text="{x:Bind Hours, Converter={StaticResource DoubleFormatConverter}}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="2"  FontSize="18"/>
+                                </Grid>
+                            </DataTemplate>
+                        </controls:MasterDetailsView.ItemTemplate>
+
+                        <controls:MasterDetailsView.DetailsTemplate>
+                            <DataTemplate>
+                                <RelativePanel>
+                                    <TextBox Header="Hours worked" 
+                                             Text="{x:Bind Hours}"
+                                             RelativePanel.AlignLeftWithPanel="True" 
+                                             RelativePanel.AlignTopWithPanel="True"
+                                             Name="HoursEditor"
+                                             Margin="20"/>
+                                    <TextBox Header="Comment" 
+                                             Text="{x:Bind Comment}" 
+                                             TextWrapping="Wrap" 
+                                             Height="100"
+                                             RelativePanel.AlignLeftWithPanel="True" 
+                                             RelativePanel.Below="HoursEditor"
+                                             Margin="20"/>
+
+                                </RelativePanel>
+                            </DataTemplate>
+                        </controls:MasterDetailsView.DetailsTemplate>
+
+                        <controls:MasterDetailsView.NoSelectionContentTemplate>
+                            <DataTemplate>
+
+                            </DataTemplate>
+                        </controls:MasterDetailsView.NoSelectionContentTemplate>
+                    </controls:MasterDetailsView>-->
+
+                    <!--table header-->
+                    <Grid Margin="20,10,20,0" Height="50" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" 
+                          Name="TableHeader"
+                          RelativePanel.AlignLeftWithPanel="True" 
+                          RelativePanel.AlignRightWithPanel="True"
+                          RelativePanel.AlignTopWithPanel="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="260"/>
+                            <ColumnDefinition Width="145"/>
+                            <ColumnDefinition Width="145"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Name="SubjectText" Text="Subject" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                        <TextBlock Name="ProjectText" Text="Project" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                        <TextBlock Name="StartTimeText" Text="Spent on" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                        <TextBlock Name="HoursText" Text="Hours worked" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                        <TextBlock Name="CommentText" Text="Comment" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                               FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                    </Grid>
+
+                    <ListView Margin="20,0" SelectionMode="Single" VerticalAlignment="Top" 
+                              ItemsSource="{Binding List}" 
+                              SelectedItem="{Binding SelectedWorkTime, Mode=TwoWay}" 
+                              Name="WorkTimeEditor"  
+                              RelativePanel.Below="TableHeader"
+                              RelativePanel.AlignLeftWithPanel="True" 
+                              RelativePanel.AlignRightWithPanel="True">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:WorkTime" >
+                                <Grid Margin="2" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="145"/>
+                                        <ColumnDefinition Width="145"/>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Bind Issue.Subject}"     
+                                               Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                                               VerticalAlignment="Center" 
+                                               FontSize="12" 
+                                               Grid.Column="0"/>
+                                    <TextBlock Text="{x:Bind Issue.Project.Name}"     
+                                               Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           
+                                               VerticalAlignment="Center" 
+                                               FontSize="12" 
+                                               Grid.Column="1"/>
+                                    <TextBlock Text="{x:Bind StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd\} }"   
+                                               Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     
+                                               VerticalAlignment="Center" 
+                                               FontSize="12" 
+                                               Grid.Column="2"/>
+                                    <TextBox Text="{x:Bind Hours, Mode=TwoWay}" 
+                                             Foreground="{ThemeResource ApplicationForegroundThemeBrush}"  
+                                             VerticalAlignment="Center" 
+                                             HorizontalAlignment="Stretch"
+                                             FontSize="15" 
+                                             Grid.Column="3" 
+                                             Height="20" Margin="5,0"/>
+                                    <TextBox Text="{x:Bind Comment, Mode=TwoWay}"     
+                                             Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Stretch"
+                                             FontSize="15" 
+                                             Grid.Column="4"
+                                             Height="20" Margin="5,0" MinWidth="450"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+
                 </RelativePanel>
             </PivotItem>
 
         </Pivot>
 
-
+        <!--Footer-->
+        <usercontrols:PageFooter x:Name="footerBar" 
+                                             RelativePanel.AlignBottomWithPanel="True"  
+                                             RelativePanel.AlignRightWithPanel="True" 
+                                             RelativePanel.AlignLeftWithPanel="True" 
+                                             Margin="-12,0"/>
 
     </RelativePanel>
 
