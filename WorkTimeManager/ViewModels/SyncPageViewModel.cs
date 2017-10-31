@@ -23,6 +23,9 @@ namespace WorkTimeManager.ViewModels
 
         public DelegateCommand PushCommand { get; }
         public DelegateCommand PullCommand { get; }
+        public DelegateCommand RoundCommand { get; }
+        public DelegateCommand MergeCommand { get; }
+        public DelegateCommand EditWorktimeCommand { get; }
 
         public SyncPageViewModel()
         {
@@ -37,31 +40,40 @@ namespace WorkTimeManager.ViewModels
                 Syncer = DbSynchronizationService.Instance;
                 PushCommand = new DelegateCommand(Push);
                 PullCommand = new DelegateCommand(Pull);
+                RoundCommand = new DelegateCommand(RoundWorktimes);
+                MergeCommand = new DelegateCommand(MergeWorktimes);
+                EditWorktimeCommand = new DelegateCommand(EditWorktime);
                 RefreshFromLocal();
             }
         }
 
-        private ObservableCollection<WorkTime> list;
-        public ObservableCollection<WorkTime> List
-        {
-            get { return list; }
-            set
-            {
-                Set(ref list, value);
-            }
-        }
-
-
         public async void RefreshFromLocal()
         {
             var dbList = await workingTimeService.GetDirtyWorkTimes();
-            if(dbList.Count != 0)
+            if (dbList.Count != 0)
             {
-                List = new ObservableCollection<WorkTime>(dbList);
-            } else
+                DirtyList = new ObservableCollection<WorkTime>(dbList);
+                PivotEnabled = true;
+                EditList = new ObservableCollection<WorkTime>(dbList);
+            }
+            else
             {
-                List = new ObservableCollection<WorkTime>();
-                List.Add(new WorkTime() { Issue = new Issue() { Subject = "---No dirty time entries---", IssueID =-1} });
+                DirtyList = new ObservableCollection<WorkTime>();
+                DirtyList.Add(new WorkTime() { Issue = new Issue() { Subject = "---No dirty time entries---", IssueID = 0 } });
+                PivotEnabled = false;
+                EditList = null;
+            }
+        }
+
+        #region first pivot
+
+        private ObservableCollection<WorkTime> dirtyList;
+        public ObservableCollection<WorkTime> DirtyList
+        {
+            get { return dirtyList; }
+            set
+            {
+                Set(ref dirtyList, value);
             }
         }
 
@@ -75,7 +87,7 @@ namespace WorkTimeManager.ViewModels
 
         public async void Pull()
         {
-            if (List[0].IssueID != -1)
+            if (DirtyList[0].IssueID != -1)
             {
                 PopupService p = new PopupService();
                 MessageDialog dialog = p.GetDefaultAskDialog("You have some unpushed worktimes. Pulling data overwrites all locally stored worktimes, unpushed data will be deleted.", "Confirm pull", false);
@@ -92,6 +104,50 @@ namespace WorkTimeManager.ViewModels
             RefreshFromLocal();
             Views.Busy.SetBusy(false);
         }
+        #endregion  
+
+        #region second pivot
+
+        private bool pivotEnabled;
+        public bool PivotEnabled {
+                get { return pivotEnabled; }
+                set { Set(ref pivotEnabled, value); }
+            }
+
+        private ObservableCollection<WorkTime> editList;
+        public ObservableCollection<WorkTime> EditList
+        {
+            get { return editList; }
+            set { Set(ref editList, value); }
+        }
+
+        private WorkTime editWorkTime;
+        public WorkTime EditWorkTime {
+            get { return editWorkTime;  }
+            set {
+                Set(ref editWorkTime, value);
+                //Raise executechanged events
+            }
+        }
+
+        public void RoundWorktimes()
+        {
+
+        }
+
+        public void MergeWorktimes()
+        {
+
+        }
+
+        public void EditWorktime()
+        {
+            NavigationService.Navigate(typeof(Views.EditWorktimes), EditWorkTime.WorkTimeID);
+        }
+
+
+        #endregion
+
 
     }
 }

@@ -34,7 +34,8 @@
                RelativePanel.AlignLeftWithPanel="True"
                RelativePanel.AlignRightWithPanel="True"
                RelativePanel.Below="pageHeader"
-               RelativePanel.Above="footerBar">
+               RelativePanel.Above="footerBar"
+               IsHitTestVisible="{Binding PivotEnabled, Mode=TwoWay}">
 
             <!--  Unsynchronized worktime list   -->
             <PivotItem Header="Unsynchronized Worktimes">
@@ -64,7 +65,7 @@
                                FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
                     </Grid>
 
-                    <ListView Margin="20,0,20,0" SelectionMode="Single" ItemsSource="{Binding List}" SelectedItem="{Binding SelectedWorkTime, Mode=TwoWay}" 
+                    <ListView Margin="20,0,20,0" SelectionMode="Single" ItemsSource="{Binding DirtyList}" 
                               RelativePanel.Below="tableHeader" 
                               RelativePanel.AlignLeftWithPanel="True" 
                               RelativePanel.AlignRightWithPanel="True" 
@@ -126,7 +127,7 @@
 
             <!--  Unsynchronized worktime list   -->
             <PivotItem Header="Edit worktimes">
-                
+
                 <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
                     <!--table header--><!--
@@ -214,12 +215,45 @@
                         </controls:MasterDetailsView.NoSelectionContentTemplate>
                     </controls:MasterDetailsView>-->
 
+                    <!-- Filters -->
+                    <RelativePanel Margin="50,20,0,10" Name="ActionButtons">
+
+                        <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding RoundCommand}"  
+                                RelativePanel.AlignLeftWithPanel="True"
+                                RelativePanel.AlignVerticalCenterWithPanel="True" 
+                                RelativePanel.AlignTopWithPanel="True"
+                                x:Name="RoundButton"
+                                HorizontalContentAlignment="Left">
+                            <usercontrols:IconedButton IconText ="&#xF0B4;"
+                                           LabelText="Round worktimes"/>
+                        </Button>
+
+                        <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding MergeCommand}"  
+                                RelativePanel.RightOf="RoundButton"
+                                RelativePanel.AlignVerticalCenterWith="RoundButton"
+                                x:Name="TrackButton"
+                                HorizontalContentAlignment="Left">
+                            <usercontrols:IconedButton IconText ="&#xF168;"
+                                           LabelText="Merge worktimes"/>
+                        </Button>
+
+                        <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding EditWorktimeCommand}" 
+                                RelativePanel.RightOf="TrackButton"
+                                RelativePanel.AlignVerticalCenterWith="TrackButton"
+                                x:Name="EditButton"
+                                HorizontalContentAlignment="Left">
+                            <usercontrols:IconedButton IconText ="&#xE70F;"
+                                           LabelText="Edit worktime"/>
+                        </Button>
+
+                    </RelativePanel>
+
                     <!--table header-->
                     <Grid Margin="20,10,20,0" Height="50" Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}" 
                           Name="TableHeader"
                           RelativePanel.AlignLeftWithPanel="True" 
                           RelativePanel.AlignRightWithPanel="True"
-                          RelativePanel.AlignTopWithPanel="True">
+                          RelativePanel.Below="ActionButtons">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="260"/>
                             <ColumnDefinition Width="145"/>
@@ -240,8 +274,8 @@
                     </Grid>
 
                     <ListView Margin="20,0" SelectionMode="Single" VerticalAlignment="Top" 
-                              ItemsSource="{Binding List}" 
-                              SelectedItem="{Binding SelectedWorkTime, Mode=TwoWay}" 
+                              ItemsSource="{Binding EditList}" 
+                              SelectedItem="{Binding EditWorkTime, Mode=TwoWay}" 
                               Name="WorkTimeEditor"  
                               RelativePanel.Below="TableHeader"
                               RelativePanel.AlignLeftWithPanel="True" 
