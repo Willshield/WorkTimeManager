@@ -47,7 +47,7 @@ namespace WorkTimeManager.Bll.Services
             {
                 return await db.WorkTimes.Where(wt => wt.Dirty).Include(wt => wt.Issue).ThenInclude(i => i.Project).OrderByDescending(i => i.StartTime).ToListAsync();
             }
-            
+
         }
 
         public double GetWorkingHoursTodaySync()
@@ -71,7 +71,7 @@ namespace WorkTimeManager.Bll.Services
             if (checkedDay == null)
                 return false;
             var now = DateTime.Now;
-            if(now.Year == checkedDay.Value.Year && now.Month == checkedDay.Value.Month && now.Day == checkedDay.Value.Day)
+            if (now.Year == checkedDay.Value.Year && now.Month == checkedDay.Value.Month && now.Day == checkedDay.Value.Day)
             {
                 return true;
             }
@@ -92,9 +92,9 @@ namespace WorkTimeManager.Bll.Services
             {
                 var worktime = await db.WorkTimes.Where(wt => wt.WorkTimeID == workTimeId).SingleAsync();
                 var settings = BllSettingsService.Instance;
-                var rounding = (Rounding) settings.Rounding;
+                var rounding = (Rounding)settings.Rounding;
                 worktime.Hours = round(rounding, worktime.Hours, settings.AlwaysUp);
-                await db.SaveChangesAsync();            
+                await db.SaveChangesAsync();
             }
         }
 
@@ -144,7 +144,7 @@ namespace WorkTimeManager.Bll.Services
                     return dr025;
 
                 case Rounding.Round050:
-                    var dr050 = Math.Round(d*2.0, 0);
+                    var dr050 = Math.Round(d * 2.0, 0);
                     dr050 /= 2.0;
                     if (onlyUp && dr050 < d)
                         dr050 += 0.50;
@@ -159,11 +159,11 @@ namespace WorkTimeManager.Bll.Services
             return 0;
         }
 
-        public async Task MergeWorktimeWithDirty(int workTimeId)
+        public async Task MergeWorktimeWithDirty(int issueID)
         {
             using (var db = new WorkTimeContext())
             {
-                var worktimes = await db.WorkTimes.Where(wt => wt.Dirty && wt.WorkTimeID == workTimeId).ToListAsync();
+                var worktimes = await db.WorkTimes.Where(wt => wt.Dirty && wt.IssueID == issueID).ToListAsync();
                 if (worktimes.Count <= 1)
                     return;
                 MergeWorktimes(db, worktimes);
@@ -196,7 +196,7 @@ namespace WorkTimeManager.Bll.Services
             WorkTime merged = issueWts.First();
             merged.Hours = issueWts.Sum(wt => wt.Hours);
             merged.Comment = String.Join("; ", issueWts.Select(wt => wt.Comment));
-            db.WorkTimes.RemoveRange(issueWts.Where(wt=>wt.WorkTimeID != merged.WorkTimeID));
+            db.WorkTimes.RemoveRange(issueWts.Where(wt => wt.WorkTimeID != merged.WorkTimeID));
         }
     }
 }

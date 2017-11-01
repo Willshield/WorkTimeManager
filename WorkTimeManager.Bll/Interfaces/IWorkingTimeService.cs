@@ -21,8 +21,8 @@ namespace WorkTimeManager.Bll.Interfaces
         Task RoundWorktime(int workTimeId);
 
         Task RoundDirtyWorktimes();
-        
-        Task MergeWorktimeWithDirty(int workTimeId);
+
+        Task MergeWorktimeWithDirty(int issueID);
 
         Task GroupMergeWorktimesWithDirty();
     }
