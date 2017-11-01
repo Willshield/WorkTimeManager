@@ -109,6 +109,26 @@ namespace WorkTimeManager.Bll.DesignTimeServices
             return Task.FromResult(list);
         }
 
+        public Task GroupMergeWorktimesWithDirty()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task MergeWorktimeWithDirty(int workTimeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RoundDirtyWorktimes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RoundWorktime(int workTimeId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task SetFavourite(int id, bool isFavourite)
         {
             throw new NotImplementedException();

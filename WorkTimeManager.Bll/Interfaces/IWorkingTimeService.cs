@@ -17,5 +17,13 @@ namespace WorkTimeManager.Bll.Interfaces
         Task<List<WorkTime>> GetWorkTimes();
 
         Task<List<WorkTime>> GetDirtyWorkTimes();
+
+        Task RoundWorktime(int workTimeId);
+
+        Task RoundDirtyWorktimes();
+        
+        Task MergeWorktimeWithDirty(int workTimeId);
+
+        Task GroupMergeWorktimesWithDirty();
     }
 }

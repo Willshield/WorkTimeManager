@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Dal.Context;
+using WorkTimeManager.Model.Enums;
 using WorkTimeManager.Model.Models;
 
 namespace WorkTimeManager.Bll.Services
@@ -85,5 +86,87 @@ namespace WorkTimeManager.Bll.Services
             }
         }
 
+        public async Task RoundWorktime(int workTimeId)
+        {
+            using (var db = new WorkTimeContext())
+            {
+                var worktime = await db.WorkTimes.Where(wt => wt.WorkTimeID == workTimeId).SingleAsync();
+                var settings = BllSettingsService.Instance;
+                var rounding = (Rounding) settings.Rounding;
+                worktime.Hours = round(rounding, worktime.Hours, settings.AlwaysUp);
+                await db.SaveChangesAsync();            
+            }
+        }
+
+        public async Task RoundDirtyWorktimes()
+        {
+            using (var db = new WorkTimeContext())
+            {
+                var worktimes = await db.WorkTimes.Include(wt => wt.Issue).Where(wt => wt.Dirty).ToListAsync();
+                var settings = BllSettingsService.Instance;
+                var rounding = (Rounding)settings.Rounding;
+                foreach (var worktime in worktimes)
+                {
+                    worktime.Hours = round(rounding, worktime.Hours, settings.AlwaysUp);
+                }
+                await db.SaveChangesAsync();
+            }
+        }
+
+        private double round(Rounding r, double d, bool onlyUp)
+        {
+            switch (r)
+            {
+                case Rounding.Round001:
+                    var dr001 = Math.Round(d, 2);
+                    if (onlyUp && dr001 < d)
+                        dr001 += 0.01;
+                    return dr001;
+
+                case Rounding.Round005:
+                    var dr005 = Math.Round(d * 2.0, 1);
+                    dr005 /= 2.0;
+                    if (onlyUp && dr005 < d)
+                        dr005 += 0.05;
+                    return dr005;
+
+                case Rounding.Round010:
+                    var dr010 = Math.Round(d, 1);
+                    if (onlyUp && dr010 < d)
+                        dr010 += 0.10;
+                    return dr010;
+
+                case Rounding.Round025:
+                    var dr025 = Math.Round(d * 4.0, 0);
+                    dr025 /= 4.0;
+                    if (onlyUp && dr025 < d)
+                        dr025 += 0.25;
+                    return dr025;
+
+                case Rounding.Round050:
+                    var dr050 = Math.Round(d*2.0, 0);
+                    dr050 /= 2.0;
+                    if (onlyUp && dr050 < d)
+                        dr050 += 0.50;
+                    return dr050;
+
+                case Rounding.Round100:
+                    var dr100 = Math.Round(d, 0);
+                    if (onlyUp && dr100 < d)
+                        dr100 += 1.00;
+                    return dr100;
+            }
+            return 0;
+        }
+
+        public async Task MergeWorktimeWithDirty(int workTimeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task GroupMergeWorktimesWithDirty()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

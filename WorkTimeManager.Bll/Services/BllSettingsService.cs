@@ -28,7 +28,7 @@ namespace WorkTimeManager.Bll.Services
 
         public int Rounding
         {
-            get { return _helper.Read<int>(nameof(Rounding), 30); }
+            get { return _helper.Read<int>(nameof(Rounding), 25); }
             set { _helper.Write(nameof(Rounding), value); }
         }
 
