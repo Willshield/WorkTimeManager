@@ -59,7 +59,6 @@ namespace WorkTimeManager.ViewModels
         }
         public WorkTime SelectedWorkTime { get; set; }
 
-        public readonly ObservableCollection<string> OrderingCats;
         public DelegateCommand RefreshCommand { get; }
         public DelegateCommand OrderCommand { get; }
 

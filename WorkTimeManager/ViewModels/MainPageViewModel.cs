@@ -119,18 +119,11 @@ namespace WorkTimeManager.ViewModels
             }
         }
 
-        public async void Refresh()
+        public void Refresh()
         {
             getData();
         }
-
-        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
-        {
-            Refresh();
-            return base.OnNavigatedToAsync(parameter, mode, state);
-
-        }
-
+        
     }
 
 }
