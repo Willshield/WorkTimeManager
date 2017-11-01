@@ -130,120 +130,55 @@
 
                 <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-                    <!--table header--><!--
-                    <Grid Margin="20,10,20,0" Height="50" 
-                          Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}"
-                          Name="TableHeader"
-                          RelativePanel.AlignLeftWithPanel="True" 
-                          RelativePanel.AlignRightWithPanel="True"
-                          RelativePanel.AlignTopWithPanel="True">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="218"/>
-                            <ColumnDefinition Width="140"/>
-                            <ColumnDefinition Width="140"/>
-                            <ColumnDefinition Width="140"/>
-                            <ColumnDefinition Width="6"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Name="SubjectText" Text="Subject" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0"/>
-                        <TextBlock Name="ProjectName" Text="Project" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0"/>
-                        <TextBlock Name="Date" Text="Date" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0"/>
-                        <TextBlock Name="HoursText" Text="Hours" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0"/>
-                        <Rectangle VerticalAlignment="Center" Width="4" Height="48" Grid.Column="4" Fill="{ThemeResource ApplicationForegroundThemeBrush}" />
-                        <TextBlock Text="Details" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,0"/>
-                    </Grid>
-
-
-                    --><!-- masterdetails--><!--
-                    <controls:MasterDetailsView ItemsSource="{Binding ManipulateList}" SelectedItem="{Binding Selected, Mode=TwoWay}" 
-                                    NoSelectionContent="Select an item to view"
-                                    Foreground="Black" 
-                                    MasterPaneWidth="640" 
-                                    Margin="0,0,50,0"
-                                    RelativePanel.Below="TableHeader" 
-                                    RelativePanel.AlignLeftWithPanel="True" 
-                                    RelativePanel.AlignRightWithPanel="True" 
-                                    RelativePanel.AlignBottomWithPanel="True"  
-                                    Name="masterDetails" >
-                        <controls:MasterDetailsView.ItemTemplate>
-                            <DataTemplate x:DataType="models:WorkTime">
-                                <Grid Margin="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="220"/>
-                                        <ColumnDefinition Width="140"/>
-                                        <ColumnDefinition Width="140"/>
-                                        <ColumnDefinition Width="140"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Bind Issue.Subject }" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center" Grid.Column="0"  FontSize="18"/>
-                                    <TextBlock Text="{x:Bind Issue.Project.Name}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="1"  FontSize="18"/>
-                                    <TextBlock Text="{x:Bind StartTime, Converter={StaticResource DateFormatConverter}}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="2"  FontSize="18"/>
-                                    <TextBlock Text="{x:Bind Hours, Converter={StaticResource DoubleFormatConverter}}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="2"  FontSize="18"/>
-                                </Grid>
-                            </DataTemplate>
-                        </controls:MasterDetailsView.ItemTemplate>
-
-                        <controls:MasterDetailsView.DetailsTemplate>
-                            <DataTemplate>
-                                <RelativePanel>
-                                    <TextBox Header="Hours worked" 
-                                             Text="{x:Bind Hours}"
-                                             RelativePanel.AlignLeftWithPanel="True" 
-                                             RelativePanel.AlignTopWithPanel="True"
-                                             Name="HoursEditor"
-                                             Margin="20"/>
-                                    <TextBox Header="Comment" 
-                                             Text="{x:Bind Comment}" 
-                                             TextWrapping="Wrap" 
-                                             Height="100"
-                                             RelativePanel.AlignLeftWithPanel="True" 
-                                             RelativePanel.Below="HoursEditor"
-                                             Margin="20"/>
-
-                                </RelativePanel>
-                            </DataTemplate>
-                        </controls:MasterDetailsView.DetailsTemplate>
-
-                        <controls:MasterDetailsView.NoSelectionContentTemplate>
-                            <DataTemplate>
-
-                            </DataTemplate>
-                        </controls:MasterDetailsView.NoSelectionContentTemplate>
-                    </controls:MasterDetailsView>-->
-
                     <!-- Filters -->
-                    <RelativePanel Margin="50,20,0,10" Name="ActionButtons">
+                    <RelativePanel Margin="30,20,0,10" Name="ActionButtons">
 
                         <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding RoundCommand}"  
                                 RelativePanel.AlignLeftWithPanel="True"
                                 RelativePanel.AlignVerticalCenterWithPanel="True" 
-                                RelativePanel.AlignTopWithPanel="True"
                                 x:Name="RoundButton"
                                 HorizontalContentAlignment="Left">
                             <usercontrols:IconedButton IconText ="&#xF0B4;"
-                                           LabelText="Round worktimes"/>
+                                           LabelText="Round all"/>
                         </Button>
 
                         <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding MergeCommand}"  
                                 RelativePanel.RightOf="RoundButton"
-                                RelativePanel.AlignVerticalCenterWith="RoundButton"
-                                x:Name="TrackButton"
+                                RelativePanel.AlignVerticalCenterWithPanel="True" 
+                                x:Name="MergeButton"
+                                HorizontalContentAlignment="Left">
+                            
+                            <usercontrols:IconedButton IconText ="&#xF168;"
+                                           LabelText="Merge on issues"/>
+                        </Button>
+                        
+                        
+
+                        <Button Width="150" Height="32" Padding="0" Margin="170,0,20,0" Command="{Binding RoundCommand}"  
+                                RelativePanel.RightOf="MergeButton"
+                                RelativePanel.AlignVerticalCenterWithPanel="True" 
+                                x:Name="RoundSelectedButton"
+                                HorizontalContentAlignment="Left">
+                            <usercontrols:IconedButton IconText ="&#xF0B4;"
+                                           LabelText="Round all"/>
+                        </Button>
+
+                        <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding MergeCommand}"  
+                                RelativePanel.RightOf="RoundSelectedButton"
+                                RelativePanel.AlignVerticalCenterWithPanel="True" 
+                                x:Name="TrackSelectedButton"
                                 HorizontalContentAlignment="Left">
                             <usercontrols:IconedButton IconText ="&#xF168;"
-                                           LabelText="Merge worktimes"/>
+                                           LabelText="Merge on issue"/>
                         </Button>
 
                         <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding EditWorktimeCommand}" 
-                                RelativePanel.RightOf="TrackButton"
-                                RelativePanel.AlignVerticalCenterWith="TrackButton"
+                                RelativePanel.RightOf="TrackSelectedButton"
+                                RelativePanel.AlignVerticalCenterWithPanel="True" 
                                 x:Name="EditButton"
                                 HorizontalContentAlignment="Left">
                             <usercontrols:IconedButton IconText ="&#xE70F;"
-                                           LabelText="Edit worktime"/>
+                                           LabelText="Edit"/>
                         </Button>
 
                     </RelativePanel>

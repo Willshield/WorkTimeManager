@@ -130,15 +130,18 @@ namespace WorkTimeManager.ViewModels
             }
         }
 
-        public void RoundWorktimes()
+        public async void RoundWorktimes()
         {
-
+            await workingTimeService.RoundDirtyWorktimes();
+            RefreshFromLocal();
         }
 
-        public void MergeWorktimes()
+        public async void MergeWorktimes()
         {
-
+            await workingTimeService.GroupMergeWorktimesWithDirty();
+            RefreshFromLocal();
         }
+
         public bool IsMergeable()
         {
             var checklist = EditList.OrderBy(e => e.IssueID).ToList();

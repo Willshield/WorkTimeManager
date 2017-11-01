@@ -45,7 +45,7 @@ namespace WorkTimeManager.Bll.Services
         {
             using (var db = new WorkTimeContext())
             {
-                return await db.WorkTimes.Include(wt => wt.Issue).Where(wt => wt.Dirty).Include(i => i.Issue.Project).OrderByDescending(i => i.StartTime).ToListAsync();
+                return await db.WorkTimes.Where(wt => wt.Dirty).Include(wt => wt.Issue).ThenInclude(i => i.Project).OrderByDescending(i => i.StartTime).ToListAsync();
             }
             
         }
@@ -102,7 +102,7 @@ namespace WorkTimeManager.Bll.Services
         {
             using (var db = new WorkTimeContext())
             {
-                var worktimes = await db.WorkTimes.Include(wt => wt.Issue).Where(wt => wt.Dirty).ToListAsync();
+                var worktimes = await db.WorkTimes.Where(wt => wt.Dirty).ToListAsync();
                 var settings = BllSettingsService.Instance;
                 var rounding = (Rounding)settings.Rounding;
                 foreach (var worktime in worktimes)
@@ -161,12 +161,42 @@ namespace WorkTimeManager.Bll.Services
 
         public async Task MergeWorktimeWithDirty(int workTimeId)
         {
-            throw new NotImplementedException();
+            using (var db = new WorkTimeContext())
+            {
+                var worktimes = await db.WorkTimes.Where(wt => wt.Dirty && wt.WorkTimeID == workTimeId).ToListAsync();
+                if (worktimes.Count <= 1)
+                    return;
+                MergeWorktimes(db, worktimes);
+
+                await db.SaveChangesAsync();
+            }
         }
 
         public async Task GroupMergeWorktimesWithDirty()
         {
-            throw new NotImplementedException();
+            using (var db = new WorkTimeContext())
+            {
+                var worktimes = await db.WorkTimes.Where(wt => wt.Dirty).ToListAsync();
+                if (worktimes.Count <= 1)
+                    return;
+
+                foreach (var issue in worktimes.GroupBy(wt => wt.IssueID))
+                {
+                    var issueWts = issue.ToList();
+                    if (issueWts.Count > 1)
+                        MergeWorktimes(db, issueWts);
+                }
+
+                await db.SaveChangesAsync();
+            }
+        }
+
+        private void MergeWorktimes(WorkTimeContext db, List<WorkTime> issueWts)
+        {
+            WorkTime merged = issueWts.First();
+            merged.Hours = issueWts.Sum(wt => wt.Hours);
+            merged.Comment = String.Join("; ", issueWts.Select(wt => wt.Comment));
+            db.WorkTimes.RemoveRange(issueWts.Where(wt=>wt.WorkTimeID != merged.WorkTimeID));
         }
     }
 }
