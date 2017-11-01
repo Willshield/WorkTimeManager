@@ -25,9 +25,10 @@ namespace WorkTimeManager.Views.UserControls
         {
             this.InitializeComponent();
         }
-        
+
         public string IconText { get; set; }
         public string LabelText { get; set; }
+        public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
 
     }
 }

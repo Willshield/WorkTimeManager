@@ -14,7 +14,7 @@
             <ColumnDefinition Width="32" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Text="{x:Bind IconText}" FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <TextBlock Grid.Column="0" Text="{x:Bind IconText}" FontFamily="{x:Bind Font}" FontSize="20" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" />
         <TextBlock Grid.Column="1" Text="{x:Bind LabelText}" FontSize="16" VerticalAlignment="Center"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Center" />
     </Grid>
 </UserControl>
