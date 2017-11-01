@@ -23,9 +23,13 @@ namespace WorkTimeManager.ViewModels
 
         public DelegateCommand PushCommand { get; }
         public DelegateCommand PullCommand { get; }
+        public DelegateCommand RoundAllCommand { get; }
+        public DelegateCommand MergeAllCommand { get; }
         public DelegateCommand RoundCommand { get; }
         public DelegateCommand MergeCommand { get; }
         public DelegateCommand EditWorktimeCommand { get; }
+        public DelegateCommand SaveChangesCommand { get; }
+        public DelegateCommand UndoChangesCommand { get; }
 
         public SyncPageViewModel()
         {
@@ -38,11 +42,17 @@ namespace WorkTimeManager.ViewModels
             {
                 workingTimeService = WorkingTimeService.Instance;
                 Syncer = DbSynchronizationService.Instance;
+
                 PushCommand = new DelegateCommand(Push);
                 PullCommand = new DelegateCommand(Pull);
-                RoundCommand = new DelegateCommand(RoundWorktimes);
-                MergeCommand = new DelegateCommand(MergeWorktimes, IsMergeable);
-                EditWorktimeCommand = new DelegateCommand(EditWorktime, CanEdit);
+                RoundAllCommand = new DelegateCommand(RoundWorktimes);
+                MergeAllCommand = new DelegateCommand(MergeWorktimes, IsAllMergeable);
+                RoundCommand = new DelegateCommand(RoundSelected, IsSelectionValid);
+                MergeCommand = new DelegateCommand(MergeSelected, IsSelectedMergeable);
+                EditWorktimeCommand = new DelegateCommand(EditWorktime, IsSelectionValid);
+                SaveChangesCommand = new DelegateCommand(SaveChanges, IsEdited);
+                UndoChangesCommand = new DelegateCommand(UndoChanges, IsEdited);
+
                 RefreshFromLocal();
             }
         }
@@ -55,6 +65,8 @@ namespace WorkTimeManager.ViewModels
                 DirtyList = new ObservableCollection<WorkTime>(dbList);
                 PivotEnabled = true;
                 EditList = new ObservableCollection<WorkTime>(dbList);
+                //EditList.Add( new WorkTime() { IssueID = 1, Dirty = true, Hours = 11, WorkTimeID = 1, Comment = "comment", StartTime = DateTime.Now,
+                //                               Issue = new Issue() { Subject = "subject", Project = new Project() { Name = "Project" } } } );
             }
             else
             {
@@ -63,6 +75,7 @@ namespace WorkTimeManager.ViewModels
                 PivotEnabled = false;
                 EditList = null;
             }
+            NotifyListChanged();
         }
 
         #region first pivot
@@ -109,10 +122,11 @@ namespace WorkTimeManager.ViewModels
         #region second pivot
 
         private bool pivotEnabled;
-        public bool PivotEnabled {
-                get { return pivotEnabled; }
-                set { Set(ref pivotEnabled, value); }
-            }
+        public bool PivotEnabled
+        {
+            get { return pivotEnabled; }
+            set { Set(ref pivotEnabled, value); }
+        }
 
         private ObservableCollection<WorkTime> editList;
         public ObservableCollection<WorkTime> EditList
@@ -122,12 +136,34 @@ namespace WorkTimeManager.ViewModels
         }
 
         private WorkTime editWorkTime;
-        public WorkTime EditWorkTime {
-            get { return editWorkTime;  }
-            set {
+        public WorkTime EditWorkTime
+        {
+            get { return editWorkTime; }
+            set
+            {
                 Set(ref editWorkTime, value);
-                //Raise executechanged events
+                NotifySelectionChanged();
             }
+        }
+
+        private void NotifySelectionChanged()
+        {
+            RoundCommand.RaiseCanExecuteChanged();
+            MergeCommand.RaiseCanExecuteChanged();
+            EditWorktimeCommand.RaiseCanExecuteChanged();
+        }
+
+        private void NotifyListChanged()
+        {
+            MergeAllCommand.RaiseCanExecuteChanged();
+            NotifyEditingChanged();
+            NotifySelectionChanged();
+        }
+
+        private void NotifyEditingChanged()
+        {
+            SaveChangesCommand.RaiseCanExecuteChanged();
+            UndoChangesCommand.RaiseCanExecuteChanged();
         }
 
         public async void RoundWorktimes()
@@ -142,27 +178,86 @@ namespace WorkTimeManager.ViewModels
             RefreshFromLocal();
         }
 
-        public bool IsMergeable()
+        public async void RoundSelected()
+        {
+            await workingTimeService.RoundWorktime(EditWorkTime.WorkTimeID);
+            RefreshFromLocal();
+        }
+
+        public async void MergeSelected()
+        {
+            await workingTimeService.MergeWorktimeWithDirty(EditWorkTime.IssueID);
+            RefreshFromLocal();
+        }
+
+        public void SaveChanges()
+        {
+            //Todo: Save
+            EditFinished();
+        }
+
+        public void UndoChanges()
+        {
+            EditFinished();
+        }
+
+        private void EditFinished()
+        {
+            RefreshFromLocal();
+            isEdited = false;
+            NotifyEditingChanged();
+        }
+
+        private bool isEdited = false;
+        public void CommentEdited()
+        {
+            isEdited = true;
+            NotifyEditingChanged();
+        }
+        public void WorkHourEdited()
+        {
+            //todo: calculate spare time
+            isEdited = true;
+            NotifyEditingChanged();
+        }
+
+
+        public bool IsEdited()
+        {
+            return isEdited;
+        }
+
+        public bool IsAllMergeable()
         {
             var checklist = EditList.OrderBy(e => e.IssueID).ToList();
-            for (int i = 0; i < checklist.Count-1; i++)
+            for (int i = 0; i < checklist.Count - 1; i++)
             {
-                if(checklist[i].IssueID == checklist[i + 1].IssueID)
+                if (checklist[i].IssueID == checklist[i + 1].IssueID)
                 {
                     return true;
                 }
             }
             return false;
         }
-        
+
+        public bool IsSelectedMergeable()
+        {
+            if (IsSelectionValid())
+            {
+                var checklist = EditList.Where(e => e.IssueID == EditWorkTime.IssueID).ToList();
+                return checklist.Count > 1;
+            }
+            return false;
+        }
+
 
         public void EditWorktime()
         {
             NavigationService.Navigate(typeof(Views.EditWorktimes), EditWorkTime.WorkTimeID);
         }
-        public bool CanEdit()
+        public bool IsSelectionValid()
         {
-            if(EditWorkTime == null || EditWorkTime.IssueID <= 0)
+            if (EditWorkTime == null || EditWorkTime.IssueID <= 0)
             {
                 return false;
             }

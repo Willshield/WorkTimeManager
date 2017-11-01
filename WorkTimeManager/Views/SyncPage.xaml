@@ -133,7 +133,7 @@
                     <!-- Filters -->
                     <RelativePanel Margin="30,20,0,10" Name="ActionButtons">
 
-                        <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding RoundCommand}"  
+                        <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding RoundAllCommand}"  
                                 RelativePanel.AlignLeftWithPanel="True"
                                 RelativePanel.AlignVerticalCenterWithPanel="True" 
                                 x:Name="RoundButton"
@@ -142,7 +142,7 @@
                                            LabelText="Round all"/>
                         </Button>
 
-                        <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding MergeCommand}"  
+                        <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding MergeAllCommand}"  
                                 RelativePanel.RightOf="RoundButton"
                                 RelativePanel.AlignVerticalCenterWithPanel="True" 
                                 x:Name="MergeButton"
