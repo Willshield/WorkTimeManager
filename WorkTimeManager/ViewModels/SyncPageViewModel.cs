@@ -18,6 +18,9 @@ namespace WorkTimeManager.ViewModels
 {
     class SyncPageViewModel : ViewModelBase
     {
+        public delegate void EditListRefreshedEvent();
+        public event EditListRefreshedEvent EditListRefreshed;
+
         IDbSynchronizationService Syncer;
         IWorkingTimeService workingTimeService;
 
@@ -40,6 +43,9 @@ namespace WorkTimeManager.ViewModels
             }
             else
             {
+                DirtyList = new ObservableCollection<WorkTime>();
+                EditList = new ObservableCollection<WorkTime>();
+
                 workingTimeService = WorkingTimeService.Instance;
                 Syncer = DbSynchronizationService.Instance;
 
@@ -63,10 +69,10 @@ namespace WorkTimeManager.ViewModels
             if (dbList.Count != 0)
             {
                 DirtyList = new ObservableCollection<WorkTime>(dbList);
-                PivotEnabled = true;
                 EditList = new ObservableCollection<WorkTime>(dbList);
-                //EditList.Add( new WorkTime() { IssueID = 1, Dirty = true, Hours = 11, WorkTimeID = 1, Comment = "comment", StartTime = DateTime.Now,
-                //                               Issue = new Issue() { Subject = "subject", Project = new Project() { Name = "Project" } } } );
+                PivotEnabled = true;
+                EditListRefreshed?.Invoke();
+                NotifyListChanged();
             }
             else
             {
@@ -75,7 +81,7 @@ namespace WorkTimeManager.ViewModels
                 PivotEnabled = false;
                 EditList = null;
             }
-            NotifyListChanged();
+                        
         }
 
         #region first pivot
@@ -203,9 +209,8 @@ namespace WorkTimeManager.ViewModels
 
         private void EditFinished()
         {
-            RefreshFromLocal();
             isEdited = false;
-            NotifyEditingChanged();
+            RefreshFromLocal();
         }
 
         private bool isEdited = false;

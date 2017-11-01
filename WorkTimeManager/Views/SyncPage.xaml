@@ -133,52 +133,72 @@
                     <!-- Filters -->
                     <RelativePanel Margin="30,20,0,10" Name="ActionButtons">
 
-                        <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding RoundAllCommand}"  
+                        <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding RoundAllCommand}"  
                                 RelativePanel.AlignLeftWithPanel="True"
                                 RelativePanel.AlignVerticalCenterWithPanel="True" 
                                 x:Name="RoundButton"
                                 HorizontalContentAlignment="Left">
-                            <usercontrols:IconedButton IconText ="&#xF0B4;"
-                                           LabelText="Round all"/>
+                            <usercontrols:IconedButton IconText ="&#x2248;"
+                                                       LabelText="Round all"
+                                                       Font="Times New Roman"/>
                         </Button>
 
-                        <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding MergeAllCommand}"  
+                        <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding MergeAllCommand}"  
                                 RelativePanel.RightOf="RoundButton"
                                 RelativePanel.AlignVerticalCenterWithPanel="True" 
                                 x:Name="MergeButton"
                                 HorizontalContentAlignment="Left">
-                            
-                            <usercontrols:IconedButton IconText ="&#xF168;"
-                                           LabelText="Merge on issues"/>
-                        </Button>
-                        
-                        
 
-                        <Button Width="150" Height="32" Padding="0" Margin="170,0,20,0" Command="{Binding RoundCommand}"  
+                            <usercontrols:IconedButton IconText ="&#xF168;"
+                                           LabelText="Merge issues"/>
+                        </Button>
+
+
+
+                        <Button Width="150" Height="32" Padding="0" Margin="50,0,5,0" Command="{Binding RoundCommand}"  
                                 RelativePanel.RightOf="MergeButton"
                                 RelativePanel.AlignVerticalCenterWithPanel="True" 
-                                x:Name="RoundSelectedButton"
-                                HorizontalContentAlignment="Left">
-                            <usercontrols:IconedButton IconText ="&#xF0B4;"
-                                           LabelText="Round all"/>
+                                x:Name="RoundSelectedButton">
+                            <usercontrols:IconedButton IconText ="&#x2248;"
+                                                       LabelText="Round all"
+                                                       Font="Round selected"/>                            
                         </Button>
 
-                        <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding MergeCommand}"  
+                        <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding MergeCommand}"  
                                 RelativePanel.RightOf="RoundSelectedButton"
                                 RelativePanel.AlignVerticalCenterWithPanel="True" 
-                                x:Name="TrackSelectedButton"
-                                HorizontalContentAlignment="Left">
+                                x:Name="MergeSelectedButton">
+
                             <usercontrols:IconedButton IconText ="&#xF168;"
                                            LabelText="Merge on issue"/>
                         </Button>
 
-                        <Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding EditWorktimeCommand}" 
-                                RelativePanel.RightOf="TrackSelectedButton"
+
+                        <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding EditWorktimeCommand}" 
+                                RelativePanel.RightOf="MergeSelectedButton"
                                 RelativePanel.AlignVerticalCenterWithPanel="True" 
                                 x:Name="EditButton"
                                 HorizontalContentAlignment="Left">
                             <usercontrols:IconedButton IconText ="&#xE70F;"
-                                           LabelText="Edit"/>
+                                           LabelText="Edit selected"/>
+                        </Button>
+
+                        <Button Width="150" Height="32" Padding="0" Margin="50,0,5,0" Command="{Binding SaveChangesCommand}" 
+                                RelativePanel.RightOf="EditButton"
+                                RelativePanel.AlignVerticalCenterWithPanel="True" 
+                                x:Name="SaveButton"
+                                HorizontalContentAlignment="Left">
+                            <usercontrols:IconedButton IconText ="&#xE74E;"
+                                           LabelText="Save changes"/>
+                        </Button>
+
+                        <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding UndoChangesCommand}" 
+                                RelativePanel.RightOf="SaveButton"
+                                RelativePanel.AlignVerticalCenterWithPanel="True" 
+                                x:Name="UndoButton"
+                                HorizontalContentAlignment="Left">
+                            <usercontrols:IconedButton IconText ="&#xE7A7;"
+                                           LabelText="Undo changes"/>
                         </Button>
 
                     </RelativePanel>
@@ -205,7 +225,8 @@
                         <TextBlock Name="HoursText" Text="Hours worked" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
                                FontSize="20" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
                         <TextBlock Name="CommentText" Text="Comment" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
-                               FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                               FontSize="20" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" 
+                                   />
                     </Grid>
 
                     <ListView Margin="20,0" SelectionMode="Single" VerticalAlignment="Top" 
@@ -214,7 +235,8 @@
                               Name="WorkTimeEditor"  
                               RelativePanel.Below="TableHeader"
                               RelativePanel.AlignLeftWithPanel="True" 
-                              RelativePanel.AlignRightWithPanel="True">
+                              RelativePanel.AlignRightWithPanel="True"
+                              SelectionChanged="WorkTimeEditor_SelectionChanged" >
 
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:WorkTime" >
@@ -247,14 +269,16 @@
                                              HorizontalAlignment="Stretch"
                                              FontSize="15" 
                                              Grid.Column="3" 
-                                             Height="20" Margin="5,0"/>
+                                             Height="20" Margin="5,0"
+                                             KeyUp="WorkhourChanged"/>
                                     <TextBox Text="{x:Bind Comment, Mode=TwoWay}"     
                                              Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     
                                              VerticalAlignment="Center"
                                              HorizontalAlignment="Stretch"
                                              FontSize="15" 
                                              Grid.Column="4"
-                                             Height="20" Margin="5,0" MinWidth="450"/>
+                                             Height="20" Margin="5,0" MinWidth="450"
+                                             KeyUp="CommentChanged"/>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
