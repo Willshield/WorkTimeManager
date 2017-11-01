@@ -101,6 +101,7 @@
     <Compile Include="DataValueConverters\DateFormatConverter.cs" />
     <Compile Include="DataValueConverters\DoubleFormatConverter.cs" />
     <Compile Include="DataValueConverters\DoubleOrNoneFormatConverter.cs" />
+    <Compile Include="DataValueConverters\DoubleToStringValidatorConverter.cs" />
     <Compile Include="DataValueConverters\IssueIdToOpacityConverter.cs" />
     <Compile Include="Models\EditableWorktime.cs" />
     <Compile Include="Models\IssueTime.cs" />

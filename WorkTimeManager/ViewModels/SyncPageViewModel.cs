@@ -23,6 +23,7 @@ namespace WorkTimeManager.ViewModels
 
         IDbSynchronizationService Syncer;
         IWorkingTimeService workingTimeService;
+        PopupService popupService = new PopupService();
 
         public DelegateCommand PushCommand { get; }
         public DelegateCommand PullCommand { get; }
@@ -196,15 +197,27 @@ namespace WorkTimeManager.ViewModels
             RefreshFromLocal();
         }
 
-        public void SaveChanges()
+        public async void SaveChanges()
         {
-            workingTimeService.UpdateWorktimes(EditList);
+            if(EditList.Any(wt => wt.Hours == 0))
+            {
+                var popup = popupService.GetDefaultNotification("There's some invalid edited workingtime. Use only numbers '.' and the wokingtime can't be zero!", "Invalid edited item(s)");
+                await popup.ShowAsync();
+                return;
+            }
 
+            await workingTimeService.UpdateWorktimes(EditList);
             EditFinished();
         }
 
-        public void UndoChanges()
+        public async void UndoChanges()
         {
+            var popup = popupService.GetDefaultAskDialog("All changes will be lost. Are you sure?", "Undo confirmation", false);
+            var cmd = await popup.ShowAsync();
+            if (cmd.Label == PopupService.NO)
+            {
+                return;
+            }
             EditFinished();
         }
 

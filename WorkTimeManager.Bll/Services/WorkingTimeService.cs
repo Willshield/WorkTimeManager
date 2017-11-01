@@ -119,40 +119,40 @@ namespace WorkTimeManager.Bll.Services
             {
                 case Rounding.Round001:
                     var dr001 = Math.Round(d, 2);
-                    if (onlyUp && dr001 < d)
+                    if ((onlyUp && dr001 < d) || dr001 == 0.0)
                         dr001 += 0.01;
                     return dr001;
 
                 case Rounding.Round005:
                     var dr005 = Math.Round(d * 2.0, 1);
                     dr005 /= 2.0;
-                    if (onlyUp && dr005 < d)
+                    if ((onlyUp && dr005 < d) || dr005 == 0.0)
                         dr005 += 0.05;
                     return dr005;
 
                 case Rounding.Round010:
                     var dr010 = Math.Round(d, 1);
-                    if (onlyUp && dr010 < d)
+                    if ((onlyUp && dr010 < d) || dr010 == 0.0)
                         dr010 += 0.10;
                     return dr010;
 
                 case Rounding.Round025:
                     var dr025 = Math.Round(d * 4.0, 0);
                     dr025 /= 4.0;
-                    if (onlyUp && dr025 < d)
+                    if ((onlyUp && dr025 < d) || dr025 == 0.0)
                         dr025 += 0.25;
                     return dr025;
 
                 case Rounding.Round050:
                     var dr050 = Math.Round(d * 2.0, 0);
                     dr050 /= 2.0;
-                    if (onlyUp && dr050 < d)
+                    if ((onlyUp && dr050 < d) || dr050 == 0.0)
                         dr050 += 0.50;
                     return dr050;
 
                 case Rounding.Round100:
                     var dr100 = Math.Round(d, 0);
-                    if (onlyUp && dr100 < d)
+                    if ((onlyUp && dr100 < d) || dr100 == 0.0)
                         dr100 += 1.00;
                     return dr100;
             }

@@ -18,6 +18,7 @@
     <Page.Resources>
         <conv:DateFormatConverter x:Name="DateFormatConverter" x:Key="DateFormatConverter"/>
         <conv:DoubleOrNoneFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
+        <conv:DoubleToStringValidatorConverter x:Name="DoubleToStringValidatorConverter" x:Key="DoubleToStringValidatorConverter"/>
     </Page.Resources>
 
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -263,7 +264,7 @@
                                                VerticalAlignment="Center" 
                                                FontSize="12" 
                                                Grid.Column="2"/>
-                                    <TextBox Text="{x:Bind Hours, Mode=TwoWay}" 
+                                    <TextBox Text="{x:Bind Hours,Converter={StaticResource DoubleToStringValidatorConverter}, Mode=TwoWay}" 
                                              Foreground="{ThemeResource ApplicationForegroundThemeBrush}"  
                                              VerticalAlignment="Center" 
                                              HorizontalAlignment="Stretch"
