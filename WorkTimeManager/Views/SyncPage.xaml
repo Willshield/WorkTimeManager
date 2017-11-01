@@ -160,8 +160,8 @@
                                 RelativePanel.AlignVerticalCenterWithPanel="True" 
                                 x:Name="RoundSelectedButton">
                             <usercontrols:IconedButton IconText ="&#x2248;"
-                                                       LabelText="Round all"
-                                                       Font="Round selected"/>                            
+                                                       LabelText="Round selected"
+                                                       Font="Times New Roman"/>          
                         </Button>
 
                         <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding MergeCommand}"  

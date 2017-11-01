@@ -25,5 +25,9 @@ namespace WorkTimeManager.Bll.Interfaces
         Task MergeWorktimeWithDirty(int issueID);
 
         Task GroupMergeWorktimesWithDirty();
+
+        Task UpdateWorktime(WorkTime workTime);
+
+        Task UpdateWorktimes(IEnumerable<WorkTime> workTimes);
     }
 }

@@ -198,7 +198,8 @@ namespace WorkTimeManager.ViewModels
 
         public void SaveChanges()
         {
-            //Todo: Save
+            workingTimeService.UpdateWorktimes(EditList);
+
             EditFinished();
         }
 

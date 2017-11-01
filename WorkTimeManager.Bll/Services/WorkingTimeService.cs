@@ -198,5 +198,23 @@ namespace WorkTimeManager.Bll.Services
             merged.Comment = String.Join("; ", issueWts.Select(wt => wt.Comment));
             db.WorkTimes.RemoveRange(issueWts.Where(wt => wt.WorkTimeID != merged.WorkTimeID));
         }
+
+        public async Task UpdateWorktime(WorkTime workTime)
+        {
+            using (var db = new WorkTimeContext())
+            {
+                db.Update(workTime);
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateWorktimes(IEnumerable<WorkTime> workTimes)
+        {
+            using (var db = new WorkTimeContext())
+            {
+                db.UpdateRange(workTimes);
+                await db.SaveChangesAsync();
+            }
+        }
     }
 }

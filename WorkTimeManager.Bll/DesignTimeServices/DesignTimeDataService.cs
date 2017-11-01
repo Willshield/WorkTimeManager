@@ -143,5 +143,15 @@ namespace WorkTimeManager.Bll.DesignTimeServices
         {
             throw new NotImplementedException();
         }
+
+        public Task UpdateWorktime(WorkTime workTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateWorktimes(IEnumerable<WorkTime> workTimes)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
