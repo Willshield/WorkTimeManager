@@ -41,8 +41,8 @@ namespace WorkTimeManager.ViewModels
                 PushCommand = new DelegateCommand(Push);
                 PullCommand = new DelegateCommand(Pull);
                 RoundCommand = new DelegateCommand(RoundWorktimes);
-                MergeCommand = new DelegateCommand(MergeWorktimes);
-                EditWorktimeCommand = new DelegateCommand(EditWorktime);
+                MergeCommand = new DelegateCommand(MergeWorktimes, IsMergeable);
+                EditWorktimeCommand = new DelegateCommand(EditWorktime, CanEdit);
                 RefreshFromLocal();
             }
         }
@@ -139,10 +139,31 @@ namespace WorkTimeManager.ViewModels
         {
 
         }
+        public bool IsMergeable()
+        {
+            var checklist = EditList.OrderBy(e => e.IssueID).ToList();
+            for (int i = 0; i < checklist.Count-1; i++)
+            {
+                if(checklist[i].IssueID == checklist[i + 1].IssueID)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
 
         public void EditWorktime()
         {
             NavigationService.Navigate(typeof(Views.EditWorktimes), EditWorkTime.WorkTimeID);
+        }
+        public bool CanEdit()
+        {
+            if(EditWorkTime == null || EditWorkTime.IssueID <= 0)
+            {
+                return false;
+            }
+            return true;
         }
 
 

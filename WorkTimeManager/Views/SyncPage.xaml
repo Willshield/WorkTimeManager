@@ -23,11 +23,11 @@
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <usercontrols:PageHeader x:Name="pageHeader"
-                             RelativePanel.AlignLeftWithPanel="True"
-                             RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True"
-                             Frame="{x:Bind Frame}" 
-                             Title="Synchronization"/>
+                                 RelativePanel.AlignLeftWithPanel="True"
+                                 RelativePanel.AlignRightWithPanel="True"
+                                 RelativePanel.AlignTopWithPanel="True"
+                                 Frame="{x:Bind Frame}" 
+                                 Title="Synchronization"/>
 
         <!--  content  -->
         <Pivot x:Name="MyPivot"               

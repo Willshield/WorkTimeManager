@@ -57,11 +57,12 @@
                     <TextBlock FontSize="32" Text="Rounding" Margin="0,20,0,10" />
                     <TextBlock Text="Rounding to" Style="{ThemeResource BaseTextBlockStyle}"/>
                     <StackPanel Orientation="Vertical">
-                        <RadioButton Content="1 minute" Tag="1"    IsChecked="{Binding SettingsPartViewModel.Is1, Mode=TwoWay}"/>
-                        <RadioButton Content="5 minutes" Tag="5"   IsChecked="{Binding SettingsPartViewModel.Is5, Mode=TwoWay}"/>
-                        <RadioButton Content="15 minutes" Tag="15" IsChecked="{Binding SettingsPartViewModel.Is15, Mode=TwoWay}"/>
-                        <RadioButton Content="30 minutes" Tag="30" IsChecked="{Binding SettingsPartViewModel.Is30, Mode=TwoWay}"/>
-                        <RadioButton Content="60 minutes" Tag="60" IsChecked="{Binding SettingsPartViewModel.Is60, Mode=TwoWay}"/>
+                        <RadioButton Content="0.01 Hour" Tag="0.01" IsChecked="{Binding SettingsPartViewModel.Is001, Mode=TwoWay}"/>
+                        <RadioButton Content="0.05 Hour" Tag="0.05" IsChecked="{Binding SettingsPartViewModel.Is005, Mode=TwoWay}"/>
+                        <RadioButton Content="0.10 Hour" Tag="0.10" IsChecked="{Binding SettingsPartViewModel.Is010, Mode=TwoWay}"/>
+                        <RadioButton Content="0.25 Hour" Tag="0.25" IsChecked="{Binding SettingsPartViewModel.Is025, Mode=TwoWay}"/>
+                        <RadioButton Content="0.50 Hour" Tag="0.50" IsChecked="{Binding SettingsPartViewModel.Is050, Mode=TwoWay}"/>
+                        <RadioButton Content="1.00 Hour" Tag="1.00" IsChecked="{Binding SettingsPartViewModel.Is100, Mode=TwoWay}"/>
                     </StackPanel>
                     <ToggleSwitch x:Name="AlwaysUpSwitch" IsOn="{Binding SettingsPartViewModel.AlwaysUp , Mode=TwoWay}" Header="Always round worktime up" Margin="0,10,0,0" />
                 </StackPanel>

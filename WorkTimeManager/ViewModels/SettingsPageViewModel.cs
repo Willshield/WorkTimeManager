@@ -5,6 +5,7 @@ using Template10.Mvvm;
 using Template10.Services.SettingsService;
 using Windows.UI.Xaml;
 using WorkTimeManager.Bll.Services;
+using WorkTimeManager.Model.Enums;
 using WorkTimeManager.Services.SettingsServices;
 
 namespace WorkTimeManager.ViewModels
@@ -20,11 +21,12 @@ namespace WorkTimeManager.ViewModels
 
         UISettingsService _UIsettings;
         BllSettingsService _Bllsettings;
-        public bool Is1 { get { return _Bllsettings.Rounding == 1; } set { if (value) _Bllsettings.Rounding = 1; } }
-        public bool Is5 { get { return _Bllsettings.Rounding == 5; } set { if (value) _Bllsettings.Rounding = 5; } }
-        public bool Is15 { get { return _Bllsettings.Rounding == 15; } set { if (value) _Bllsettings.Rounding = 15; } }
-        public bool Is30 { get { return _Bllsettings.Rounding == 30; } set { if (value) _Bllsettings.Rounding = 30; } }
-        public bool Is60 { get { return _Bllsettings.Rounding == 60; } set { if (value) _Bllsettings.Rounding = 60; } }
+        public bool Is001 { get { return _Bllsettings.Rounding == Rounding.Round001.GetHashCode(); } set { if (value) _Bllsettings.Rounding = Rounding.Round001.GetHashCode(); } }
+        public bool Is005 { get { return _Bllsettings.Rounding == Rounding.Round005.GetHashCode(); } set { if (value) _Bllsettings.Rounding = Rounding.Round005.GetHashCode(); } }
+        public bool Is010 { get { return _Bllsettings.Rounding == Rounding.Round010.GetHashCode(); } set { if (value) _Bllsettings.Rounding = Rounding.Round010.GetHashCode(); } }
+        public bool Is025 { get { return _Bllsettings.Rounding == Rounding.Round025.GetHashCode(); } set { if (value) _Bllsettings.Rounding = Rounding.Round025.GetHashCode(); } }
+        public bool Is050 { get { return _Bllsettings.Rounding == Rounding.Round050.GetHashCode(); } set { if (value) _Bllsettings.Rounding = Rounding.Round050.GetHashCode(); } }
+        public bool Is100 { get { return _Bllsettings.Rounding == Rounding.Round100.GetHashCode(); } set { if (value) _Bllsettings.Rounding = Rounding.Round100.GetHashCode(); } }
 
         public bool AutoTrack { get { return _Bllsettings.AutoTrack; } set { _Bllsettings.AutoTrack = value; } }
         public bool AskIfStop { get { return _Bllsettings.AskIfStop; } set { _Bllsettings.AskIfStop = value; } }
