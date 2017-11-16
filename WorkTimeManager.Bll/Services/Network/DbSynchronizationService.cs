@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Interfaces.Network;
 using WorkTimeManager.CommonInterfaces;
 using WorkTimeManager.Dal.Context;
@@ -15,7 +16,7 @@ using WorkTimeManager.Redmine.Service;
 
 namespace WorkTimeManager.Bll.Services.Network
 {
-    public class DbSynchronizationService : IDbSynchronizationService
+    public class DbSynchronizationService : IDbSynchronizationService, IDbClearService
     {
         private static INetworkDataService NetworkDataService;
         private static DbSynchronizationService instance = null;
@@ -189,5 +190,15 @@ namespace WorkTimeManager.Bll.Services.Network
             }
         }
 
+        public async Task ClearDb()
+        {
+            using (var db = new WorkTimeContext())
+            {
+                db.WorkTimes.RemoveRange(db.WorkTimes);
+                db.Issues.RemoveRange(db.Issues);
+                db.Projects.RemoveRange(db.Projects);
+                await db.SaveChangesAsync();
+            }
+        }
     }
 }

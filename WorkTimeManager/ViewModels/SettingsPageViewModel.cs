@@ -4,7 +4,10 @@ using System.Threading.Tasks;
 using Template10.Mvvm;
 using Template10.Services.SettingsService;
 using Windows.UI.Xaml;
+using WorkTimeManager.Bll.Interfaces;
+using WorkTimeManager.Bll.Interfaces.Network;
 using WorkTimeManager.Bll.Services;
+using WorkTimeManager.Bll.Services.Network;
 using WorkTimeManager.Model.Enums;
 using WorkTimeManager.Services.SettingsServices;
 
@@ -38,11 +41,31 @@ namespace WorkTimeManager.ViewModels
         public bool AskIfStop { get { return _Bllsettings.AskIfStop; } set { _Bllsettings.AskIfStop = value; } }
         public bool AlwaysUp { get { return _Bllsettings.AlwaysUp; } set { _Bllsettings.AlwaysUp = value; } }
 
-
+        private readonly IDbClearService DbService;
         public DelegateCommand ResetSpareTimeCommand { get; }
+        private bool _canReset = true;
+        public bool CanReset()
+        {
+            return _canReset;
+        }
         public void ResetSpare()
         {
             _Bllsettings.SpareTime = 0.0;
+            _canReset = false;
+            ResetSpareTimeCommand.RaiseCanExecuteChanged();
+        }
+
+        public DelegateCommand ClearDbCommand { get; }
+        private bool _canClear = true;
+        public bool CanClear()
+        {
+            return _canClear;
+        }
+        public void ClearDb()
+        {
+            DbService.ClearDb();
+            _canClear = false;
+            ClearDbCommand.RaiseCanExecuteChanged();
         }
 
         public SettingsPartViewModel()
@@ -53,9 +76,11 @@ namespace WorkTimeManager.ViewModels
             }
             else
             {
+                DbService = DbSynchronizationService.Instance;
                 _UIsettings = UISettingsService.Instance;
                 _Bllsettings = BllSettingsService.Instance;
-                ResetSpareTimeCommand = new DelegateCommand(ResetSpare);
+                ResetSpareTimeCommand = new DelegateCommand(ResetSpare, CanReset);
+                ClearDbCommand = new DelegateCommand(ClearDb, CanClear);
             }
         }
 

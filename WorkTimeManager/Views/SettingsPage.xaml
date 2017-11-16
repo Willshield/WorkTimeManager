@@ -74,11 +74,19 @@
                         <RadioButton Content="0.50 Hour" Tag="0.50" IsChecked="{Binding SettingsPartViewModel.Is050, Mode=TwoWay}"/>
                         <RadioButton Content="1.00 Hour" Tag="1.00" IsChecked="{Binding SettingsPartViewModel.Is100, Mode=TwoWay}"/>
                     </StackPanel>
-                
-                    <ToggleSwitch x:Name="AlwaysUpSwitch" IsOn="{Binding SettingsPartViewModel.AlwaysUp , Mode=TwoWay}" Header="Always round worktime up" Margin="0,10,0,0" 
-                               RelativePanel.Below="RoundingSelector"/>
 
-                    
+                    <Button Width="155" Height="32" Padding="0" Margin="0,20,0,10"  Command="{Binding SettingsPartViewModel.ResetSpareTimeCommand}" 
+                                RelativePanel.Below="RoundingSelector"
+                                RelativePanel.AlignLeftWith="RoundingSelector"
+                                x:Name="ResetSpare"
+                                HorizontalContentAlignment="Left">
+                        <usercontrols:IconedButton IconText ="&#xE94F;"
+                                           LabelText="Reset Sparetime"/>
+                    </Button>
+
+                    <ToggleSwitch x:Name="AlwaysUpSwitch" IsOn="{Binding SettingsPartViewModel.AlwaysUp , Mode=TwoWay}" Header="Always round worktime up" Margin="0,10,0,0" 
+                               RelativePanel.Below="ResetSpare"/>
+
                     <TextBlock FontSize="32" Text="Data loading" Margin="0,20,0,10" 
                                RelativePanel.RightOf="RoundingLabel"
                                RelativePanel.AlignVerticalCenterWith="RoundingLabel"
@@ -91,23 +99,23 @@
                                RelativePanel.Below="LoadingLabel2"
                                RelativePanel.AlignLeftWith="LoadingLabel2"
                                Name="LoadingSelector">
-                        <RadioButton Content="Last week"        Tag="0.01" IsChecked="{Binding SettingsPartViewModel.IsLastWeek, Mode=TwoWay}"/>
-                        <RadioButton Content="Last two weeks"   Tag="0.05" IsChecked="{Binding SettingsPartViewModel.IsLastTwoWeek, Mode=TwoWay}"/>
-                        <RadioButton Content="Last month"       Tag="0.10" IsChecked="{Binding SettingsPartViewModel.IsLastMonth, Mode=TwoWay}"/>
-                        <RadioButton Content="Last two month"   Tag="0.25" IsChecked="{Binding SettingsPartViewModel.IsLastTwoMonth, Mode=TwoWay}"/>
-                        <RadioButton Content="Last year"        Tag="0.50" IsChecked="{Binding SettingsPartViewModel.IsLastYear, Mode=TwoWay}"/>
-                        <RadioButton Content="All"              Tag="1.00" IsChecked="{Binding SettingsPartViewModel.IsAll, Mode=TwoWay}"/>
+                        <RadioButton Content="Last week"        Tag="IsLastWeek" IsChecked="{Binding SettingsPartViewModel.IsLastWeek, Mode=TwoWay}"/>
+                        <RadioButton Content="Last two weeks"   Tag="IsLastTwoWeek" IsChecked="{Binding SettingsPartViewModel.IsLastTwoWeek, Mode=TwoWay}"/>
+                        <RadioButton Content="Last month"       Tag="IsLastMonth" IsChecked="{Binding SettingsPartViewModel.IsLastMonth, Mode=TwoWay}"/>
+                        <RadioButton Content="Last two month"   Tag="IsLastTwoMonth" IsChecked="{Binding SettingsPartViewModel.IsLastTwoMonth, Mode=TwoWay}"/>
+                        <RadioButton Content="Last year"        Tag="IsLastYear" IsChecked="{Binding SettingsPartViewModel.IsLastYear, Mode=TwoWay}"/>
+                        <RadioButton Content="All"              Tag="IsAll" IsChecked="{Binding SettingsPartViewModel.IsAll, Mode=TwoWay}"/>
                     </StackPanel>
 
-                    <Button Width="155" Height="32" Padding="0" Margin="0,20,0,10"  Command="{Binding SettingsPartViewModel.ResetSpareTimeCommand}" 
-                                RelativePanel.Below="LoadingSelector"
+                    <Button Width="155" Height="32" Padding="0" Margin="0,20,0,10"  Command="{Binding SettingsPartViewModel.ClearDbCommand}" 
+                                RelativePanel.AlignVerticalCenterWith="ResetSpare"
                                 RelativePanel.AlignLeftWith="LoadingSelector"
-                                x:Name="EditButton"
+                                x:Name="ClearDb"
                                 HorizontalContentAlignment="Left">
-                        <usercontrols:IconedButton IconText ="&#xE94F;"
-                                           LabelText="Reset Sparetime"/>
+                        <usercontrols:IconedButton IconText ="&#xE74D;"
+                                           LabelText="Clean local DB"/>
                     </Button>
-
+                    
                 </RelativePanel>
             </PivotItem>
 

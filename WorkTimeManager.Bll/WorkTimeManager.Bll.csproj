@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="DesignTimeServices\DesignTimeDataService.cs" />
     <Compile Include="Factories\PopupService.cs" />
+    <Compile Include="Interfaces\IDbClearService.cs" />
     <Compile Include="Interfaces\Network\IDbSynchronizationService.cs" />
     <Compile Include="Interfaces\IIssueService.cs" />
     <Compile Include="Interfaces\IWorkingTimeService.cs" />

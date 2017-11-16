@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -13,12 +14,20 @@ namespace WorkTimeManager.Views
             InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Disabled;
             _SerializationService = Template10.Services.SerializationService.SerializationService.Json;
+
+            ViewModel.SettingsPartViewModel.ClearDbCommand.CanExecuteChanged += ClearDbDisabled;
+            ViewModel.SettingsPartViewModel.ResetSpareTimeCommand.CanExecuteChanged += ResetSpareDisabled;
         }
 
-        //protected override void OnNavigatedTo(NavigationEventArgs e)
-        //{
-        //    var index = int.Parse(_SerializationService.Deserialize(e.Parameter?.ToString()).ToString());
-        //    MyPivot.SelectedIndex = index;
-        //}
+        private void ClearDbDisabled(object sender, EventArgs e)
+        {
+            ClearDb.Opacity = 0.6;
+        }
+
+        private void ResetSpareDisabled(object sender, EventArgs e)
+        {
+            ResetSpare.Opacity = 0.6;
+        }
+
     }
 }
