@@ -35,8 +35,7 @@
                RelativePanel.AlignLeftWithPanel="True"
                RelativePanel.AlignRightWithPanel="True"
                RelativePanel.Below="pageHeader"
-               RelativePanel.Above="footerBar"
-               IsHitTestVisible="{Binding PivotEnabled, Mode=TwoWay}">
+               RelativePanel.Above="footerBar">
 
             <!--  Unsynchronized worktime list   -->
             <PivotItem Header="Unsynchronized Worktimes">
@@ -131,8 +130,13 @@
 
                 <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+                    <StackPanel Orientation="Horizontal" Margin="50,0,5,0" VerticalAlignment="Center" Name="SpareTimeLabel">
+                        <TextBlock Text="Spare time:" Margin="8" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding SpareTime, Converter={StaticResource DoubleFormatConverter}, Mode=TwoWay}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" MaxLines="1" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
                     <!-- Filters -->
-                    <RelativePanel Margin="30,20,0,10" Name="ActionButtons">
+                    <RelativePanel Margin="30,20,0,10" Name="ActionButtons" RelativePanel.Below="SpareTimeLabel">
 
                         <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding RoundAllCommand}"  
                                 RelativePanel.AlignLeftWithPanel="True"

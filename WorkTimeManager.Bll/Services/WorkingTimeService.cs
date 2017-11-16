@@ -92,25 +92,28 @@ namespace WorkTimeManager.Bll.Services
             {
                 var worktime = await db.WorkTimes.Where(wt => wt.WorkTimeID == workTimeId).SingleAsync();
                 var settings = BllSettingsService.Instance;
-                var rounding = (Rounding)settings.Rounding;
+                var rounding = (Rounding)settings.RoundingTo;
                 worktime.Hours = round(rounding, worktime.Hours, settings.AlwaysUp);
                 await db.SaveChangesAsync();
             }
         }
 
+        private double SpareTimeChange = 0.0;
         public async Task RoundDirtyWorktimes()
         {
             using (var db = new WorkTimeContext())
             {
                 var worktimes = await db.WorkTimes.Where(wt => wt.Dirty).ToListAsync();
                 var settings = BllSettingsService.Instance;
-                var rounding = (Rounding)settings.Rounding;
+                var rounding = (Rounding)settings.RoundingTo;
                 foreach (var worktime in worktimes)
                 {
                     worktime.Hours = round(rounding, worktime.Hours, settings.AlwaysUp);
                 }
                 await db.SaveChangesAsync();
+                BllSettingsService.Instance.SpareTime += SpareTimeChange;
             }
+            SpareTimeChange = 0.0;
         }
 
         private double round(Rounding r, double d, bool onlyUp)
@@ -121,6 +124,8 @@ namespace WorkTimeManager.Bll.Services
                     var dr001 = Math.Round(d, 2);
                     if ((onlyUp && dr001 < d) || dr001 == 0.0)
                         dr001 += 0.01;
+
+                    SpareTimeChange += d - dr001;
                     return dr001;
 
                 case Rounding.Round005:
@@ -128,12 +133,16 @@ namespace WorkTimeManager.Bll.Services
                     dr005 /= 2.0;
                     if ((onlyUp && dr005 < d) || dr005 == 0.0)
                         dr005 += 0.05;
+
+                    SpareTimeChange += d - dr005;
                     return dr005;
 
                 case Rounding.Round010:
                     var dr010 = Math.Round(d, 1);
                     if ((onlyUp && dr010 < d) || dr010 == 0.0)
                         dr010 += 0.10;
+
+                    SpareTimeChange += d - dr010;
                     return dr010;
 
                 case Rounding.Round025:
@@ -141,6 +150,8 @@ namespace WorkTimeManager.Bll.Services
                     dr025 /= 4.0;
                     if ((onlyUp && dr025 < d) || dr025 == 0.0)
                         dr025 += 0.25;
+
+                    SpareTimeChange += d - dr025;
                     return dr025;
 
                 case Rounding.Round050:
@@ -148,12 +159,16 @@ namespace WorkTimeManager.Bll.Services
                     dr050 /= 2.0;
                     if ((onlyUp && dr050 < d) || dr050 == 0.0)
                         dr050 += 0.50;
+
+                    SpareTimeChange += d - dr050;
                     return dr050;
 
                 case Rounding.Round100:
                     var dr100 = Math.Round(d, 0);
                     if ((onlyUp && dr100 < d) || dr100 == 0.0)
                         dr100 += 1.00;
+
+                    SpareTimeChange += d - dr100;
                     return dr100;
             }
             return 0;
@@ -203,6 +218,10 @@ namespace WorkTimeManager.Bll.Services
         {
             using (var db = new WorkTimeContext())
             {
+                //todo: finomítani!
+                var originalHours = await db.WorkTimes.Where(wt => wt.WorkTimeID == workTime.WorkTimeID).Select(wt => wt.Hours).SingleAsync();
+                BllSettingsService.Instance.SpareTime += originalHours - workTime.Hours;
+
                 db.Update(workTime);
                 await db.SaveChangesAsync();
             }
@@ -212,6 +231,11 @@ namespace WorkTimeManager.Bll.Services
         {
             using (var db = new WorkTimeContext())
             {
+                //todo: finomítani!
+                var originalHours = await db.WorkTimes.Where(wt => workTimes.Any(w => w.WorkTimeID == wt.WorkTimeID)).SumAsync(wt => wt.Hours);
+                var newHours = workTimes.Sum(wt => wt.Hours);
+                BllSettingsService.Instance.SpareTime += originalHours - newHours;
+
                 db.UpdateRange(workTimes);
                 await db.SaveChangesAsync();
             }

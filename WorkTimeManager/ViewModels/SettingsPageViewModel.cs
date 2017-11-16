@@ -21,17 +21,29 @@ namespace WorkTimeManager.ViewModels
 
         UISettingsService _UIsettings;
         BllSettingsService _Bllsettings;
-        public bool Is001 { get { return _Bllsettings.Rounding == Rounding.Round001.GetHashCode(); } set { if (value) _Bllsettings.Rounding = Rounding.Round001.GetHashCode(); } }
-        public bool Is005 { get { return _Bllsettings.Rounding == Rounding.Round005.GetHashCode(); } set { if (value) _Bllsettings.Rounding = Rounding.Round005.GetHashCode(); } }
-        public bool Is010 { get { return _Bllsettings.Rounding == Rounding.Round010.GetHashCode(); } set { if (value) _Bllsettings.Rounding = Rounding.Round010.GetHashCode(); } }
-        public bool Is025 { get { return _Bllsettings.Rounding == Rounding.Round025.GetHashCode(); } set { if (value) _Bllsettings.Rounding = Rounding.Round025.GetHashCode(); } }
-        public bool Is050 { get { return _Bllsettings.Rounding == Rounding.Round050.GetHashCode(); } set { if (value) _Bllsettings.Rounding = Rounding.Round050.GetHashCode(); } }
-        public bool Is100 { get { return _Bllsettings.Rounding == Rounding.Round100.GetHashCode(); } set { if (value) _Bllsettings.Rounding = Rounding.Round100.GetHashCode(); } }
+        public bool Is001 { get { return _Bllsettings.RoundingTo == Rounding.Round001.GetHashCode(); } set { if (value) _Bllsettings.RoundingTo = Rounding.Round001.GetHashCode(); } }
+        public bool Is005 { get { return _Bllsettings.RoundingTo == Rounding.Round005.GetHashCode(); } set { if (value) _Bllsettings.RoundingTo = Rounding.Round005.GetHashCode(); } }
+        public bool Is010 { get { return _Bllsettings.RoundingTo == Rounding.Round010.GetHashCode(); } set { if (value) _Bllsettings.RoundingTo = Rounding.Round010.GetHashCode(); } }
+        public bool Is025 { get { return _Bllsettings.RoundingTo == Rounding.Round025.GetHashCode(); } set { if (value) _Bllsettings.RoundingTo = Rounding.Round025.GetHashCode(); } }
+        public bool Is050 { get { return _Bllsettings.RoundingTo == Rounding.Round050.GetHashCode(); } set { if (value) _Bllsettings.RoundingTo = Rounding.Round050.GetHashCode(); } }
+        public bool Is100 { get { return _Bllsettings.RoundingTo == Rounding.Round100.GetHashCode(); } set { if (value) _Bllsettings.RoundingTo = Rounding.Round100.GetHashCode(); } }
 
-        public bool AutoTrack { get { return _Bllsettings.AutoTrack; } set { _Bllsettings.AutoTrack = value; } }
+        public bool IsLastWeek       { get { return _Bllsettings.PullLastNDays == DataLoadInterval.IsLastWeek.GetHashCode(); }       set { if (value) _Bllsettings.PullLastNDays = DataLoadInterval.IsLastWeek.GetHashCode(); } }
+        public bool IsLastTwoWeek    { get { return _Bllsettings.PullLastNDays == DataLoadInterval.IsLastTwoWeek.GetHashCode(); }    set { if (value) _Bllsettings.PullLastNDays = DataLoadInterval.IsLastTwoWeek.GetHashCode(); } }
+        public bool IsLastMonth      { get { return _Bllsettings.PullLastNDays == DataLoadInterval.IsLastMonth.GetHashCode(); }      set { if (value) _Bllsettings.PullLastNDays = DataLoadInterval.IsLastMonth.GetHashCode(); } }
+        public bool IsLastTwoMonth   { get { return _Bllsettings.PullLastNDays == DataLoadInterval.IsLastTwoMonth.GetHashCode(); }   set { if (value) _Bllsettings.PullLastNDays = DataLoadInterval.IsLastTwoMonth.GetHashCode(); } }
+        public bool IsLastYear       { get { return _Bllsettings.PullLastNDays == DataLoadInterval.IsLastYear.GetHashCode(); }       set { if (value) _Bllsettings.PullLastNDays = DataLoadInterval.IsLastYear.GetHashCode(); } }
+        public bool IsAll            { get { return _Bllsettings.PullLastNDays == DataLoadInterval.IsAll.GetHashCode(); }            set { if (value) _Bllsettings.PullLastNDays = DataLoadInterval.IsAll.GetHashCode(); } }
+
         public bool AskIfStop { get { return _Bllsettings.AskIfStop; } set { _Bllsettings.AskIfStop = value; } }
         public bool AlwaysUp { get { return _Bllsettings.AlwaysUp; } set { _Bllsettings.AlwaysUp = value; } }
 
+
+        public DelegateCommand ResetSpareTimeCommand { get; }
+        public void ResetSpare()
+        {
+            _Bllsettings.SpareTime = 0.0;
+        }
 
         public SettingsPartViewModel()
         {
@@ -43,6 +55,7 @@ namespace WorkTimeManager.ViewModels
             {
                 _UIsettings = UISettingsService.Instance;
                 _Bllsettings = BllSettingsService.Instance;
+                ResetSpareTimeCommand = new DelegateCommand(ResetSpare);
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorkTimeManager.Model.Enums;
 using WorkTimeManager.Model.Models;
 
 namespace WorkTimeManager.Bll.Services
@@ -26,16 +27,22 @@ namespace WorkTimeManager.Bll.Services
             }
         }
 
-        public int Rounding
+        public double SpareTime
         {
-            get { return _helper.Read<int>(nameof(Rounding), 25); }
-            set { _helper.Write(nameof(Rounding), value); }
+            get { return _helper.Read<double>(nameof(SpareTime), 0.0); }
+            set { _helper.Write(nameof(SpareTime), value); }
         }
 
-        public bool AutoTrack
+        public int RoundingTo
         {
-            get { return _helper.Read<bool>(nameof(AutoTrack), false); }
-            set { _helper.Write(nameof(AutoTrack), value); }
+            get { return _helper.Read<int>(nameof(RoundingTo), Rounding.Round025.GetHashCode()); }
+            set { _helper.Write(nameof(RoundingTo), value); }
+        }
+
+        public int PullLastNDays
+        {
+            get { return _helper.Read<int>(nameof(PullLastNDays), DataLoadInterval.IsLastTwoWeek.GetHashCode()); }
+            set { _helper.Write(nameof(PullLastNDays), value); }
         }
 
         public bool AskIfStop

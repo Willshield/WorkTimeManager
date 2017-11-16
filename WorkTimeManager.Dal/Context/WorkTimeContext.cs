@@ -19,5 +19,19 @@ namespace WorkTimeManager.Dal.Context
         {
             optionsBuilder.UseSqlite("Data Source=WorkTimeManager.db");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Project>(project =>
+            {
+                project
+                    .HasMany(p => p.ChildrenProjects)
+                    .WithOne(p => p.ParentProject)
+                    .HasForeignKey(p => p.ParentProjectID);
+            });
+        }
+
     }
 }

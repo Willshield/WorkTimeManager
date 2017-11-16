@@ -9,6 +9,7 @@ using Windows.UI.Popups;
 using WorkTimeManager.Bll.Interfaces.Network;
 using WorkTimeManager.CommonInterfaces;
 using WorkTimeManager.Dal.Context;
+using WorkTimeManager.Model.Enums;
 using WorkTimeManager.Model.Models;
 using WorkTimeManager.Redmine.Service;
 
@@ -117,7 +118,9 @@ namespace WorkTimeManager.Bll.Services.Network
 
         private async Task PullTimeEntries(WorkTimeContext db)
         {
-            var times = await NetworkDataService.GetTimeEntriesAsync(token);
+
+            var from = GetIntervalFrom();
+            var times = await NetworkDataService.GetTimeEntriesAsync(token, from, DateTime.Now);
             foreach (var timeEntry in times)
             {
                 var exists = await db.WorkTimes.Where(w => w.WorkTimeID == timeEntry.WorkTimeID).SingleOrDefaultAsync();
@@ -146,10 +149,11 @@ namespace WorkTimeManager.Bll.Services.Network
             {
                 try
                 {
+                    //todo: make it one transaction
                     var wtList = db.WorkTimes.Where(wt=> wt.Dirty).Include(wt => wt.Issue).ThenInclude(i => i.Project).OrderByDescending(i => i.StartTime).ToList();
                     foreach (WorkTimeManager.Model.Models.WorkTime wt in wtList)
                     {
-                        await NetworkDataService.PostTimeEntry(token, wt); //todo: get key as parameter 
+                        await NetworkDataService.PostTimeEntry(token, wt); 
                         wt.Dirty = false;
                     }
 
@@ -159,6 +163,29 @@ namespace WorkTimeManager.Bll.Services.Network
                 {
                     await new MessageDialog("You are currently not connected to the internet. Syncing data failed. You can use offline mode. Error message: " + e.Message, "Network Error").ShowAsync();
                 }
+            }
+        }
+
+        private DateTime? GetIntervalFrom()
+        {
+            var loadinterval = (DataLoadInterval) BllSettingsService.Instance.PullLastNDays;
+
+            switch (loadinterval)
+            {
+                case DataLoadInterval.IsLastWeek:
+                    return DateTime.Now.AddDays(-7);
+                case DataLoadInterval.IsLastTwoWeek:
+                    return DateTime.Now.AddDays(-14);
+                case DataLoadInterval.IsLastMonth:
+                    return DateTime.Now.AddMonths(-1);
+                case DataLoadInterval.IsLastTwoMonth:
+                    return DateTime.Now.AddMonths(-2);
+                case DataLoadInterval.IsLastYear:
+                    return DateTime.Now.AddYears(-1);
+                case DataLoadInterval.IsAll:
+                    return null;
+                default:
+                    return DateTime.Now;
             }
         }
 

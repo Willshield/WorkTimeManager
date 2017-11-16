@@ -53,6 +53,14 @@ namespace WorkTimeManager.Redmine.Dto
             tmp.Description = description;
             tmp.Name = name;
             tmp.ProjectID = id;
+            if (parent != null)
+            {
+                tmp.ParentProjectID = parent.id;
+            }
+            else
+            {
+                tmp.ParentProjectID = id;
+            }
             return tmp;
         }
     }

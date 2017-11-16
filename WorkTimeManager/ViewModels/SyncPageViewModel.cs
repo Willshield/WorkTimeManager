@@ -71,18 +71,16 @@ namespace WorkTimeManager.ViewModels
             {
                 DirtyList = new ObservableCollection<WorkTime>(dbList);
                 EditList = new ObservableCollection<WorkTime>(dbList);
-                PivotEnabled = true;
                 EditListRefreshed?.Invoke();
-                NotifyListChanged();
             }
             else
             {
                 DirtyList = new ObservableCollection<WorkTime>();
                 DirtyList.Add(new WorkTime() { Issue = new Issue() { Subject = "---No dirty time entries---", IssueID = 0 } });
-                PivotEnabled = false;
-                EditList = null;
+                EditList = new ObservableCollection<WorkTime>();
             }
-                        
+            NotifyListChanged();
+
         }
 
         #region first pivot
@@ -128,11 +126,11 @@ namespace WorkTimeManager.ViewModels
 
         #region second pivot
 
-        private bool pivotEnabled;
-        public bool PivotEnabled
+        private double spareTime;
+        public double SpareTime
         {
-            get { return pivotEnabled; }
-            set { Set(ref pivotEnabled, value); }
+            get { return spareTime; }
+            set { Set(ref spareTime, value); }
         }
 
         private ObservableCollection<WorkTime> editList;
@@ -165,6 +163,7 @@ namespace WorkTimeManager.ViewModels
             MergeAllCommand.RaiseCanExecuteChanged();
             NotifyEditingChanged();
             NotifySelectionChanged();
+            SpareTime = BllSettingsService.Instance.SpareTime;
         }
 
         private void NotifyEditingChanged()
@@ -248,6 +247,8 @@ namespace WorkTimeManager.ViewModels
 
         public bool IsAllMergeable()
         {
+            if (EditList == null)
+                return false;
             var checklist = EditList.OrderBy(e => e.IssueID).ToList();
             for (int i = 0; i < checklist.Count - 1; i++)
             {

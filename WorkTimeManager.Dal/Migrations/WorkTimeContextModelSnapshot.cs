@@ -66,7 +66,11 @@ namespace WorkTimeManager.Dal.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("ParentProjectID");
+
                     b.HasKey("ProjectID");
+
+                    b.HasIndex("ParentProjectID");
 
                     b.ToTable("Projects");
                 });
@@ -98,6 +102,14 @@ namespace WorkTimeManager.Dal.Migrations
                     b.HasOne("WorkTimeManager.Model.Models.Project", "Project")
                         .WithMany("Issues")
                         .HasForeignKey("ProjectID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WorkTimeManager.Model.Models.Project", b =>
+                {
+                    b.HasOne("WorkTimeManager.Model.Models.Project", "ParentProject")
+                        .WithMany()
+                        .HasForeignKey("ParentProjectID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -29,11 +29,18 @@ namespace WorkTimeManager.Dal.Migrations
                     ProjectID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    ParentProjectID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.ProjectID);
+                    table.ForeignKey(
+                        name: "FK_Projects_Projects_ParentProjectID",
+                        column: x => x.ParentProjectID,
+                        principalTable: "Projects",
+                        principalColumn: "ProjectID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,6 +96,11 @@ namespace WorkTimeManager.Dal.Migrations
                 name: "IX_Issues_ProjectID",
                 table: "Issues",
                 column: "ProjectID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_ParentProjectID",
+                table: "Projects",
+                column: "ParentProjectID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkTimes_IssueID",
