@@ -40,29 +40,31 @@ namespace WorkTimeManager.Bll.Services.Network
 
         public async Task PullAll()
         {
-            try
+            
+            using (var db = new WorkTimeContext())
             {
-                using (var db = new WorkTimeContext())
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    await ResetWorktimes(db);
+                    try
+                    {
+                        await ResetWorktimes(db);
 
-                    await PullProjects(db);
-                    await PullIssues(db);
-                    await PullTimeEntries(db);
+                        await PullProjects(db);
+                        await PullIssues(db);
+                        await PullTimeEntries(db);
+                        transaction.Commit();
+                    }
+                    catch (HttpRequestException e)
+                    {
+                        await new MessageDialog("You are currently not connected to the internet. Syncing data failed. You can use offline mode. Error message: " + e.Message, "Network Error").ShowAsync();
+                    }
                 }
             }
-            catch (HttpRequestException e)
-            {
-                await new MessageDialog("You are currently not connected to the internet. Syncing data failed. You can use offline mode. Error message: " + e.Message , "Network Error").ShowAsync();
-            }
-
         }
 
         private async Task ResetWorktimes(WorkTimeContext db)
         {
             db.WorkTimes.RemoveRange(db.WorkTimes);
-            //db.Issues.RemoveRange(db.Issues);
-            //db.Projects.RemoveRange(db.Projects);
             await db.SaveChangesAsync();
         }
 
@@ -129,17 +131,6 @@ namespace WorkTimeManager.Bll.Services.Network
                 {
                     db.WorkTimes.Add(timeEntry);
                 }
-                //else
-                //{
-                //    //exists but can be changed
-                //    exists.IssueID = timeEntry.IssueID;
-                //    exists.WorkTimeID = timeEntry.WorkTimeID;
-                //    exists.StartTime = timeEntry.StartTime;
-
-                //    var issue = db.Issues.Where(i => i.IssueID == timeEntry.IssueID).Single();
-                //    exists.Issue = issue;
-                //    exists.Dirty = false;
-                //}
             }
             await db.SaveChangesAsync();
         }
@@ -150,15 +141,14 @@ namespace WorkTimeManager.Bll.Services.Network
             {
                 try
                 {
-                    //todo: make it one transaction
                     var wtList = db.WorkTimes.Where(wt=> wt.Dirty).Include(wt => wt.Issue).ThenInclude(i => i.Project).OrderByDescending(i => i.StartTime).ToList();
                     foreach (WorkTimeManager.Model.Models.WorkTime wt in wtList)
                     {
                         await NetworkDataService.PostTimeEntry(token, wt); 
                         wt.Dirty = false;
+                        await db.SaveChangesAsync();
                     }
-
-                    await db.SaveChangesAsync();
+                    
                 }
                 catch (HttpRequestException e)
                 {

@@ -105,10 +105,9 @@ namespace WorkTimeManager.ViewModels
 
         public async void Pull()
         {
-            if (DirtyList[0].IssueID != -1)
+            if (DirtyList[0].IssueID <= 0)
             {
-                PopupService p = new PopupService();
-                MessageDialog dialog = p.GetDefaultAskDialog("You have some unpushed worktimes. Pulling data overwrites all locally stored worktimes, unpushed data will be deleted.", "Confirm pull", false);
+                MessageDialog dialog = popupService.GetDefaultAskDialog("You have some unpushed worktimes. Pulling data overwrites all locally stored worktimes, unpushed data will be deleted.", "Confirm pull", false);
 
                 var cmd = await dialog.ShowAsync();
                 if (cmd.Label == PopupService.NO)
