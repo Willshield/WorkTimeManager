@@ -10,7 +10,8 @@
     xmlns:usercontrols="using:WorkTimeManager.Views.UserControls"
     xmlns:vm="using:WorkTimeManager.ViewModels"
     xmlns:conv="using:WorkTimeManager.DataValueConverters" 
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Name="root">
 
     <Page.DataContext>
         <vm:IssuesDetailsPageViewModel x:Name="ViewModel" />
@@ -28,7 +29,6 @@
                              RelativePanel.AlignTopWithPanel="True"
                              Frame="{x:Bind Frame}" 
                              Title="Issues Details"/>
-
 
         <!-- Filters -->
         <RelativePanel Margin="50,20,0,10" RelativePanel.Below="pageHeader" Name="Filters">
@@ -114,7 +114,7 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Horizontal" Grid.Row="0">
-                                <TextBlock Text="All tracked worktime:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding ElementName=root, Path=LoadInterval}" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding AllTrackedTime, Converter={StaticResource DoubleFormatConverter}}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center" Margin="10,0,0,0" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Grid.Row="1">

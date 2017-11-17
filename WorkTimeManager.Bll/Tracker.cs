@@ -211,8 +211,7 @@ namespace WorkTimeManager.Bll
             stopWatch.Stop();
             paused = false;
             trackedTime.IssueID = TrackedIssue.IssueID;
-
-            //Todo: kerekítési beállítások
+            
             trackedTime.Hours = ((double)time.Hours) + ((double)time.Minutes / 60.0) + ((double)time.Seconds / 3600.0);
 
             //Database connetc requires to search this item

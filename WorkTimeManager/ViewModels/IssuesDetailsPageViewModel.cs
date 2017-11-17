@@ -10,6 +10,8 @@ using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Model.Models;
 using WorkTimeManager.Models;
+using WorkTimeManager.Model.Enums.Extensions;
+using WorkTimeManager.Model.Enums;
 
 namespace WorkTimeManager.ViewModels
 {
@@ -21,7 +23,14 @@ namespace WorkTimeManager.ViewModels
         public static readonly int ProjectNameKey = 1;
         public static readonly int TrackerKey = 2;
 
-        IIssueService issueService;
+        private string loadInterval;
+        public string LoadInterval
+        {
+            get { return loadInterval; }
+            set { Set(ref loadInterval, value); }
+        }
+
+        private readonly IIssueService issueService;
 
         public IssuesDetailsPageViewModel()
         {
@@ -33,6 +42,7 @@ namespace WorkTimeManager.ViewModels
             else
             {
                 issueService = IssueService.Instance;
+                LoadInterval = ((DataLoadInterval)BllSettingsService.Instance.PullLastNDays).GetDisplayName();
             }
             Refresh();
             ManipulateList = new ObservableCollection<IssueTime>(FromDbList);

@@ -26,8 +26,6 @@ namespace WorkTimeManager.Redmine.Dto
 
         public List<WorkTimeManager.Model.Models.WorkTime> ToEntityList()
         {
-            //todo: load more than 25
-            //fixme!! container.total_count != container.time_entries.count; ?limit=## parameter needed where ## = total_count
             var list = new List<WorkTimeManager.Model.Models.WorkTime>(); 
             for (int i = 0; i < time_entries.Length; i++)
             {

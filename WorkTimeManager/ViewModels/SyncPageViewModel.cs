@@ -233,7 +233,6 @@ namespace WorkTimeManager.ViewModels
         }
         public void WorkHourEdited()
         {
-            //todo: calculate spare time
             isEdited = true;
             NotifyEditingChanged();
         }

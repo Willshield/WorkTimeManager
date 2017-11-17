@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enums\DataLoadInterval.cs" />
+    <Compile Include="Enums\Extensions\EnumExtensions.cs" />
     <Compile Include="Enums\Rounding.cs" />
     <Compile Include="Enums\WorktimeGroupBy.cs" />
     <Compile Include="Enums\WorktimeOrderBy.cs" />

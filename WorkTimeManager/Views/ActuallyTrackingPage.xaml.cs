@@ -12,6 +12,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WorkTimeManager.Bll.Services;
+using WorkTimeManager.Model.Enums;
+using WorkTimeManager.Model.Enums.Extensions;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,9 +25,12 @@ namespace WorkTimeManager.Views
     /// </summary>
     public sealed partial class ActuallyTrackingPage : Page
     {
+        public string LoadInterval { get; set; }
+
         public ActuallyTrackingPage()
         {
             this.InitializeComponent();
+            LoadInterval = ((DataLoadInterval)BllSettingsService.Instance.PullLastNDays).GetDisplayName();
         }
     }
 }

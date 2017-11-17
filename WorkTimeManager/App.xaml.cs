@@ -41,12 +41,7 @@ namespace WorkTimeManager
                 db.Database.Migrate();
             }
 
-            //Todo: move to viewmodel, add busy view
-            //Task.Run(() => {
-
-            //    return DbSynchronizationService.Instance.PullAll();
-
-            //});
+            
             
         }
 
@@ -63,7 +58,11 @@ namespace WorkTimeManager
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
-            // TODO: add your long-running task here
+            //Todo: validate profile for download
+            await Task.Run(() =>
+            {
+                return DbSynchronizationService.Instance.PullAll();
+            });
             await NavigationService.NavigateAsync(typeof(Views.MainPage));
         }
     }
