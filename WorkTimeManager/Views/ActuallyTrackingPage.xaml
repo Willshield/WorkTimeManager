@@ -8,7 +8,8 @@
     xmlns:vm="using:WorkTimeManager.ViewModels"
     xmlns:usercontrols="using:WorkTimeManager.Views.UserControls"
     xmlns:conv="using:WorkTimeManager.DataValueConverters" 
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Name="root">
 
 
     <Page.DataContext>
