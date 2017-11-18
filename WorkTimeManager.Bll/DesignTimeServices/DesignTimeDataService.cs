@@ -16,6 +16,11 @@ namespace WorkTimeManager.Bll.DesignTimeServices
             throw new NotImplementedException();
         }
 
+        public Task DeleteWorktime(int workTimeId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Issue> GetActuallyTracked()
         {
             Issue tmp = new Issue();

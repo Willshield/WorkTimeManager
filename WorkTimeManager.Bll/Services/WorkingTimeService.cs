@@ -14,6 +14,8 @@ namespace WorkTimeManager.Bll.Services
 {
     public class WorkingTimeService : IWorkingTimeService
     {
+        private readonly BllSettingsService bllSettingsService = BllSettingsService.Instance;
+
         private static WorkingTimeService instance = null;
         WorkingTimeService() { }
         public static WorkingTimeService Instance
@@ -90,9 +92,8 @@ namespace WorkTimeManager.Bll.Services
             using (var db = new WorkTimeContext())
             {
                 var worktime = await db.WorkTimes.Where(wt => wt.WorkTimeID == workTimeId).SingleAsync();
-                var settings = BllSettingsService.Instance;
-                var rounding = (Rounding)settings.RoundingTo;
-                worktime.Hours = round(rounding, worktime.Hours, settings.AlwaysUp);
+                var rounding = (Rounding)bllSettingsService.RoundingTo;
+                worktime.Hours = round(rounding, worktime.Hours, bllSettingsService.AlwaysUp);
                 await db.SaveChangesAsync();
             }
         }
@@ -103,14 +104,13 @@ namespace WorkTimeManager.Bll.Services
             using (var db = new WorkTimeContext())
             {
                 var worktimes = await db.WorkTimes.Where(wt => wt.Dirty).ToListAsync();
-                var settings = BllSettingsService.Instance;
-                var rounding = (Rounding)settings.RoundingTo;
+                var rounding = (Rounding)bllSettingsService.RoundingTo;
                 foreach (var worktime in worktimes)
                 {
-                    worktime.Hours = round(rounding, worktime.Hours, settings.AlwaysUp);
+                    worktime.Hours = round(rounding, worktime.Hours, bllSettingsService.AlwaysUp);
                 }
                 await db.SaveChangesAsync();
-                BllSettingsService.Instance.SpareTime += SpareTimeChange;
+                bllSettingsService.SpareTime += SpareTimeChange;
             }
             SpareTimeChange = 0.0;
         }
@@ -217,9 +217,8 @@ namespace WorkTimeManager.Bll.Services
         {
             using (var db = new WorkTimeContext())
             {
-                //todo: finomítani!
                 var originalHours = await db.WorkTimes.Where(wt => wt.WorkTimeID == workTime.WorkTimeID).Select(wt => wt.Hours).SingleAsync();
-                BllSettingsService.Instance.SpareTime += originalHours - workTime.Hours;
+                bllSettingsService.SpareTime += originalHours - workTime.Hours;
 
                 db.Update(workTime);
                 await db.SaveChangesAsync();
@@ -230,21 +229,20 @@ namespace WorkTimeManager.Bll.Services
         {
             using (var db = new WorkTimeContext())
             {
-                //todo: finomítani!
                 var originalHours = await db.WorkTimes.Where(wt => workTimes.Any(w => w.WorkTimeID == wt.WorkTimeID)).SumAsync(wt => wt.Hours);
                 var newHours = workTimes.Sum(wt => wt.Hours);
-                BllSettingsService.Instance.SpareTime += originalHours - newHours;
+                bllSettingsService.SpareTime += originalHours - newHours;
 
                 db.UpdateRange(workTimes);
                 await db.SaveChangesAsync();
             }
         }
 
-        public async Task<WorkTime> GetWorkTime(int id)
+        public async Task<WorkTime> GetWorkTime(int workTimeId)
         {
             using (var db = new WorkTimeContext())
             {
-                return await db.WorkTimes.Where(wt => wt.WorkTimeID == id).SingleAsync();
+                return await db.WorkTimes.Where(wt => wt.WorkTimeID == workTimeId).SingleAsync();
             }
         }
 
@@ -254,6 +252,18 @@ namespace WorkTimeManager.Bll.Services
             {
                 return await db.WorkTimes.Where(wt => wt.Dirty).AnyAsync();
             }
+        }
+
+        public async Task DeleteWorktime(int workTimeId)
+        {
+            using (var db = new WorkTimeContext())
+            {
+                var deleteWT = await db.WorkTimes.Where(wt => wt.WorkTimeID == workTimeId).SingleAsync();
+                bllSettingsService.SpareTime += deleteWT.Hours;
+                db.WorkTimes.Remove(deleteWT);
+                await db.SaveChangesAsync();
+            }
+            
         }
     }
 }

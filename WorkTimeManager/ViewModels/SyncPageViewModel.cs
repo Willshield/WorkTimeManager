@@ -32,6 +32,7 @@ namespace WorkTimeManager.ViewModels
         public DelegateCommand RoundCommand { get; }
         public DelegateCommand MergeCommand { get; }
         public DelegateCommand EditWorktimeCommand { get; }
+        public DelegateCommand DeleteWorktimeCommand { get; }
         public DelegateCommand SaveChangesCommand { get; }
         public DelegateCommand UndoChangesCommand { get; }
 
@@ -57,6 +58,7 @@ namespace WorkTimeManager.ViewModels
                 RoundCommand = new DelegateCommand(RoundSelected, IsSelectionValid);
                 MergeCommand = new DelegateCommand(MergeSelected, IsSelectedMergeable);
                 EditWorktimeCommand = new DelegateCommand(EditWorktime, IsSelectionValid);
+                DeleteWorktimeCommand = new DelegateCommand(DeleteWorktime, IsSelectionValid);
                 SaveChangesCommand = new DelegateCommand(SaveChanges, IsEdited);
                 UndoChangesCommand = new DelegateCommand(UndoChanges, IsEdited);
 
@@ -155,6 +157,7 @@ namespace WorkTimeManager.ViewModels
             RoundCommand.RaiseCanExecuteChanged();
             MergeCommand.RaiseCanExecuteChanged();
             EditWorktimeCommand.RaiseCanExecuteChanged();
+            DeleteWorktimeCommand.RaiseCanExecuteChanged();
         }
 
         private void NotifyListChanged()
@@ -217,6 +220,18 @@ namespace WorkTimeManager.ViewModels
                 return;
             }
             EditFinished();
+        }
+
+        public async void DeleteWorktime()
+        {
+            var popup = popupService.GetDefaultAskDialog("Worktime will be deleted permanently. Are you sure?", "Delete confirmation", false);
+            var cmd = await popup.ShowAsync();
+            if (cmd.Label == PopupService.NO)
+            {
+                return;
+            }
+            await workingTimeService.DeleteWorktime(EditWorkTime.WorkTimeID);
+            RefreshFromLocal();
         }
 
         private void EditFinished()

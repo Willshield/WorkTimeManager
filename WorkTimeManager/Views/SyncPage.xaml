@@ -337,12 +337,12 @@
                                            LabelText="Edit selected"/>
                         </Button>
 
-                        <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding EditWorktimeCommand}" 
+                        <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding DeleteWorktimeCommand}" 
                                 RelativePanel.RightOf="EditButton"
                                 RelativePanel.AlignVerticalCenterWithPanel="True" 
                                 x:Name="DeleteButton"
                                 HorizontalContentAlignment="Left">
-                            <usercontrols:IconedButton IconText ="&#xE70F;"
+                            <usercontrols:IconedButton IconText ="&#xE74D;"
                                            LabelText="Delete selected"/>
                         </Button>
 

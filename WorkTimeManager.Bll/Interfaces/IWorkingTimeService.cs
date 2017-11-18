@@ -16,7 +16,7 @@ namespace WorkTimeManager.Bll.Interfaces
 
         Task<List<WorkTime>> GetWorkTimes();
 
-        Task<WorkTime> GetWorkTime(int id);
+        Task<WorkTime> GetWorkTime(int workTimeId);
 
         Task<List<WorkTime>> GetDirtyWorkTimes();
 
@@ -36,5 +36,7 @@ namespace WorkTimeManager.Bll.Interfaces
         Task UpdateWorktime(WorkTime workTime);
 
         Task UpdateWorktimes(IEnumerable<WorkTime> workTimes);
+
+        Task DeleteWorktime(int workTimeId);
     }
 }

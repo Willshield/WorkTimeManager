@@ -54,6 +54,7 @@ namespace WorkTimeManager.Views
             RoundSelectedButton.Opacity = 1;
             MergeSelectedButton.Opacity = 1;
             EditButton.Opacity = 1;
+            DeleteButton.Opacity = 1;
             SaveButton.Opacity = 1;
             UndoButton.Opacity = 1;
 
@@ -73,6 +74,7 @@ namespace WorkTimeManager.Views
             if (!ViewModel.IsSelectionValid())
             {
                 EditButton.Opacity = 0.6;
+                DeleteButton.Opacity = 0.6;
                 RoundSelectedButton.Opacity = 0.6;
             }
 
@@ -82,6 +84,7 @@ namespace WorkTimeManager.Views
         {
             MergeButton.Opacity = 1;
             EditButton.Opacity = 1;
+            DeleteButton.Opacity = 1;
             RoundSelectedButton.Opacity = 1;
 
             if (!ViewModel.IsSelectedMergeable())
@@ -91,6 +94,7 @@ namespace WorkTimeManager.Views
             if (!ViewModel.IsSelectionValid())
             {
                 EditButton.Opacity = 0.6;
+                DeleteButton.Opacity = 0.6;
                 RoundSelectedButton.Opacity = 0.6;
             }
         }
