@@ -26,7 +26,7 @@ namespace WorkTimeManager.ViewModels
         {
             RefreshCommand = new DelegateCommand(RefreshDbList);
             StartTrackingCommand = new DelegateCommand(StartTracking, IsValidWorktime);
-            EditWorktimeCommand = new DelegateCommand(EditWorktime, IsValidWorktime);
+            EditWorktimeCommand = new DelegateCommand(EditWorktime, IsValidWorktime); //TODO: remove editing
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 var dtservice = new DesignTimeDataService();

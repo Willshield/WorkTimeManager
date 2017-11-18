@@ -23,8 +23,8 @@
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <!--<TextBlock Text="{x:Bind WorktimeId}"/>-->
         
-        <!--<TextBox Text="{Binding EditWorkTime.Comment}"/>-->
-        <DatePicker Date="{Binding EditWorkTime.StartTime}"/>
+        <TextBox Text="{Binding EditWorkTime.Comment}"/>
+        <!--<DatePicker Date="{Binding EditWorkTime.StartTime, Mode=TwoWay}" />-->
         <!--<Grid Margin="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20"/>
