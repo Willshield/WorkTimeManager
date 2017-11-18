@@ -66,7 +66,8 @@
                   RelativePanel.Below="TableHeader" 
                   RelativePanel.AlignLeftWithPanel="True" 
                   RelativePanel.AlignRightWithPanel="True"
-                  RelativePanel.Above="TrackButton">
+                  RelativePanel.Above="TrackButton" 
+                  SelectionChanged="SelectionChanged" >
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="uimodels:IssueTime" >
@@ -95,14 +96,27 @@
         </ListView>
 
         <!-- track button-->
-        <Button Content="Start tracking"
+        <!--<Button Content="Start tracking"
                 Grid.Row="4" 
                 Command="{Binding StartTrackingCommand}"
                 RelativePanel.AlignRightWithPanel="True" 
                 RelativePanel.Above="footerBar"
                 Name="TrackButton"
-                Margin="20"/>
-        
+                Margin="20"/>-->
+
+        <Button Width="150" Height="32" Padding="0" 
+                Grid.Row="4" 
+                Command="{Binding StartTrackingCommand}"
+                RelativePanel.AlignRightWithPanel="True" 
+                RelativePanel.Above="footerBar"
+                Name="TrackButton"
+                Margin="20"
+                HorizontalContentAlignment="Left">
+            <usercontrols:IconedButton IconText ="&#xE916;"
+                                           LabelText="Start tracking"/>
+        </Button>
+
+
         <!--Footer-->
         <usercontrols:PageFooter x:Name="footerBar" 
                                 RelativePanel.AlignBottomWithPanel="True"  

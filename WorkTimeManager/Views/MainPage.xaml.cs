@@ -15,7 +15,7 @@ namespace WorkTimeManager.Views
         {
             InitializeComponent();
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Disabled;
-
+            TrackButton.Opacity = 0.6;
         }
 
         private bool OrderbyDesc = false;
@@ -54,5 +54,18 @@ namespace WorkTimeManager.Views
             Hours.Opacity = 1;
             Description.Opacity = 1;
         }
+
+        private void SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!ViewModel.CanStartTracking())
+            {
+                TrackButton.Opacity = 0.6;
+            }
+            else
+            {
+                TrackButton.Opacity = 1;
+            }
+        }
+
     }
 }

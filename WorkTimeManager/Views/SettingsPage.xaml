@@ -30,16 +30,15 @@
             </converter:ValueWhenConverter.Otherwise>
         </converter:ValueWhenConverter>
     </Page.Resources>
-
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <!--  header  -->
-        <controls:PageHeader x:Name="pageHeader"
-                             Content="Settings Page"
-                             Frame="{x:Bind Frame}"
+        <!-- Page header -->
+        <usercontrols:PageHeader x:Name="pageHeader"
                              RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True" />
+                             RelativePanel.AlignTopWithPanel="True"
+                             Frame="{x:Bind Frame}" 
+                             Title="Settings Page"/>
 
         <!--  content  -->
         <Pivot x:Name="MyPivot"
@@ -64,15 +63,16 @@
                     <TextBlock Text="Rounding to" Style="{ThemeResource BaseTextBlockStyle}"
                                RelativePanel.Below="RoundingLabel"
                                Name="RoundingLabel2"/>
+
                     <StackPanel Orientation="Vertical"
                                RelativePanel.Below="RoundingLabel2"
                                Name="RoundingSelector">
-                        <RadioButton Content="0.01 Hour" Tag="0.01" IsChecked="{Binding SettingsPartViewModel.Is001, Mode=TwoWay}"/>
-                        <RadioButton Content="0.05 Hour" Tag="0.05" IsChecked="{Binding SettingsPartViewModel.Is005, Mode=TwoWay}"/>
-                        <RadioButton Content="0.10 Hour" Tag="0.10" IsChecked="{Binding SettingsPartViewModel.Is010, Mode=TwoWay}"/>
-                        <RadioButton Content="0.25 Hour" Tag="0.25" IsChecked="{Binding SettingsPartViewModel.Is025, Mode=TwoWay}"/>
-                        <RadioButton Content="0.50 Hour" Tag="0.50" IsChecked="{Binding SettingsPartViewModel.Is050, Mode=TwoWay}"/>
-                        <RadioButton Content="1.00 Hour" Tag="1.00" IsChecked="{Binding SettingsPartViewModel.Is100, Mode=TwoWay}"/>
+                        <RadioButton Content="0.01 Hour" GroupName="Rounding" Tag="0.01" IsChecked="{Binding SettingsPartViewModel.Is001, Mode=TwoWay}"/>
+                        <RadioButton Content="0.05 Hour" GroupName="Rounding" Tag="0.05" IsChecked="{Binding SettingsPartViewModel.Is005, Mode=TwoWay}"/>
+                        <RadioButton Content="0.10 Hour" GroupName="Rounding" Tag="0.10" IsChecked="{Binding SettingsPartViewModel.Is010, Mode=TwoWay}"/>
+                        <RadioButton Content="0.25 Hour" GroupName="Rounding" Tag="0.25" IsChecked="{Binding SettingsPartViewModel.Is025, Mode=TwoWay}"/>
+                        <RadioButton Content="0.50 Hour" GroupName="Rounding" Tag="0.50" IsChecked="{Binding SettingsPartViewModel.Is050, Mode=TwoWay}"/>
+                        <RadioButton Content="1.00 Hour" GroupName="Rounding" Tag="1.00" IsChecked="{Binding SettingsPartViewModel.Is100, Mode=TwoWay}"/>
                     </StackPanel>
 
                     <Button Width="155" Height="32" Padding="0" Margin="0,20,0,10"  Command="{Binding SettingsPartViewModel.ResetSpareTimeCommand}" 
@@ -95,16 +95,17 @@
                                RelativePanel.Below="LoadingLabel"
                                RelativePanel.AlignLeftWith="LoadingLabel"
                                Name="LoadingLabel2"/>
+                    
                     <StackPanel Orientation="Vertical"
                                RelativePanel.Below="LoadingLabel2"
                                RelativePanel.AlignLeftWith="LoadingLabel2"
                                Name="LoadingSelector">
-                        <RadioButton Content="Last week"        Tag="IsLastWeek" IsChecked="{Binding SettingsPartViewModel.IsLastWeek, Mode=TwoWay}"/>
-                        <RadioButton Content="Last two weeks"   Tag="IsLastTwoWeek" IsChecked="{Binding SettingsPartViewModel.IsLastTwoWeek, Mode=TwoWay}"/>
-                        <RadioButton Content="Last month"       Tag="IsLastMonth" IsChecked="{Binding SettingsPartViewModel.IsLastMonth, Mode=TwoWay}"/>
-                        <RadioButton Content="Last two month"   Tag="IsLastTwoMonth" IsChecked="{Binding SettingsPartViewModel.IsLastTwoMonth, Mode=TwoWay}"/>
-                        <RadioButton Content="Last year"        Tag="IsLastYear" IsChecked="{Binding SettingsPartViewModel.IsLastYear, Mode=TwoWay}"/>
-                        <RadioButton Content="All"              Tag="IsAll" IsChecked="{Binding SettingsPartViewModel.IsAll, Mode=TwoWay}"/>
+                        <RadioButton Content="Last week"      GroupName="Loading" Tag="IsLastWeek"     IsChecked="{Binding SettingsPartViewModel.IsLastWeek, Mode=TwoWay}"/>
+                        <RadioButton Content="Last two weeks" GroupName="Loading" Tag="IsLastTwoWeek"  IsChecked="{Binding SettingsPartViewModel.IsLastTwoWeek, Mode=TwoWay}"/>
+                        <RadioButton Content="Last month"     GroupName="Loading" Tag="IsLastMonth"    IsChecked="{Binding SettingsPartViewModel.IsLastMonth, Mode=TwoWay}"/>
+                        <RadioButton Content="Last two month" GroupName="Loading" Tag="IsLastTwoMonth" IsChecked="{Binding SettingsPartViewModel.IsLastTwoMonth, Mode=TwoWay}"/>
+                        <RadioButton Content="Last year"      GroupName="Loading" Tag="IsLastYear"     IsChecked="{Binding SettingsPartViewModel.IsLastYear, Mode=TwoWay}"/>
+                        <RadioButton Content="All"            GroupName="Loading" Tag="IsAll"          IsChecked="{Binding SettingsPartViewModel.IsAll, Mode=TwoWay}"/>
                     </StackPanel>
 
                     <Button Width="155" Height="32" Padding="0" Margin="0,20,0,10"  Command="{Binding SettingsPartViewModel.ClearDbCommand}" 
