@@ -23,6 +23,8 @@ namespace WorkTimeManager
     [Bindable]
     sealed partial class App : BootStrapper
     {
+        private readonly PopupService popupService = new PopupService();
+
         public App()
         {
             InitializeComponent();
@@ -60,20 +62,29 @@ namespace WorkTimeManager
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
-            //Todo: check if crashed
-            if(!(await WorkingTimeService.Instance.GetIsAnyDirty()))
+            var RecoveryWorkTime = BllSettingsService.Instance.ActualTrackBackup;
+            if (RecoveryWorkTime == null)
             {
-                await Task.Run(() =>
+                if (!(await WorkingTimeService.Instance.GetIsAnyDirty()))
                 {
-                    return DbSynchronizationService.Instance.PullAll();
-                });
+                    await Task.Run(() =>
+                    {
+                        return DbSynchronizationService.Instance.PullAll();
+                    });
 
-                await NavigationService.NavigateAsync(typeof(Views.MainPage));
+                    await NavigationService.NavigateAsync(typeof(Views.MainPage));
+                }
+                else
+                {
+                    await NavigationService.NavigateAsync(typeof(Views.SyncPage));
+                    popupService.GetDefaultNotification("You have some unsynchronized worktimes, that pulling data would delete. Automatic database sync aborted.", "Database sync failed").ShowAsync();
+                }
             } else
             {
-                var popupService = new PopupService();
-                popupService.GetDefaultNotification("You have some unsynchronized worktimes, that pulling data would delete. Automatic database sync aborted.", "Database sync failed").ShowAsync();
+                await WorkingTimeService.Instance.AddTimeEntry(RecoveryWorkTime);
                 await NavigationService.NavigateAsync(typeof(Views.SyncPage));
+                popupService.GetDefaultNotification("It seems that the app crashed while tracking. A backup is recovered and added to your worktimes list.", "Crash recovery").ShowAsync();
+                BllSettingsService.Instance.ActualTrackBackup = null;
             }
 
         }

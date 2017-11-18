@@ -21,9 +21,11 @@ namespace WorkTimeManager.Bll
         public delegate void NewTrackingStartedEventHandler();
         public event ChangedEventHandler TimeChanged;
         public event NewTrackingStartedEventHandler NewTracking;
-        private IWorkingTimeService workingTimeService;
-        private PopupService popupService;
+        private readonly IWorkingTimeService workingTimeService;
+        private readonly PopupService popupService;
+        private readonly BllSettingsService bllSettingsService;
         DispatcherTimer stopWatch;
+        DispatcherTimer backupWatch;
 
         private WorkTime trackedTime;
         private Issue trackedIssue = null;
@@ -98,10 +100,16 @@ namespace WorkTimeManager.Bll
         {
             SetStartValues();
             stopWatch = new DispatcherTimer();
-            stopWatch.Tick += DispatcherTimer_Tick;
+            stopWatch.Tick += Stopwatch_Tick;
             stopWatch.Interval = new TimeSpan(0, 0, 0, 0, 5); //todo: (0, 0, 1)
+
+            backupWatch = new DispatcherTimer();
+            backupWatch.Tick += Backupwatch_Tick;
+            backupWatch.Interval = new TimeSpan(0, 0, 5); //todo: (0, 1, 0)
+
             workingTimeService = WorkingTimeService.Instance;
             popupService = new PopupService();
+            bllSettingsService = BllSettingsService.Instance;
         }
 
         public static Tracker Instance
@@ -128,6 +136,7 @@ namespace WorkTimeManager.Bll
                 trackedTime.Comment = comment;
                 trackedTime.IssueID = issue.IssueID;
                 stopWatch.Start();
+                backupWatch.Start();
                 paused = false;
                 NewTracking();
             }
@@ -143,9 +152,18 @@ namespace WorkTimeManager.Bll
         }
 
 
-        private void DispatcherTimer_Tick(object sender, object e)
+        private void Stopwatch_Tick(object sender, object e)
         {
             Time = time.Add(new TimeSpan(0, 0, 1));
+        }
+
+        private void Backupwatch_Tick(object sender, object e)
+        {
+            var backupTime = trackedTime;
+            backupTime.IssueID = TrackedIssue.IssueID;
+            backupTime.Hours = ((double)time.Hours) + ((double)time.Minutes / 60.0) + ((double)time.Seconds / 3600.0);
+
+            bllSettingsService.ActualTrackBackup = backupTime;
         }
 
         private async Task<bool> TrySetIssue(Issue issue)
@@ -209,16 +227,16 @@ namespace WorkTimeManager.Bll
         private void StopSaveTracking()
         {
             stopWatch.Stop();
+            backupWatch.Stop();
             paused = false;
-            trackedTime.IssueID = TrackedIssue.IssueID;
-            
-            trackedTime.Hours = ((double)time.Hours) + ((double)time.Minutes / 60.0) + ((double)time.Seconds / 3600.0);
 
-            //Database connetc requires to search this item
+            trackedTime.IssueID = TrackedIssue.IssueID; 
+            trackedTime.Hours = ((double)time.Hours) + ((double)time.Minutes / 60.0) + ((double)time.Seconds / 3600.0);
             workingTimeService.AddTimeEntry(trackedTime);
 
             SetStartValues();
             NewTracking();
+            bllSettingsService.ActualTrackBackup = null;
         }
 
         public async Task AskAbortTracking()
@@ -245,9 +263,11 @@ namespace WorkTimeManager.Bll
         private void AbortTracking()
         {
             stopWatch.Stop();
+            backupWatch.Stop();
             paused = false;
             SetStartValues();
             NewTracking();
+            bllSettingsService.ActualTrackBackup = null;
         }
 
         public void PauseTracking()
@@ -255,6 +275,8 @@ namespace WorkTimeManager.Bll
             if (stopWatch.IsEnabled)
             {
                 stopWatch.Stop();
+                backupWatch.Stop();
+                Backupwatch_Tick(null, null); //backup if paused
                 paused = true;
             }
         }
@@ -264,6 +286,7 @@ namespace WorkTimeManager.Bll
             if (!stopWatch.IsEnabled && paused == true)
             {
                 stopWatch.Start();
+                backupWatch.Start();
                 paused = false;
             }
             else if (!stopWatch.IsEnabled && paused == false)

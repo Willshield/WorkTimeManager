@@ -11,6 +11,8 @@ namespace WorkTimeManager.ViewModels
 {
     public class ProfileUserControlViewModel : ViewModelBase
     {
+        private readonly BllSettingsService bllSettingsService = BllSettingsService.Instance;
+
         private Profile profile;
         public Profile UserProfile
         {
@@ -27,7 +29,7 @@ namespace WorkTimeManager.ViewModels
 
         public ProfileUserControlViewModel()
         {
-            UserProfile = BllSettingsService.Instance.Profile;
+            UserProfile = new Profile() { Name = bllSettingsService.ProfileName, Url = bllSettingsService.URL };
             SetHours();
         }
 

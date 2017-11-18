@@ -15,9 +15,9 @@ namespace WorkTimeManager.ViewModels
 {
     class ProfileViewModel : ViewModelBase
     {
-        PopupService popupService;
-        BllSettingsService settingService;
-        IDbClearService dbClearService;
+        private readonly PopupService popupService;
+        private readonly BllSettingsService settingService;
+        private readonly IDbClearService dbClearService;
         public DelegateCommand SaveCommand { get; }
 
         private string profileName;

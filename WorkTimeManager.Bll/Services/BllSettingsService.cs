@@ -17,14 +17,10 @@ namespace WorkTimeManager.Bll.Services
             _helper = new Template10.Services.SettingsService.SettingsHelper();
         }
 
-        public Profile Profile
+        public WorkTime ActualTrackBackup
         {
-            get  { return new Profile() { Name = ProfileName, Url = URL }; }
-            set
-            {
-                ProfileName = value.Name;
-                URL = value.Url;
-            }
+            get { return _helper.Read<WorkTime>(nameof(ActualTrackBackup), null); }
+            set { _helper.Write(nameof(ActualTrackBackup), value); }
         }
 
         public double SpareTime
@@ -59,14 +55,14 @@ namespace WorkTimeManager.Bll.Services
 
         public string ProfileName
         {
-            get { return _helper.Read<string>("ProfileName", "Gáspár Vilmos"); }
-            set { _helper.Write("ProfileName", value); }
+            get { return _helper.Read<string>(nameof(ProfileName), "Gáspár Vilmos"); }
+            set { _helper.Write(nameof(ProfileName), value); }
         }
 
         public string URL
         {
-            get { return _helper.Read<string>("URL", "http://onlab.m.redmine.org"); }
-            set { _helper.Write("URL", value); }
+            get { return _helper.Read<string>(nameof(URL), "http://szakdolgozat.m.redmine.org"); }
+            set { _helper.Write(nameof(URL), value); }
         }
 
         public string UploadKey
