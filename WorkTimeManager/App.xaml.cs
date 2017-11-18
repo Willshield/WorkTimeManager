@@ -12,6 +12,8 @@ using WorkTimeManager.Dal.Context;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using WorkTimeManager.Bll.Services.Network;
+using WorkTimeManager.Bll.Services;
+using WorkTimeManager.Bll.Factories;
 
 namespace WorkTimeManager
 {
@@ -58,12 +60,22 @@ namespace WorkTimeManager
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
-            //Todo: validate profile for download
-            await Task.Run(() =>
+            //Todo: check if crashed
+            if(!(await WorkingTimeService.Instance.GetIsAnyDirty()))
             {
-                return DbSynchronizationService.Instance.PullAll();
-            });
-            await NavigationService.NavigateAsync(typeof(Views.MainPage));
+                await Task.Run(() =>
+                {
+                    return DbSynchronizationService.Instance.PullAll();
+                });
+
+                await NavigationService.NavigateAsync(typeof(Views.MainPage));
+            } else
+            {
+                var popupService = new PopupService();
+                popupService.GetDefaultNotification("You have some unsynchronized worktimes, that pulling data would delete. Automatic database sync aborted.", "Database sync failed").ShowAsync();
+                await NavigationService.NavigateAsync(typeof(Views.SyncPage));
+            }
+
         }
     }
 }

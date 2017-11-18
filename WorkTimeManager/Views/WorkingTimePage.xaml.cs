@@ -30,7 +30,7 @@ namespace WorkTimeManager.Views
             this.InitializeComponent();
 
             WorkTimeListView.ContainerContentChanging += HighlightHeaders;
-            EditButton.Opacity = 0.6;
+            //EditButton.Opacity = 0.6; //Todo: remove
             TrackButton.Opacity = 0.6;
         }
         
@@ -87,11 +87,11 @@ namespace WorkTimeManager.Views
         {
             if (!ViewModel.IsValidWorktime())
             {
-                EditButton.Opacity = 0.6;
+                //EditButton.Opacity = 0.6; //Todo: remove
                 TrackButton.Opacity = 0.6;
             } else
             {
-                EditButton.Opacity = 1;
+                //EditButton.Opacity = 1; //Todo: remove
                 TrackButton.Opacity = 1;
             }
         }

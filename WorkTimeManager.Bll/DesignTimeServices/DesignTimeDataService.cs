@@ -46,6 +46,11 @@ namespace WorkTimeManager.Bll.DesignTimeServices
             return GetIssues();
         }
 
+        public Task<bool> GetIsAnyDirty()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Issue> GetIssueById(int id)
         {
             Issue tmp = new Issue();

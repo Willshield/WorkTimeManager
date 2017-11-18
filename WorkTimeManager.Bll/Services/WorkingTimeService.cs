@@ -47,7 +47,6 @@ namespace WorkTimeManager.Bll.Services
             {
                 return await db.WorkTimes.Where(wt => wt.Dirty).Include(wt => wt.Issue).ThenInclude(i => i.Project).OrderByDescending(i => i.StartTime).ToListAsync();
             }
-
         }
 
         public double GetWorkingHoursTodaySync()
@@ -246,6 +245,14 @@ namespace WorkTimeManager.Bll.Services
             using (var db = new WorkTimeContext())
             {
                 return await db.WorkTimes.Where(wt => wt.WorkTimeID == id).SingleAsync();
+            }
+        }
+
+        public async Task<bool> GetIsAnyDirty()
+        {
+            using (var db = new WorkTimeContext())
+            {
+                return await db.WorkTimes.Where(wt => wt.Dirty).AnyAsync();
             }
         }
     }

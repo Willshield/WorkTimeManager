@@ -336,7 +336,16 @@
                             <usercontrols:IconedButton IconText ="&#xE70F;"
                                            LabelText="Edit selected"/>
                         </Button>
-                        
+
+                        <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding EditWorktimeCommand}" 
+                                RelativePanel.RightOf="EditButton"
+                                RelativePanel.AlignVerticalCenterWithPanel="True" 
+                                x:Name="DeleteButton"
+                                HorizontalContentAlignment="Left">
+                            <usercontrols:IconedButton IconText ="&#xE70F;"
+                                           LabelText="Delete selected"/>
+                        </Button>
+
                     </RelativePanel>
 
                 </RelativePanel>
