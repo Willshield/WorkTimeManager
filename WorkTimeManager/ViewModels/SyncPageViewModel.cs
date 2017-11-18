@@ -197,7 +197,7 @@ namespace WorkTimeManager.ViewModels
 
         public async void SaveChanges()
         {
-            if(EditList.Any(wt => wt.Hours == 0))
+            if(EditList.Any(wt => wt.Hours <= 0))
             {
                 var popup = popupService.GetDefaultNotification("There's some invalid edited workingtime. Use only numbers '.' and the wokingtime can't be zero!", "Invalid edited item(s)");
                 await popup.ShowAsync();

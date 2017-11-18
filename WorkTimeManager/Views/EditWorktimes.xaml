@@ -5,10 +5,26 @@
     xmlns:local="using:WorkTimeManager.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:usercontrols="using:WorkTimeManager.Views.UserControls"
+    xmlns:models="using:WorkTimeManager.Model.Models"
+    xmlns:vm="using:WorkTimeManager.ViewModels"
+    xmlns:conv="using:WorkTimeManager.DataValueConverters"
     mc:Ignorable="d">
 
+
+    <Page.DataContext>
+        <vm:EditWorktimesPageViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+    <Page.Resources>
+        <conv:DateFormatConverter x:Name="DateFormatConverter" x:Key="DateFormatConverter"/>
+        <conv:DoubleFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
+    </Page.Resources>
+
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="{x:Bind WorktimeId}"/>
+        <!--<TextBlock Text="{x:Bind WorktimeId}"/>-->
+        
+        <!--<TextBox Text="{Binding EditWorkTime.Comment}"/>-->
+        <DatePicker Date="{Binding EditWorkTime.StartTime}"/>
         <!--<Grid Margin="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20"/>

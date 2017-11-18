@@ -93,6 +93,11 @@ namespace WorkTimeManager.Bll.DesignTimeServices
             return Task.FromResult(7.5);
         }
 
+        public async Task<WorkTime> GetWorkTime(int id)
+        {
+            return (await GetWorkTimes()).First();
+        }
+
         public Task<List<WorkTime>> GetWorkTimes()
         {
             List<WorkTime> list = new List<WorkTime>();

@@ -110,6 +110,7 @@
     <Compile Include="Services\SettingsServices\UISettingsService.cs" />
     <Compile Include="ViewModels\ActuallyTrackingUserControlViewModel.cs" />
     <Compile Include="ViewModels\ActuallyTrackingViewModel.cs" />
+    <Compile Include="ViewModels\EditWorktimesPageViewModel.cs" />
     <Compile Include="ViewModels\IssuesDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\ProfileUserControlViewModel.cs" />

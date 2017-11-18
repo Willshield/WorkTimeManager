@@ -29,14 +29,13 @@ namespace WorkTimeManager.Views
         {
             this.InitializeComponent();
         }
-
-        public int WorktimeId { get; set; }
+        
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             NavigationData data = JsonConvert.DeserializeObject<NavigationData>(e.Parameter.ToString());
-            WorktimeId = int.Parse(data.Data);
-            //todo: set viewmodel parameter
+            var WorktimeId = int.Parse(data.Data);
+            ViewModel.SetEditedWorktime(WorktimeId);
             base.OnNavigatedTo(e);
         }
     }

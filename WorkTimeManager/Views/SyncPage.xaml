@@ -17,7 +17,7 @@
     </Page.DataContext>
     <Page.Resources>
         <conv:DateFormatConverter x:Name="DateFormatConverter" x:Key="DateFormatConverter"/>
-        <conv:DoubleOrNoneFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
+        <conv:DoubleFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
         <conv:DoubleToStringValidatorConverter x:Name="DoubleToStringValidatorConverter" x:Key="DoubleToStringValidatorConverter"/>
     </Page.Resources>
 

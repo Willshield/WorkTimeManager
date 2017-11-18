@@ -240,5 +240,13 @@ namespace WorkTimeManager.Bll.Services
                 await db.SaveChangesAsync();
             }
         }
+
+        public async Task<WorkTime> GetWorkTime(int id)
+        {
+            using (var db = new WorkTimeContext())
+            {
+                return await db.WorkTimes.Where(wt => wt.WorkTimeID == id).SingleAsync();
+            }
+        }
     }
 }
