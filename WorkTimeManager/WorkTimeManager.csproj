@@ -121,7 +121,7 @@
     <Compile Include="Views\ActuallyTrackingPage.xaml.cs">
       <DependentUpon>ActuallyTrackingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Busy.xaml.cs">
+    <Compile Include="Views\UserControls\Busy.xaml.cs">
       <DependentUpon>Busy.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EditWorktimes.xaml.cs">
@@ -163,9 +163,6 @@
     <Compile Include="Views\UserControls\ProfileUserControl.xaml.cs">
       <DependentUpon>ProfileUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\TitledPageHeader.xaml.cs">
-      <DependentUpon>TitledPageHeader.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\WorkingTimePage.xaml.cs">
       <DependentUpon>WorkingTimePage.xaml</DependentUpon>
     </Compile>
@@ -203,7 +200,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Busy.xaml">
+    <Page Include="Views\UserControls\Busy.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -256,10 +253,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\ProfileUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\TitledPageHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

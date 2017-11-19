@@ -96,15 +96,6 @@
             </ListView.ItemContainerStyle>
         </ListView>
 
-        <!-- track button-->
-        <!--<Button Content="Start tracking"
-                Grid.Row="4" 
-                Command="{Binding StartTrackingCommand}"
-                RelativePanel.AlignRightWithPanel="True" 
-                RelativePanel.Above="footerBar"
-                Name="TrackButton"
-                Margin="20"/>-->
-
         <Button Width="150" Height="32" Padding="0" 
                 Grid.Row="4" 
                 Command="{Binding StartTrackingCommand}"

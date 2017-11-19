@@ -29,6 +29,7 @@
             RelativePanel.AlignVerticalCenterWith="AppIcon"
             RelativePanel.LeftOf="AppIcon"
             Text="Worktime Manager"
+            Foreground="White"
             FontSize="18" Margin="5,0"/>
     </RelativePanel>
 </UserControl>

@@ -101,11 +101,11 @@ namespace WorkTimeManager.Bll
             SetStartValues();
             stopWatch = new DispatcherTimer();
             stopWatch.Tick += Stopwatch_Tick;
-            stopWatch.Interval = new TimeSpan(0, 0, 0, 0, 5); //todo: (0, 0, 1)
+            stopWatch.Interval = new TimeSpan(0, 0, 1);
 
             backupWatch = new DispatcherTimer();
             backupWatch.Tick += Backupwatch_Tick;
-            backupWatch.Interval = new TimeSpan(0, 0, 5); //todo: (0, 1, 0)
+            backupWatch.Interval = new TimeSpan(0, 1, 0);
 
             workingTimeService = WorkingTimeService.Instance;
             popupService = new PopupService();

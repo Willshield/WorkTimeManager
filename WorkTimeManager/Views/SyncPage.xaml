@@ -177,54 +177,6 @@
                                            LabelText="Undo changes"/>
                         </Button>
 
-
-
-                        <!--<Button Width="150" Height="32" Padding="0" Margin="50,0,5,0" Command="{Binding RoundCommand}"  
-                                RelativePanel.RightOf="MergeButton"
-                                RelativePanel.AlignVerticalCenterWithPanel="True" 
-                                x:Name="RoundSelectedButton">
-                            <usercontrols:IconedButton IconText ="&#x2248;"
-                                                       LabelText="Round selected"
-                                                       Font="Times New Roman"/>          
-                        </Button>
-
-                        <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding MergeCommand}"  
-                                RelativePanel.RightOf="RoundSelectedButton"
-                                RelativePanel.AlignVerticalCenterWithPanel="True" 
-                                x:Name="MergeSelectedButton">
-
-                            <usercontrols:IconedButton IconText ="&#xF168;"
-                                           LabelText="Merge on issue"/>
-                        </Button>
-
-
-                        <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding EditWorktimeCommand}" 
-                                RelativePanel.RightOf="MergeSelectedButton"
-                                RelativePanel.AlignVerticalCenterWithPanel="True" 
-                                x:Name="EditButton"
-                                HorizontalContentAlignment="Left">
-                            <usercontrols:IconedButton IconText ="&#xE70F;"
-                                           LabelText="Edit selected"/>
-                        </Button>
-
-                        <Button Width="150" Height="32" Padding="0" Margin="50,0,5,0" Command="{Binding SaveChangesCommand}" 
-                                RelativePanel.RightOf="EditButton"
-                                RelativePanel.AlignVerticalCenterWithPanel="True" 
-                                x:Name="SaveButton"
-                                HorizontalContentAlignment="Left">
-                            <usercontrols:IconedButton IconText ="&#xE74E;"
-                                           LabelText="Save changes"/>
-                        </Button>
-
-                        <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding UndoChangesCommand}" 
-                                RelativePanel.RightOf="SaveButton"
-                                RelativePanel.AlignVerticalCenterWithPanel="True" 
-                                x:Name="UndoButton"
-                                HorizontalContentAlignment="Left">
-                            <usercontrols:IconedButton IconText ="&#xE7A7;"
-                                           LabelText="Undo changes"/>
-                        </Button>-->
-
                     </RelativePanel>
 
                     <!--table header-->

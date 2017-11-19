@@ -26,7 +26,6 @@ namespace WorkTimeManager.ViewModels
         {
             RefreshCommand = new DelegateCommand(RefreshDbList);
             StartTrackingCommand = new DelegateCommand(StartTracking, IsValidWorktime);
-            EditWorktimeCommand = new DelegateCommand(EditWorktime, IsValidWorktime); //TODO: remove editing
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 var dtservice = new DesignTimeDataService();
@@ -242,7 +241,6 @@ namespace WorkTimeManager.ViewModels
             {
                 Set(ref selectedWorktime, value);
                 StartTrackingCommand.RaiseCanExecuteChanged();
-                EditWorktimeCommand.RaiseCanExecuteChanged();
             }
         }
         public DelegateCommand StartTrackingCommand { get; }
@@ -262,14 +260,6 @@ namespace WorkTimeManager.ViewModels
 
             return true;
         }
-
-        public DelegateCommand EditWorktimeCommand { get; }
-        public void EditWorktime()
-        {
-            NavigationService.Navigate(typeof(Views.EditWorktimes), SelectedWorkTime.WorkTimeID);
-        }
-
-
 
         public DelegateCommand RefreshCommand { get; }
         public DelegateCommand OrderCommand { get; }
