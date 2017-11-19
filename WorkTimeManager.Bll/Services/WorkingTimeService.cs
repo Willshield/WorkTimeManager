@@ -242,7 +242,7 @@ namespace WorkTimeManager.Bll.Services
         {
             using (var db = new WorkTimeContext())
             {
-                return await db.WorkTimes.Where(wt => wt.WorkTimeID == workTimeId).SingleAsync();
+                return await db.WorkTimes.Where(wt => wt.WorkTimeID == workTimeId).Include(wt => wt.Issue).ThenInclude(i => i.Project).SingleAsync();
             }
         }
 

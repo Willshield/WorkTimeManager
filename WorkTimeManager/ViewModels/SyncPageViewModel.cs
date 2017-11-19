@@ -107,7 +107,7 @@ namespace WorkTimeManager.ViewModels
 
         public async void Pull()
         {
-            if (DirtyList[0].IssueID <= 0)
+            if (DirtyList[0].IssueID > 0)
             {
                 MessageDialog dialog = popupService.GetDefaultAskDialog("You have some unpushed worktimes. Pulling data overwrites all locally stored worktimes, unpushed data will be deleted.", "Confirm pull", false);
 
@@ -202,7 +202,7 @@ namespace WorkTimeManager.ViewModels
         {
             if(EditList.Any(wt => wt.Hours <= 0))
             {
-                var popup = popupService.GetDefaultNotification("There's some invalid edited workingtime. Use only numbers '.' and the wokingtime can't be zero!", "Invalid edited item(s)");
+                var popup = popupService.GetDefaultNotification("There's some invalid edited workingtime. Use only numbers '.' and the wokingtime can't be zero or negative!", "Invalid edited item(s)");
                 await popup.ShowAsync();
                 return;
             }

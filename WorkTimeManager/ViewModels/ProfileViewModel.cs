@@ -7,6 +7,7 @@ using Template10.Mvvm;
 using Windows.UI.Popups;
 using WorkTimeManager.Bll.Factories;
 using WorkTimeManager.Bll.Interfaces;
+using WorkTimeManager.Bll.Interfaces.Network;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Bll.Services.Network;
 using WorkTimeManager.Views;
@@ -18,6 +19,7 @@ namespace WorkTimeManager.ViewModels
         private readonly PopupService popupService;
         private readonly BllSettingsService settingService;
         private readonly IDbClearService dbClearService;
+        private readonly IDbSynchronizationService dbSynchronizationService;
         public DelegateCommand SaveCommand { get; }
 
         private string profileName;
@@ -53,6 +55,7 @@ namespace WorkTimeManager.ViewModels
             popupService = new PopupService();
             SaveCommand = new DelegateCommand(SetProfile);
             dbClearService = DbSynchronizationService.Instance;
+            dbSynchronizationService = DbSynchronizationService.Instance;
         }
 
         public async void SetProfile()
@@ -71,7 +74,10 @@ namespace WorkTimeManager.ViewModels
             var cmd = await dialog.ShowAsync();
             if (cmd.Label == PopupService.YES)
             {
+                Views.Busy.SetBusy(true, "Refreshing database...");
                 await dbClearService.ClearDb();
+                await dbSynchronizationService.PullAll();
+                Views.Busy.SetBusy(false);
             }
             else if (cmd.Label == PopupService.CANCEL)
             {

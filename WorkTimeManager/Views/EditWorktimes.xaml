@@ -18,28 +18,106 @@
     <Page.Resources>
         <conv:DateFormatConverter x:Name="DateFormatConverter" x:Key="DateFormatConverter"/>
         <conv:DoubleFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
+        <conv:DoubleToStringValidatorConverter x:Name="DoubleToStringValidatorConverter" x:Key="DoubleToStringValidatorConverter"/>
     </Page.Resources>
 
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <!--<TextBlock Text="{x:Bind WorktimeId}"/>-->
-        
-        <TextBox Text="{Binding EditWorkTime.Comment}"/>
-        <!--<DatePicker Date="{Binding EditWorkTime.StartTime, Mode=TwoWay}" />-->
-        <!--<Grid Margin="2" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="260"/>
-                <ColumnDefinition Width="145"/>
-                <ColumnDefinition Width="145"/>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="Auto"/>
+        <!-- Page header -->
+        <usercontrols:PageHeader x:Name="pageHeader"
+                             RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignRightWithPanel="True"
+                             RelativePanel.AlignTopWithPanel="True"
+                             Frame="{x:Bind Frame}" 
+                             Title="Edit worktime"/>
+
+        <!-- Content -->
+        <Grid Margin="20,40,20,10" Padding="0" Grid.Row="1" 
+              RelativePanel.Below="pageHeader"
+              RelativePanel.AlignLeftWithPanel="True" 
+              RelativePanel.AlignRightWithPanel="True"
+              Name="DataGrid">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock FontFamily="Segoe MDL2 Assets" Text="{Binding Dirty, Converter={StaticResource BoolToSyncIconTextConverter} }" FontSize="15" Foreground="{Binding Dirty, Converter={StaticResource BoolToSyncColorConverter}}" Opacity="{Binding IssueID, Converter={StaticResource IssueIdToOpacityConverter}}"/>
-            <TextBlock Text="{x:Bind Issue.Subject}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" FontSize="12" Grid.Column="1"/>
-            <TextBlock Text="{x:Bind Issue.Project.Name}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           VerticalAlignment="Center" FontSize="12" Grid.Column="2"/>
-            <TextBlock Text="{x:Bind StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd\} }"   Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center" FontSize="12" Grid.Column="3"/>
-            <TextBlock Text="{x:Bind Hours, Converter={StaticResource DoubleFormatConverter}}"       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Right"  VerticalAlignment="Center" FontSize="12" Grid.Column="4" Padding="20,0" />
-            <TextBlock Text="{x:Bind Comment}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center"  FontSize="12" Grid.Column="5" />
-        </Grid>-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="120"/>
+            </Grid.RowDefinitions>
+            <RelativePanel Grid.Row="0" Grid.Column="0">
+                <TextBlock Text="Issue:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" 
+                           RelativePanel.AlignLeftWithPanel="True"
+                           RelativePanel.AlignVerticalCenterWithPanel="True"
+                           Name="IssueTextbox"/>
+                <ComboBox Margin="10,0"  ItemsSource="{Binding Issues, Mode=TwoWay}" DisplayMemberPath="Subject" SelectedValuePath="IssueID" SelectedValue="{Binding IssueID, Mode=TwoWay}"
+                          RelativePanel.RightOf="IssueTextbox"
+                          RelativePanel.AlignVerticalCenterWithPanel="True" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom"/>
+            </RelativePanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                <TextBlock Text="Issue name:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" />
+                <TextBlock Name="lbSubject" Text="{Binding Subject, Mode=TwoWay}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center"  MaxLines="3" FontSize="24" Margin="10,0,0,0" MaxWidth="350" TextWrapping="WrapWholeWords"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
+                <TextBlock Text="Project:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding ProjectName, Mode=TwoWay}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0">
+                <TextBlock Text="Tracker:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding IssueTracker, Mode=TwoWay}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+            </StackPanel>
+            <TextBlock Text="Issue description" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0"/>
+            <ScrollViewer VerticalScrollMode="Enabled" HorizontalScrollMode="Disabled" Height="100" Grid.Row="5" Grid.Column="0">
+                <TextBlock Text="{Binding Description, Mode=TwoWay}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="12" TextWrapping="Wrap" />
+            </ScrollViewer>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                <TextBlock Text="Tracked time" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                <TextBox Margin="10,0" Text="{Binding TrackedTime, Converter={StaticResource DoubleToStringValidatorConverter},Mode=TwoWay}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                <TextBlock Text="Priority:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Priority, Mode=TwoWay}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+                <TextBlock Text="Spent on:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                <CalendarDatePicker Margin="10,0" Date="{Binding StartTime, Mode=TwoWay}" />
+                <!--<TextBlock Text="{Binding StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd H:mm\} }" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>-->
+            </StackPanel>
+            <TextBlock Text="Comment:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1"/>
+            <TextBox Text="{Binding Comment, Mode=TwoWay}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="12" TextWrapping="Wrap" Height="100" Grid.Row="5" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Disabled" />
+
+        </Grid>
+
+        <RelativePanel Margin="20,10" RelativePanel.Below="DataGrid" Name="Actionbuttons">
+            <Button Width="150" Height="32" Padding="0" Margin="50,0,5,0" Command="{Binding SaveChangesCommand}" 
+                                RelativePanel.AlignLeftWithPanel="True"
+                                RelativePanel.AlignVerticalCenterWithPanel="True" 
+                                x:Name="SaveButton"
+                                HorizontalContentAlignment="Left">
+                <usercontrols:IconedButton IconText ="&#xE74E;"
+                                           LabelText="Save changes"/>
+            </Button>
+
+            <Button Width="150" Height="32" Padding="0" Margin="5,0" Command="{Binding UndoChangesCommand}" 
+                                RelativePanel.RightOf="SaveButton"
+                                RelativePanel.AlignVerticalCenterWithPanel="True" 
+                                x:Name="UndoButton"
+                                HorizontalContentAlignment="Left">
+                <usercontrols:IconedButton IconText ="&#xE7A7;"
+                                           LabelText="Undo changes"/>
+            </Button>
+        </RelativePanel>
+
+        
+        <!--Footer-->
+        <usercontrols:PageFooter x:Name="footerBar" 
+                                RelativePanel.AlignBottomWithPanel="True"  
+                                RelativePanel.AlignRightWithPanel="True" 
+                                RelativePanel.AlignLeftWithPanel="True" 
+                                Margin="0"/>
     </RelativePanel>
 </Page>
