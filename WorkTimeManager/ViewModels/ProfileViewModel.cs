@@ -81,6 +81,7 @@ namespace WorkTimeManager.ViewModels
             popupService = new PopupService();
             SaveCommand = new DelegateCommand(SetProfile);
             dbClearService = DbClearService.Instance;
+            RefreshDisplayedProfile();
         }
 
         public async void SetProfile()
@@ -132,9 +133,11 @@ namespace WorkTimeManager.ViewModels
         private void RefreshDisplayedProfile()
         {
             var currProfile = settingService.CurrentUser;
-            UserName = currProfile.UserName;
-            Email = currProfile.Email;
-            ProfileName = currProfile.Name;
+            UserName = currProfile?.UserName;
+            Email = currProfile?.Email;
+            ProfileName = currProfile?.Name;
+            URL = currProfile?.Url;
+            Key = currProfile?.ConnectionKey;
         }
     }
 }

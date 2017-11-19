@@ -8,7 +8,7 @@ using WorkTimeManager.Dal.Context;
 namespace WorkTimeManager.Dal.Migrations
 {
     [DbContext(typeof(WorkTimeContext))]
-    [Migration("20171114151522_init")]
+    [Migration("20171119204608_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,8 +22,6 @@ namespace WorkTimeManager.Dal.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
-
-                    b.Property<bool>("Dirty");
 
                     b.Property<bool>("IsFavourite");
 
@@ -42,20 +40,6 @@ namespace WorkTimeManager.Dal.Migrations
                     b.HasIndex("ProjectID");
 
                     b.ToTable("Issues");
-                });
-
-            modelBuilder.Entity("WorkTimeManager.Model.Models.Profile", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Url");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("WorkTimeManager.Model.Models.Project", b =>
@@ -109,7 +93,7 @@ namespace WorkTimeManager.Dal.Migrations
             modelBuilder.Entity("WorkTimeManager.Model.Models.Project", b =>
                 {
                     b.HasOne("WorkTimeManager.Model.Models.Project", "ParentProject")
-                        .WithMany()
+                        .WithMany("ChildrenProjects")
                         .HasForeignKey("ParentProjectID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

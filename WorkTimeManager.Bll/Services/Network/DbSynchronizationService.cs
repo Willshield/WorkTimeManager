@@ -35,8 +35,7 @@ namespace WorkTimeManager.Bll.Services.Network
         }
 
         public async Task PullAll()
-        {
-            
+        {      
             using (var db = new WorkTimeContext())
             {
                 using (var transaction = db.Database.BeginTransaction())

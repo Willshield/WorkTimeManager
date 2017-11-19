@@ -22,8 +22,6 @@ namespace WorkTimeManager.Dal.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<bool>("Dirty");
-
                     b.Property<bool>("IsFavourite");
 
                     b.Property<string>("Priority");
@@ -41,20 +39,6 @@ namespace WorkTimeManager.Dal.Migrations
                     b.HasIndex("ProjectID");
 
                     b.ToTable("Issues");
-                });
-
-            modelBuilder.Entity("WorkTimeManager.Model.Models.Profile", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Url");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("WorkTimeManager.Model.Models.Project", b =>
@@ -108,7 +92,7 @@ namespace WorkTimeManager.Dal.Migrations
             modelBuilder.Entity("WorkTimeManager.Model.Models.Project", b =>
                 {
                     b.HasOne("WorkTimeManager.Model.Models.Project", "ParentProject")
-                        .WithMany()
+                        .WithMany("ChildrenProjects")
                         .HasForeignKey("ParentProjectID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

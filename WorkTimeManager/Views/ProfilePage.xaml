@@ -23,31 +23,59 @@
                              RelativePanel.AlignTopWithPanel="True"
                              Frame="{x:Bind Frame}" 
                              Title="Edit profile"/>
+        
+        <RelativePanel Margin="30,5" Name="ProfileData" RelativePanel.Below="pageHeader">
+            <RelativePanel Name="DisplayedData">
+                <StackPanel Margin="20,10" Orientation="Horizontal" Grid.Row="1" Grid.Column="0"
+                            Name="NameDisplay"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.AlignTopWithPanel="True">
+                    <TextBlock Text="Name:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding ProfileName}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+                </StackPanel>
+                <StackPanel Margin="20,10"  Orientation="Horizontal" Grid.Row="1" Grid.Column="0"
+                            Name="LoginDisplay"
+                            RelativePanel.Below="NameDisplay">
+                    <TextBlock Text="Name:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding UserName}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+                </StackPanel>
+                <StackPanel Margin="20,10"  Orientation="Horizontal" Grid.Row="1" Grid.Column="0"
+                            Name="EmailDisplay"
+                            RelativePanel.Below="LoginDisplay">
+                    <TextBlock Text="Name:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Email}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+                </StackPanel>
 
-        <Grid Grid.Row="1" HorizontalAlignment="Center" RelativePanel.Below="pageHeader" Margin="75,5,10,5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="250"/>
-            </Grid.ColumnDefinitions>
+            </RelativePanel>
+            
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Your name:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
-            <TextBox Text="{Binding ProfileName, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" Name="NameTb"  Width="200" Height="30" Margin="20,0"/>
+            <Grid Grid.Row="1" HorizontalAlignment="Center"  Margin="75,5,10,5"
+                  RelativePanel.RightOf="DisplayedData">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="450"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Connection url:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
-            <TextBox Text="{Binding URL, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Name="URLTb"  Width="200" Height="30" Margin="20,0"/>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Connection url:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding URL, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" Name="URLTb"  Width="400" Height="30" Margin="20,0"/>
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Connection key:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
-            <PasswordBox Password="{Binding Key, Mode=TwoWay}" PasswordRevealMode="Peek" Grid.Row="2" Grid.Column="1" Name="KeyTb"  Width="200" Height="30" Margin="20,0"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Connection key:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                <PasswordBox Password="{Binding Key, Mode=TwoWay}" PasswordRevealMode="Peek" Grid.Row="1" Grid.Column="1" Name="KeyTb"  Width="400" Height="30" Margin="20,0"/>
 
-            <Button Grid.Row="3" Grid.Column="1" Content="Save" HorizontalAlignment="Right" Margin="20,0" Command="{Binding SaveCommand}"/>
+                <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="150" Height="32" Padding="0" Margin="20,10,40,10" Command="{Binding SaveCommand}" >
+                    <usercontrols:IconedButton IconText ="&#xE74E;"
+                                           LabelText="Set profile"/>
+                </Button>
+            </Grid>
+        </RelativePanel>
+        
 
-        </Grid>
 
         <!--Footer-->
         <usercontrols:PageFooter x:Name="footerBar" 

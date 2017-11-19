@@ -38,14 +38,7 @@ namespace WorkTimeManager
             CacheMaxDuration = settings.CacheMaxDuration;
             ShowShellBackButton = settings.UseShellBackButton;
 
-            #endregion
-
-            using (var db = new WorkTimeContext())
-            {
-                db.Database.Migrate();
-            }
-
-            
+            #endregion           
             
         }
 
@@ -62,6 +55,11 @@ namespace WorkTimeManager
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
+            using (var db = new WorkTimeContext())
+            {
+                db.Database.Migrate();
+            }
+            
             if (BllSettingsService.Instance.CurrentUser == null)
             {
                 await NavigationService.NavigateAsync(typeof(Views.ProfilePage));
@@ -74,9 +72,9 @@ namespace WorkTimeManager
             {
                 if (!(await WorkingTimeService.Instance.GetIsAnyDirty()))
                 {
+                    var syncer = new DbSynchronizationService();
                     await Task.Run(() =>
                     {
-                        var syncer = new DbSynchronizationService();
                         return syncer.PullAll();
                     });
 
