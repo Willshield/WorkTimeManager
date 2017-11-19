@@ -212,6 +212,7 @@
                               RelativePanel.Below="TableHeader"
                               RelativePanel.AlignLeftWithPanel="True" 
                               RelativePanel.AlignRightWithPanel="True"
+                              RelativePanel.Above="SelectedActionButtons"
                               SelectionChanged="WorkTimeEditor_SelectionChanged" >
 
                         <ListView.ItemTemplate>
@@ -253,7 +254,7 @@
                                              HorizontalAlignment="Stretch"
                                              FontSize="15" 
                                              Grid.Column="4"
-                                             Height="20" Margin="5,0" MinWidth="450"
+                                             Height="20" Margin="5,0" Width="450"
                                              KeyUp="CommentChanged"/>
                                 </Grid>
                             </DataTemplate>
