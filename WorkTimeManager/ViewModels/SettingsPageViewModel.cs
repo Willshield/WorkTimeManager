@@ -76,7 +76,7 @@ namespace WorkTimeManager.ViewModels
             }
             else
             {
-                DbService = DbSynchronizationService.Instance;
+                DbService = DbClearService.Instance;
                 _UIsettings = UISettingsService.Instance;
                 _Bllsettings = BllSettingsService.Instance;
                 ResetSpareTimeCommand = new DelegateCommand(ResetSpare, CanReset);

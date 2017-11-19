@@ -16,25 +16,21 @@ using WorkTimeManager.Redmine.Service;
 
 namespace WorkTimeManager.Bll.Services.Network
 {
-    public class DbSynchronizationService : IDbSynchronizationService, IDbClearService
+    public class DbSynchronizationService : IDbSynchronizationService
     {
+        private readonly BllSettingsService bllSettingsService = BllSettingsService.Instance;
         private static INetworkDataService NetworkDataService;
-        private static DbSynchronizationService instance = null;
-        private string token { get { return BllSettingsService.Instance.UploadKey; } }
-        DbSynchronizationService()
-        {
-            NetworkDataService = new RedmineService(new Uri(BllSettingsService.Instance.URL));
-        }
-        public static DbSynchronizationService Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new DbSynchronizationService();
-                }
+        //private static DbSynchronizationService instance = null;
+        private string token { get { return bllSettingsService.CurrentUser?.ConnectionKey; } }
 
-                return instance;
+        public DbSynchronizationService()
+        {
+            if(bllSettingsService.CurrentUser != null)
+            {
+                NetworkDataService = new RedmineService(new Uri(bllSettingsService.CurrentUser.Url));
+            } else
+            {
+                NetworkDataService = new RedmineService(new Uri($"http://www.redmine.org/"));
             }
         }
 
@@ -123,7 +119,7 @@ namespace WorkTimeManager.Bll.Services.Network
         {
 
             var from = GetIntervalFrom();
-            var times = await NetworkDataService.GetTimeEntriesAsync(token, from, DateTime.Now);
+            var times = await NetworkDataService.GetTimeEntriesAsync(token, bllSettingsService.CurrentUser?.ID ?? 0, from, DateTime.Now);
             foreach (var timeEntry in times)
             {
                 var exists = await db.WorkTimes.Where(w => w.WorkTimeID == timeEntry.WorkTimeID).SingleOrDefaultAsync();
@@ -180,15 +176,5 @@ namespace WorkTimeManager.Bll.Services.Network
             }
         }
 
-        public async Task ClearDb()
-        {
-            using (var db = new WorkTimeContext())
-            {
-                db.WorkTimes.RemoveRange(db.WorkTimes);
-                db.Issues.RemoveRange(db.Issues);
-                db.Projects.RemoveRange(db.Projects);
-                await db.SaveChangesAsync();
-            }
-        }
     }
 }

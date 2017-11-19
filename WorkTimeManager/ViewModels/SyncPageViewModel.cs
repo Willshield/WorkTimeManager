@@ -49,7 +49,7 @@ namespace WorkTimeManager.ViewModels
                 EditList = new ObservableCollection<WorkTime>();
 
                 workingTimeService = WorkingTimeService.Instance;
-                Syncer = DbSynchronizationService.Instance;
+                Syncer = new DbSynchronizationService();
 
                 PushCommand = new DelegateCommand(Push);
                 PullCommand = new DelegateCommand(Pull);

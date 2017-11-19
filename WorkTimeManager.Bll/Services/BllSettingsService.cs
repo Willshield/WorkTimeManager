@@ -53,22 +53,11 @@ namespace WorkTimeManager.Bll.Services
             set { _helper.Write(nameof(AlwaysUp), value); }
         }
 
-        public string ProfileName
+        public Profile CurrentUser
         {
-            get { return _helper.Read<string>(nameof(ProfileName), "Gáspár Vilmos"); }
-            set { _helper.Write(nameof(ProfileName), value); }
+            get { return _helper.Read<Profile>(nameof(CurrentUser), null); }
+            set { _helper.Write(nameof(CurrentUser), value); }
         }
 
-        public string URL
-        {
-            get { return _helper.Read<string>(nameof(URL), "http://szakdolgozat.m.redmine.org"); }
-            set { _helper.Write(nameof(URL), value); }
-        }
-
-        public string UploadKey
-        {
-            get { return _helper.Read<string>(nameof(UploadKey), "4f56fb8188c5f48811efe9a47b7ef50ad3443318"); }
-            set { _helper.Write(nameof(UploadKey), value); }
-        }
     }
 }

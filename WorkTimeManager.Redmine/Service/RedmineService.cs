@@ -6,7 +6,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using WorkTimeManager.CommonInterfaces;
+using WorkTimeManager.Model.Exceptions;
 using WorkTimeManager.Redmine.Dto;
+using WorkTimeManager.Redmine.Dtos;
 using WorkTimeManager.Redmine.Interfaces;
 
 namespace WorkTimeManager.Redmine.Service
@@ -22,34 +24,55 @@ namespace WorkTimeManager.Redmine.Service
 
         private async Task<T> GetAsync<T>(Uri uri)
         {
-            using (var client = new HttpClient())
+            try
             {
-                var response = await client.GetAsync(uri);
-                var json = await response.Content.ReadAsStringAsync();
-                if (response.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    T result = JsonConvert.DeserializeObject<T>(json);
-                    return result;
-                }
-                else
-                {
-                    throw new HttpRequestException("Network error: Loading data failed. Try again later.");
+                    var response = await client.GetAsync(uri);
+                    var json = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        T result = JsonConvert.DeserializeObject<T>(json);
+                        return result;
+                    }
+                    else
+                    {
+                        throw new RequestStatusCodeException("Loading data failed.", response.StatusCode);
+                    }
                 }
             }
+            catch (HttpRequestException rex)
+            {
+                throw new RequestStatusCodeException("Loading data failed.", true);
+            }
+
         }
         
         private async Task PostTAsync<T>(Uri uri, T t)
         {
-            using (var client = new HttpClient())
+            try
             {
-                var json = JsonConvert.SerializeObject(t);
-                HttpResponseMessage rpmsg = await client.PostAsync(uri, new StringContent(json, new UTF8Encoding(), "application/json"));
-                if (rpmsg.StatusCode != System.Net.HttpStatusCode.Created)
+                using (var client = new HttpClient())
                 {
-                    throw new HttpRequestException("Network error: Sending data failed. Try again later.");
+                    var json = JsonConvert.SerializeObject(t);
+                    HttpResponseMessage response = await client.PostAsync(uri, new StringContent(json, new UTF8Encoding(), "application/json"));
+                    if (response.StatusCode != System.Net.HttpStatusCode.Created)
+                    {
+                        throw new RequestStatusCodeException("Sending data failed.", response.StatusCode);
+                    }
                 }
-
             }
+            catch (HttpRequestException rex)
+            {
+                throw new RequestStatusCodeException("Loading data failed.", true);
+            }
+
+        }
+
+        public async Task<WorkTimeManager.Model.Models.Profile> GetCurrentProfileAsync(string token)
+        {
+            token = getTokenString(token);
+            return (await GetAsync<ProfileDto>(new Uri(serverUrl, $"users/current.json?" + token))).ToEntity();
         }
 
         public async Task<List<WorkTimeManager.Model.Models.Issue>> GetIssuesAsync(string token)
@@ -64,10 +87,16 @@ namespace WorkTimeManager.Redmine.Service
             return await FetchAll<WorkTimeManager.Model.Models.Project, ProjectListDto>($"projects.json?" + token);
         }
 
-        public async Task<List<WorkTimeManager.Model.Models.WorkTime>> GetTimeEntriesAsync(string token, DateTime? from = null, DateTime? to = null)
+        public async Task<List<WorkTimeManager.Model.Models.WorkTime>> GetTimeEntriesAsync(string token, int userId, DateTime? from = null, DateTime? to = null)
         {
             token = getTokenString(token);
-            return await FetchAll<WorkTimeManager.Model.Models.WorkTime, TimeEntryListDto>($"time_entries.json?" + token, getDateFilterString(from, to));
+            var idQueryString = getIdString(userId);
+            return await FetchAll<WorkTimeManager.Model.Models.WorkTime, TimeEntryListDto>($"time_entries.json?" + token + idQueryString, getDateFilterString(from, to));
+        }
+
+        private object getIdString(int userId)
+        {
+            return "&user_id=" + userId;
         }
 
         private async Task<List<TEntity>> FetchAll<TEntity,TDto>(string urlEnd, string additionalFilter = "") where TDto : IFetchableDto<TEntity>

@@ -16,7 +16,6 @@ namespace WorkTimeManager.ViewModels
 {
     public class EditWorktimesPageViewModel : ViewModelBase
     {
-        private readonly IDbSynchronizationService Syncer;
         private readonly IWorkingTimeService workingTimeService;
         private readonly IIssueService issueService;
         private readonly PopupService popupService = new PopupService();
@@ -36,7 +35,6 @@ namespace WorkTimeManager.ViewModels
             else
             {
                 workingTimeService = WorkingTimeService.Instance;
-                Syncer = DbSynchronizationService.Instance;
                 issueService = IssueService.Instance;
 
                 RoundCommand = new DelegateCommand(RoundSelected);

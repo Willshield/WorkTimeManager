@@ -111,6 +111,7 @@
     <Compile Include="Enums\Rounding.cs" />
     <Compile Include="Enums\WorktimeGroupBy.cs" />
     <Compile Include="Enums\WorktimeOrderBy.cs" />
+    <Compile Include="Exceptions\RequestStatusCodeException.cs" />
     <Compile Include="Models\Issue.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\Project.cs" />

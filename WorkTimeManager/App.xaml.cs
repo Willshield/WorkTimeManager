@@ -62,6 +62,13 @@ namespace WorkTimeManager
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
+            if (BllSettingsService.Instance.CurrentUser == null)
+            {
+                await NavigationService.NavigateAsync(typeof(Views.ProfilePage));
+                popupService.GetDefaultNotification("It seems that this is your first time you use the application. Set profile data to get started!", "Set profile").ShowAsync();
+                return;
+            }
+
             var RecoveryWorkTime = BllSettingsService.Instance.ActualTrackBackup;
             if (RecoveryWorkTime == null)
             {
@@ -69,7 +76,8 @@ namespace WorkTimeManager
                 {
                     await Task.Run(() =>
                     {
-                        return DbSynchronizationService.Instance.PullAll();
+                        var syncer = new DbSynchronizationService();
+                        return syncer.PullAll();
                     });
 
                     await NavigationService.NavigateAsync(typeof(Views.MainPage));

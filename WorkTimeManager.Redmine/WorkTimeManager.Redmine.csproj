@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Dtos\IssueDtos.cs" />
+    <Compile Include="Dtos\ProfileDto.cs" />
     <Compile Include="Dtos\ProjectDtos.cs" />
     <Compile Include="Dtos\TimeEntryDtos.cs" />
     <Compile Include="Interfaces\IFetchableDto.cs" />

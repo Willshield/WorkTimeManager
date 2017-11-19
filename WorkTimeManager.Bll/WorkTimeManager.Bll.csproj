@@ -109,11 +109,14 @@
     <Compile Include="DesignTimeServices\DesignTimeDataService.cs" />
     <Compile Include="Factories\PopupService.cs" />
     <Compile Include="Interfaces\IDbClearService.cs" />
+    <Compile Include="Interfaces\Network\IAuthenticationService.cs" />
     <Compile Include="Interfaces\Network\IDbSynchronizationService.cs" />
     <Compile Include="Interfaces\IIssueService.cs" />
     <Compile Include="Interfaces\IWorkingTimeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BllSettingsService.cs" />
+    <Compile Include="Services\DbClearService.cs" />
+    <Compile Include="Services\Network\AuthenticationService.cs" />
     <Compile Include="Services\Network\DbSynchronizationService.cs" />
     <Compile Include="Services\IssueService.cs" />
     <Compile Include="Services\WorkingTimeService.cs" />

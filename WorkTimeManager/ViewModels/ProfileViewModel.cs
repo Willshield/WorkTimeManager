@@ -10,6 +10,8 @@ using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Interfaces.Network;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Bll.Services.Network;
+using WorkTimeManager.Model.Exceptions;
+using WorkTimeManager.Model.Models;
 using WorkTimeManager.Views;
 
 namespace WorkTimeManager.ViewModels
@@ -19,21 +21,14 @@ namespace WorkTimeManager.ViewModels
         private readonly PopupService popupService;
         private readonly BllSettingsService settingService;
         private readonly IDbClearService dbClearService;
-        private readonly IDbSynchronizationService dbSynchronizationService;
+        private IAuthenticationService authenticationService;
+        private IDbSynchronizationService dbSynchronizationService = null;
         public DelegateCommand SaveCommand { get; }
 
-        private string profileName;
-        public string ProfileName
-        {
-            get { return profileName == null ? settingService.ProfileName : profileName; }
-            set {
-                Set(ref profileName, value);
-            }
-        }
         private string url;
         public string URL
         {
-            get { return url == null ? settingService.URL : url; }
+            get { return url; }
             set {
                 Set(ref url, value);
             }
@@ -42,11 +37,42 @@ namespace WorkTimeManager.ViewModels
         private string key;
         public string Key
         {
-            get { return key == null ? settingService.UploadKey : key; }
+            get { return key; }
             set {
                 Set(ref key, value);
             }
         }
+
+        private string profileName;
+        public string ProfileName
+        {
+            get { return profileName; }
+            set
+            {
+                Set(ref profileName, value);
+            }
+        }
+
+        private string email;
+        public string Email
+        {
+            get { return email; }
+            set
+            {
+                Set(ref email, value);
+            }
+        }
+
+        private string userName;
+        public string UserName
+        {
+            get { return userName; }
+            set
+            {
+                Set(ref userName, value);
+            }
+        }
+
 
 
         public ProfileViewModel()
@@ -54,8 +80,7 @@ namespace WorkTimeManager.ViewModels
             settingService = BllSettingsService.Instance;
             popupService = new PopupService();
             SaveCommand = new DelegateCommand(SetProfile);
-            dbClearService = DbSynchronizationService.Instance;
-            dbSynchronizationService = DbSynchronizationService.Instance;
+            dbClearService = DbClearService.Instance;
         }
 
         public async void SetProfile()
@@ -67,31 +92,49 @@ namespace WorkTimeManager.ViewModels
             {
                 popupService.GetDefaultNotification("Invalid url, saving data failed.", "Invalid url error").ShowAsync();
                 return;
+            } catch (ArgumentNullException)
+            {
+                popupService.GetDefaultNotification("Url is required", "Invalid url error").ShowAsync();
+                return;
+            }
+            
+            authenticationService = new AuthenticationService();
+            try
+            {
+                Views.Busy.SetBusy(true, "Refreshing profile...");
+                var profile = await authenticationService.GetProfile(URL, Key);
+                profile.Url = URL;
+                settingService.CurrentUser = profile;
+                RefreshDisplayedProfile();
+                Views.Busy.SetBusy(false);
+            }
+            catch (RequestStatusCodeException rex)
+            {
+                Views.Busy.SetBusy(false);
+                popupService.GetDefaultNotification(rex.GetErrorMessage(), "Request error").ShowAsync();
+                return;
             }
 
-            MessageDialog dialog = popupService.GetDefaultAskDialog("If you change user, you may have to refresh the database for proper usability. Do you want to refresh it now? (Favourite issues will be lost!)", "Database refresh required", true);
+            MessageDialog dialog = popupService.GetDefaultAskDialog("If you change user, you may have to refresh the database for proper usability. Do you want to refresh it now? (Favourite issues will be lost!)", "Database refresh required", false);
 
             var cmd = await dialog.ShowAsync();
             if (cmd.Label == PopupService.YES)
             {
                 Views.Busy.SetBusy(true, "Refreshing database...");
                 await dbClearService.ClearDb();
+                dbSynchronizationService = new DbSynchronizationService();
                 await dbSynchronizationService.PullAll();
                 Views.Busy.SetBusy(false);
-            }
-            else if (cmd.Label == PopupService.CANCEL)
-            {
-                Key = settingService.UploadKey;
-                URL = settingService.URL;
-                ProfileName = settingService.ProfileName;
-                return;
-            } else
-            {
-                settingService.UploadKey = Key;
-                settingService.URL = URL;
-                settingService.ProfileName = ProfileName;
-            }
+            }           
 
+        }
+
+        private void RefreshDisplayedProfile()
+        {
+            var currProfile = settingService.CurrentUser;
+            UserName = currProfile.UserName;
+            Email = currProfile.Email;
+            ProfileName = currProfile.Name;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace WorkTimeManager.ViewModels
 
         public ProfileUserControlViewModel()
         {
-            UserProfile = new Profile() { Name = bllSettingsService.ProfileName, Url = bllSettingsService.URL };
+            UserProfile = bllSettingsService.CurrentUser;
             SetHours();
         }
 
