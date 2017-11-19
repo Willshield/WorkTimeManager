@@ -90,7 +90,7 @@ namespace WorkTimeManager.ViewModels
         {
             if (ManipulatedList.Count == 0)
             {
-                ManipulatedList.Add(new WorkTime() { Issue = new Issue() { Subject = "--- no results ---" } });
+                ManipulatedList.Add(new WorkTime() { Issue = new Issue() { Subject = "--- No results ---" } });
                 return;
             }
             if (selectedGroupBy != WorktimeGroupBy.None )

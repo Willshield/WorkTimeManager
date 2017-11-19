@@ -61,15 +61,6 @@
                                            LabelText="Start tracking"/>
             </Button>
 
-            <!--<Button Width="150" Height="32" Padding="0" Margin="20,0" Command="{Binding EditWorktimeCommand}" 
-                    RelativePanel.RightOf="TrackButton"
-                    RelativePanel.AlignVerticalCenterWith="TrackButton"
-                    x:Name="EditButton"
-                    HorizontalContentAlignment="Left">
-                <usercontrols:IconedButton IconText ="&#xE70F;"
-                                           LabelText="Edit worktime"/>
-            </Button>-->
-            
         </RelativePanel>
 
 

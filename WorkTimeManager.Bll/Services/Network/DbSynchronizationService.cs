@@ -109,7 +109,6 @@ namespace WorkTimeManager.Bll.Services.Network
 
                     var project = db.Projects.Where(p => p.ProjectID == issue.ProjectID).Single();
                     exists.Project = project;
-                    exists.Dirty = false;
                 }
             }
             await db.SaveChangesAsync();

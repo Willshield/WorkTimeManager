@@ -15,7 +15,6 @@ namespace WorkTimeManager.Models
         public string Tracker { get; set; }
         public string Subject { get; set; }
         public string Description { get; set; }
-        public bool Dirty { get; set; }
         private bool isFavourite { get; set; }
         public bool FavouriteSetter
         {
@@ -53,7 +52,6 @@ namespace WorkTimeManager.Models
             Tracker = issue.Tracker;
             Subject = issue.Subject;
             Description = issue.Description;
-            Dirty = issue.Dirty;
             isFavourite = issue.IsFavourite;
             Priority = issue.Priority;
             Updated = issue.Updated;
@@ -70,7 +68,6 @@ namespace WorkTimeManager.Models
                 Tracker = this.Tracker,
                 Subject = this.Subject,
                 Description = this.Description,
-                Dirty = this.Dirty,
                 IsFavourite = this.isFavourite,
                 Priority = this.Priority,
                 Updated = this.Updated,

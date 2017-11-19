@@ -45,15 +45,21 @@ namespace WorkTimeManager.ViewModels
                 StartTrackingCommand = new DelegateCommand(StartTracking, CanStartTracking);
             }
         }
+
         public bool CanStartTracking()
         {
-            return !(SelectedIssue == null);
+            return (SelectedIssue != null && SelectedIssue.IssueID > 0);
         }
 
         private async void getData()
         {
             var issueList = await issueService.GetFavouriteIssues();
             List = new ObservableCollection<IssueTime>(issueList.Select(i => new IssueTime(i, i.WorkTimes.Sum(t => t.Hours))).ToList());
+
+            if (List.Count == 0)
+            {
+                List.Add(new IssueTime() { IssueID = -1, Subject = "--- No favourite issues ---", Project = new Project() });
+            }
         }
 
         public DelegateCommand StartTrackingCommand { get; }

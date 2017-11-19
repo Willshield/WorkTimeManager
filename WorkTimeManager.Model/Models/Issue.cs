@@ -12,7 +12,6 @@ namespace WorkTimeManager.Model.Models
         public string Tracker { get; set; }
         public string Subject { get; set; }
         public string Description { get; set; }
-        public bool Dirty { get; set; }
         public bool IsFavourite { get; set; }
         public string Priority { get; set; }
         public DateTime Updated { get; set; }

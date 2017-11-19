@@ -21,6 +21,7 @@
     <Page.Resources>
         <conv:DateFormatConverter x:Name="DateFormatConverter" x:Key="DateFormatConverter"/>
         <conv:DoubleFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
+        <conv:IssueIdToOpacityConverter x:Name="IssueIdToOpacityConverter" x:Key="IssueIdToOpacityConverter"/>
     </Page.Resources>
 
 
@@ -80,10 +81,10 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{x:Bind Subject}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" FontSize="14" Grid.Column="0"/>
-                        <TextBlock Text="{x:Bind Project.Name}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           VerticalAlignment="Center" FontSize="14" Grid.Column="1"/>
-                        <TextBlock Text="{x:Bind Updated, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd H:mm\} }"   Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center" FontSize="14" Grid.Column="2"/>
-                        <TextBlock Text="{x:Bind AllTrackedTime, Converter={StaticResource DoubleFormatConverter}}"       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Right"  VerticalAlignment="Center" FontSize="14" Grid.Column="3" Padding="20,0" />
-                        <TextBlock Text="{x:Bind Description}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center"  FontSize="14" Grid.Column="4" />
+                        <TextBlock Text="{x:Bind Project.Name}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           VerticalAlignment="Center" FontSize="14" Grid.Column="1" Opacity="{Binding IssueID, Converter={StaticResource IssueIdToOpacityConverter}}"/>
+                        <TextBlock Text="{x:Bind Updated, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd H:mm\} }"   Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center" FontSize="14" Grid.Column="2" Opacity="{Binding IssueID, Converter={StaticResource IssueIdToOpacityConverter}}"/>
+                        <TextBlock Text="{x:Bind AllTrackedTime, Converter={StaticResource DoubleFormatConverter}}"       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Right"  VerticalAlignment="Center" FontSize="14" Grid.Column="3" Padding="20,0" Opacity="{Binding IssueID, Converter={StaticResource IssueIdToOpacityConverter}}"/>
+                        <TextBlock Text="{x:Bind Description}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center"  FontSize="14" Grid.Column="4" Opacity="{Binding IssueID, Converter={StaticResource IssueIdToOpacityConverter}}"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

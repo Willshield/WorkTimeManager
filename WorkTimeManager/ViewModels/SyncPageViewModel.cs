@@ -78,7 +78,7 @@ namespace WorkTimeManager.ViewModels
             else
             {
                 DirtyList = new ObservableCollection<WorkTime>();
-                DirtyList.Add(new WorkTime() { Issue = new Issue() { Subject = "---No dirty time entries---", IssueID = 0 } });
+                DirtyList.Add(new WorkTime() { Issue = new Issue() { Subject = "--- No dirty time entries ---", IssueID = 0 } });
                 EditList = new ObservableCollection<WorkTime>();
             }
             NotifyListChanged();
