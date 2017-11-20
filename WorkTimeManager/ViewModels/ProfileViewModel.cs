@@ -112,7 +112,7 @@ namespace WorkTimeManager.ViewModels
             catch (RequestStatusCodeException rex)
             {
                 Views.Busy.SetBusy(false);
-                popupService.GetDefaultNotification(rex.GetErrorMessage(), "Request error").ShowAsync();
+                popupService.GetDefaultNotification(rex.GetErrorMessage(), "Connection error").ShowAsync();
                 return;
             }
 

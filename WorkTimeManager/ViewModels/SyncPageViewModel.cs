@@ -12,6 +12,7 @@ using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Interfaces.Network;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Bll.Services.Network;
+using WorkTimeManager.Model.Exceptions;
 using WorkTimeManager.Model.Models;
 
 namespace WorkTimeManager.ViewModels
@@ -99,10 +100,20 @@ namespace WorkTimeManager.ViewModels
 
         public async void Push()
         {
-            Views.Busy.SetBusy(true, "Pushing worktimes...");
-            await Syncer.PushAll();
-            RefreshFromLocal();
-            Views.Busy.SetBusy(false);
+            try
+            {
+                Views.Busy.SetBusy(true, "Pushing worktimes...");
+                await Syncer.PushAll();
+                RefreshFromLocal();
+                Views.Busy.SetBusy(false);
+            }
+            catch (RequestStatusCodeException rex)
+            {
+                Views.Busy.SetBusy(false);
+                popupService.GetDefaultNotification(rex.GetErrorMessage(), "Connection error").ShowAsync();
+                return;
+            }
+
         }
 
         public async void Pull()
@@ -118,10 +129,20 @@ namespace WorkTimeManager.ViewModels
                 }
             }
 
-            Views.Busy.SetBusy(true, "Pulling data...");
-            await Syncer.PullAll();
-            RefreshFromLocal();
-            Views.Busy.SetBusy(false);
+            try
+            {
+                Views.Busy.SetBusy(true, "Pulling data...");
+                await Syncer.PullAll();
+                RefreshFromLocal();
+                Views.Busy.SetBusy(false);
+            }
+            catch (RequestStatusCodeException rex)
+            {
+                Views.Busy.SetBusy(false);
+                popupService.GetDefaultNotification(rex.GetErrorMessage(), "Connection error").ShowAsync();
+                return;
+            }
+
         }
         #endregion  
 

@@ -27,6 +27,7 @@ namespace WorkTimeManager.ViewModels
             timeStamp = "00:00:00";
             tracker.TimeChanged += TimeChangedEventHandler;
             tracker.NewTracking += RefreshDisplayedData;
+
         }
 
         public void RefreshDisplayedData()
@@ -117,7 +118,7 @@ namespace WorkTimeManager.ViewModels
         }
         public bool CanRestart()
         {
-            return (tracker.Paused && !tracker.IsTracking) || (!tracker.Paused && !tracker.IsTracking && (tracker.LastTracked != null));
+            return (tracker.Paused && !tracker.IsTracking);
         }
 
         public DelegateCommand PauseCommand { get; }

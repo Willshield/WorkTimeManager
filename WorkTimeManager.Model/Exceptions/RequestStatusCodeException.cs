@@ -11,11 +11,11 @@ namespace WorkTimeManager.Model.Exceptions
     public class RequestStatusCodeException : Exception
     {
         HttpStatusCode StatusCode = HttpStatusCode.InternalServerError;
-        bool Unexpected = false;
+        bool ConnectionError = false;
 
-        public RequestStatusCodeException(string message, bool unexpected = false) : base(message)
+        public RequestStatusCodeException(string message, bool connectionError = false) : base(message)
         {
-            Unexpected = unexpected;
+            ConnectionError = connectionError;
         }
 
         public RequestStatusCodeException(string message, HttpStatusCode statusCode = HttpStatusCode.InternalServerError) : base(message)
@@ -25,8 +25,8 @@ namespace WorkTimeManager.Model.Exceptions
 
         public string GetErrorMessage()
         {
-            if(Unexpected)
-                return string.Join(" Reason: ", Message, "Unexpected error. Check internet connection, url and key.");
+            if(ConnectionError)
+                return string.Join(" Reason: ", Message, "Http connection error. Check internet connection, url and key.");
 
             switch (StatusCode)
             {

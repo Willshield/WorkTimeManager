@@ -66,7 +66,7 @@
                 <TextBox Text="{Binding URL, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" Name="URLTb"  Width="400" Height="30" Margin="20,0"/>
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Connection key:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
-                <PasswordBox Password="{Binding Key, Mode=TwoWay}" PasswordRevealMode="Peek" Grid.Row="1" Grid.Column="1" Name="KeyTb"  Width="400" Height="30" Margin="20,0"/>
+                <PasswordBox Password="{Binding Key, Mode=TwoWay}" PasswordRevealMode="Peek"  Grid.Row="1" Grid.Column="1" Name="KeyTb"  Width="400" Height="30" Margin="20,0" IsPasswordRevealButtonEnabled="True" />
 
                 <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="150" Height="32" Padding="0" Margin="20,10,40,10" Command="{Binding SaveCommand}" >
                     <usercontrols:IconedButton IconText ="&#xE74E;"

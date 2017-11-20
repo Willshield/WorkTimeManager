@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using WorkTimeManager.Bll.Services.Network;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Bll.Factories;
+using WorkTimeManager.Model.Exceptions;
 
 namespace WorkTimeManager
 {
@@ -73,23 +74,27 @@ namespace WorkTimeManager
                 if (!(await WorkingTimeService.Instance.GetIsAnyDirty()))
                 {
                     var syncer = new DbSynchronizationService();
-                    await Task.Run(() =>
+                    try
                     {
-                        return syncer.PullAll();
-                    });
+                        await syncer.PullAll();
+                    }
+                    catch (RequestStatusCodeException rex)
+                    {
+                        popupService.GetDefaultNotification(rex.GetErrorMessage(), "Connection error").ShowAsync();
+                    }
 
                     await NavigationService.NavigateAsync(typeof(Views.MainPage));
                 }
                 else
                 {
                     await NavigationService.NavigateAsync(typeof(Views.SyncPage));
-                    popupService.GetDefaultNotification("You have some unsynchronized worktimes, that pulling data would delete. Automatic database sync aborted.", "Database sync failed").ShowAsync();
+                    popupService.GetDefaultNotification("You have some unsynchronized worktimes, that pulling data would delete. Automatic database sync aborted.", "Database is unsynchronized").ShowAsync();
                 }
             } else
             {
                 await WorkingTimeService.Instance.AddTimeEntry(RecoveryWorkTime);
                 await NavigationService.NavigateAsync(typeof(Views.SyncPage));
-                popupService.GetDefaultNotification("It seems that the app crashed while tracking. A backup is recovered and added to your worktimes list.", "Crash recovery").ShowAsync();
+                popupService.GetDefaultNotification("It seems that the app crashed while tracking. A backup is recovered and added to your worktimes list.", "Recovery").ShowAsync();
                 BllSettingsService.Instance.ActualTrackBackup = null;
             }
 

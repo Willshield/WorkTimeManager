@@ -6,11 +6,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using WorkTimeManager.Bll.Factories;
 using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Interfaces.Network;
 using WorkTimeManager.CommonInterfaces;
 using WorkTimeManager.Dal.Context;
 using WorkTimeManager.Model.Enums;
+using WorkTimeManager.Model.Exceptions;
 using WorkTimeManager.Model.Models;
 using WorkTimeManager.Redmine.Service;
 
@@ -19,6 +21,7 @@ namespace WorkTimeManager.Bll.Services.Network
     public class DbSynchronizationService : IDbSynchronizationService
     {
         private readonly BllSettingsService bllSettingsService = BllSettingsService.Instance;
+        private readonly PopupService popupService = new PopupService();
         private static INetworkDataService NetworkDataService;
         //private static DbSynchronizationService instance = null;
         private string token { get { return bllSettingsService.CurrentUser?.ConnectionKey; } }
@@ -40,19 +43,12 @@ namespace WorkTimeManager.Bll.Services.Network
             {
                 using (var transaction = db.Database.BeginTransaction())
                 {
-                    try
-                    {
-                        await ResetWorktimes(db);
+                    await ResetWorktimes(db);
 
-                        await PullProjects(db);
-                        await PullIssues(db);
-                        await PullTimeEntries(db);
-                        transaction.Commit();
-                    }
-                    catch (HttpRequestException e)
-                    {
-                        await new MessageDialog("You are currently not connected to the internet. Syncing data failed. You can use offline mode. Error message: " + e.Message, "Network Error").ShowAsync();
-                    }
+                    await PullProjects(db);
+                    await PullIssues(db);
+                    await PullTimeEntries(db);
+                    transaction.Commit();
                 }
             }
         }
@@ -133,21 +129,13 @@ namespace WorkTimeManager.Bll.Services.Network
         {
             using (var db = new WorkTimeContext())
             {
-                try
+                var wtList = db.WorkTimes.Where(wt=> wt.Dirty).Include(wt => wt.Issue).ThenInclude(i => i.Project).OrderByDescending(i => i.StartTime).ToList();
+                foreach (WorkTimeManager.Model.Models.WorkTime wt in wtList)
                 {
-                    var wtList = db.WorkTimes.Where(wt=> wt.Dirty).Include(wt => wt.Issue).ThenInclude(i => i.Project).OrderByDescending(i => i.StartTime).ToList();
-                    foreach (WorkTimeManager.Model.Models.WorkTime wt in wtList)
-                    {
-                        await NetworkDataService.PostTimeEntry(token, wt); 
-                        wt.Dirty = false;
-                        await db.SaveChangesAsync();
-                    }
-                    
-                }
-                catch (HttpRequestException e)
-                {
-                    await new MessageDialog("You are currently not connected to the internet. Syncing data failed. You can use offline mode. Error message: " + e.Message, "Network Error").ShowAsync();
-                }
+                    await NetworkDataService.PostTimeEntry(token, wt); 
+                    wt.Dirty = false;
+                    await db.SaveChangesAsync();
+                }                  
             }
         }
 
