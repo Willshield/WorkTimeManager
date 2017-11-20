@@ -28,6 +28,7 @@ namespace WorkTimeManager.ViewModels
             tracker.TimeChanged += TimeChangedEventHandler;
             tracker.NewTracking += RefreshDisplayedData;
 
+            TimeStamp = tracker.Time.ToString();
         }
 
         public void RefreshDisplayedData()

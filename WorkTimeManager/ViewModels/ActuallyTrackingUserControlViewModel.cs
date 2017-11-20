@@ -38,6 +38,7 @@ namespace WorkTimeManager.ViewModels
         {
             Subject = tracker.IssueSubject is null ? "No tracked issue" : tracker.IssueSubject;
             Project = tracker.ProjectName;
+            TimeStamp = tracker.Time.ToString();
         }
 
         private void TimeChangedEventHandler(TimeSpan t)
