@@ -34,15 +34,8 @@ namespace WorkTimeManager.Bll
             get { return trackedIssue; }
             set
             {
-                if (trackedIssue != null && trackedIssue.IssueID != -1) { lastTracked = trackedIssue; }
                 trackedIssue = value;
             }
-        }
-
-        private Issue lastTracked;
-        public Issue LastTracked
-        {
-            get { return lastTracked; }
         }
 
         private TimeSpan time;
@@ -288,10 +281,6 @@ namespace WorkTimeManager.Bll
                 stopWatch.Start();
                 backupWatch.Start();
                 paused = false;
-            }
-            else if (!stopWatch.IsEnabled && paused == false)
-            {
-                await AskStartTracking(lastTracked, "");
             }
         }
 
