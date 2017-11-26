@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WorkTimeManager.Dal.Migrations
+namespace WorkTimeManager.LocalDB.Migrations
 {
     public partial class init : Migration
     {

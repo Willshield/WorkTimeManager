@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using WorkTimeManager.Bll.Interfaces.Network;
-using WorkTimeManager.CommonInterfaces;
+using WorkTimeManager.NetworkInterfaces;
 using WorkTimeManager.Model.Models;
 using WorkTimeManager.Redmine.Service;
 

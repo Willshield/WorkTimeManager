@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTimeManager.Bll", "Work
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTimeManager.Model", "WorkTimeManager.Model\WorkTimeManager.Model.csproj", "{520D5DF6-A88C-44A2-BD05-BB018F995068}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTimeManager.Dal", "WorkTimeManager.Dal\WorkTimeManager.Dal.csproj", "{BFED96BD-E401-4D07-A859-A740E3D06474}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTimeManager.LocalDB", "WorkTimeManager.Dal\WorkTimeManager.LocalDB.csproj", "{BFED96BD-E401-4D07-A859-A740E3D06474}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTimeManager.Redmine", "WorkTimeManager.Redmine\WorkTimeManager.Redmine.csproj", "{F2D93A58-C69B-4C4B-8CFE-2D8746867970}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTimeManager.CommonInterfaces", "WorkTimeManager.CommonInterfaces\WorkTimeManager.CommonInterfaces.csproj", "{0AF94162-CD8A-48EF-9D20-D7630D52C7D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTimeManager.NetworkInterfaces", "WorkTimeManager.CommonInterfaces\WorkTimeManager.NetworkInterfaces.csproj", "{0AF94162-CD8A-48EF-9D20-D7630D52C7D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

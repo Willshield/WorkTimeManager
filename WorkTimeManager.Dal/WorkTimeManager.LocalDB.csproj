@@ -7,8 +7,8 @@
     <ProjectGuid>{BFED96BD-E401-4D07-A859-A740E3D06474}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WorkTimeManager.Dal</RootNamespace>
-    <AssemblyName>WorkTimeManager.Dal</AssemblyName>
+    <RootNamespace>WorkTimeManager.LocalDB</RootNamespace>
+    <AssemblyName>WorkTimeManager.LocalDB</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>

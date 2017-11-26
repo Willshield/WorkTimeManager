@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Template10.Services.NavigationService;
 using Windows.UI.Xaml.Navigation;
-using WorkTimeManager.Dal.Context;
+using WorkTimeManager.LocalDB.Context;
 using WorkTimeManager.Model.Models;
 using System.Collections.ObjectModel;
 using WorkTimeManager.Bll.Interfaces;

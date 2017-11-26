@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorkTimeManager.Model.Models;
 
-namespace WorkTimeManager.CommonInterfaces
+namespace WorkTimeManager.NetworkInterfaces
 {
     public interface INetworkDataService
     {

@@ -266,9 +266,9 @@
       <Project>{d21bfbbc-67a7-46a7-918e-d45a5f93f6ce}</Project>
       <Name>WorkTimeManager.Bll</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WorkTimeManager.Dal\WorkTimeManager.Dal.csproj">
+    <ProjectReference Include="..\WorkTimeManager.Dal\WorkTimeManager.LocalDB.csproj">
       <Project>{bfed96bd-e401-4d07-a859-a740e3d06474}</Project>
-      <Name>WorkTimeManager.Dal</Name>
+      <Name>WorkTimeManager.LocalDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\WorkTimeManager.Model\WorkTimeManager.Model.csproj">
       <Project>{520d5df6-a88c-44a2-bd05-bb018f995068}</Project>

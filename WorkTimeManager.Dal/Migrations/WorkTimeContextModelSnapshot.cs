@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using WorkTimeManager.Dal.Context;
+using WorkTimeManager.LocalDB.Context;
 
-namespace WorkTimeManager.Dal.Migrations
+namespace WorkTimeManager.LocalDB.Migrations
 {
     [DbContext(typeof(WorkTimeContext))]
     partial class WorkTimeContextModelSnapshot : ModelSnapshot

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using WorkTimeManager.CommonInterfaces;
+using WorkTimeManager.NetworkInterfaces;
 using WorkTimeManager.Model.Exceptions;
 using WorkTimeManager.Redmine.Dto;
 using WorkTimeManager.Redmine.Dtos;

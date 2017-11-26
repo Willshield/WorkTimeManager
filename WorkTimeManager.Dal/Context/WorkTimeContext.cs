@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WorkTimeManager.Model.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace WorkTimeManager.Dal.Context
+namespace WorkTimeManager.LocalDB.Context
 {
     public class WorkTimeContext : DbContext
     {

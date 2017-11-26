@@ -136,13 +136,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\WorkTimeManager.CommonInterfaces\WorkTimeManager.CommonInterfaces.csproj">
+    <ProjectReference Include="..\WorkTimeManager.CommonInterfaces\WorkTimeManager.NetworkInterfaces.csproj">
       <Project>{0af94162-cd8a-48ef-9d20-d7630d52c7d7}</Project>
-      <Name>WorkTimeManager.CommonInterfaces</Name>
+      <Name>WorkTimeManager.NetworkInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WorkTimeManager.Dal\WorkTimeManager.Dal.csproj">
+    <ProjectReference Include="..\WorkTimeManager.Dal\WorkTimeManager.LocalDB.csproj">
       <Project>{bfed96bd-e401-4d07-a859-a740e3d06474}</Project>
-      <Name>WorkTimeManager.Dal</Name>
+      <Name>WorkTimeManager.LocalDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\WorkTimeManager.Model\WorkTimeManager.Model.csproj">
       <Project>{520d5df6-a88c-44a2-bd05-bb018f995068}</Project>

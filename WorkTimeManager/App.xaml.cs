@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Controls;
-using WorkTimeManager.Dal.Context;
+using WorkTimeManager.LocalDB.Context;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using WorkTimeManager.Bll.Services.Network;
