@@ -95,7 +95,6 @@ namespace WorkTimeManager.Redmine.Dto
             time_entry.issue_id = wt.IssueID;
             time_entry.hours = (float)wt.Hours;
             time_entry.comments = wt.Comment;
-            //time_entry.activity_id = 9; //Todo: miért const?
             time_entry.spent_on = wt.StartTime.Value.Date.ToString("yyyy-MM-dd");
             this.key = key;
         }

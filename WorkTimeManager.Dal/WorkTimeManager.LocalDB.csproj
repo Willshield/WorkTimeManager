@@ -107,9 +107,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Context\WorkTimeContext.cs" />
-    <Compile Include="Migrations\20171119204608_init.cs" />
-    <Compile Include="Migrations\20171119204608_init.designer.cs">
-      <DependentUpon>20171119204608_init.cs</DependentUpon>
+    <Compile Include="Migrations\20171127200720_init.cs" />
+    <Compile Include="Migrations\20171127200720_init.designer.cs">
+      <DependentUpon>20171127200720_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\WorkTimeContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,6 +138,7 @@
       <Name>WorkTimeManager.Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

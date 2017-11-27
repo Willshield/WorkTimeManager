@@ -28,7 +28,7 @@ namespace WorkTimeManager.Redmine.Dtos
             var tmp = new Profile();
             tmp.ConnectionKey = user.api_key;
             tmp.Email = user.mail;
-            tmp.ID = user.id;
+            tmp.ProfileID = user.id;
             tmp.Name = string.Join(" ", user.firstname, user.lastname);
             tmp.UserName = user.login;
             return tmp;

@@ -23,7 +23,6 @@ namespace WorkTimeManager.Bll.Services.Network
         private readonly BllSettingsService bllSettingsService = BllSettingsService.Instance;
         private readonly PopupService popupService = new PopupService();
         private static INetworkDataService NetworkDataService;
-        //private static DbSynchronizationService instance = null;
         private string token { get { return bllSettingsService.CurrentUser?.ConnectionKey; } }
 
         public DbSynchronizationService()
@@ -113,7 +112,7 @@ namespace WorkTimeManager.Bll.Services.Network
         {
 
             var from = GetIntervalFrom();
-            var times = await NetworkDataService.GetTimeEntriesAsync(token, bllSettingsService.CurrentUser?.ID ?? 0, from, DateTime.Now);
+            var times = await NetworkDataService.GetTimeEntriesAsync(token, bllSettingsService.CurrentUser?.ProfileID ?? 0, from, DateTime.Now);
             foreach (var timeEntry in times)
             {
                 var exists = await db.WorkTimes.Where(w => w.WorkTimeID == timeEntry.WorkTimeID).SingleOrDefaultAsync();

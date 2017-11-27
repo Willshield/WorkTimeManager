@@ -8,7 +8,7 @@ using WorkTimeManager.LocalDB.Context;
 namespace WorkTimeManager.LocalDB.Migrations
 {
     [DbContext(typeof(WorkTimeContext))]
-    [Migration("20171119204608_init")]
+    [Migration("20171127200720_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
