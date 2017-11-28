@@ -21,7 +21,6 @@ namespace WorkTimeManager.Bll.Services.Network
     public class DbSynchronizationService : IDbSynchronizationService
     {
         private readonly BllSettingsService bllSettingsService = BllSettingsService.Instance;
-        private readonly PopupService popupService = new PopupService();
         private static INetworkDataService NetworkDataService;
         private string token { get { return bllSettingsService.CurrentUser?.ConnectionKey; } }
 

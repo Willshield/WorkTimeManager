@@ -19,6 +19,7 @@
         <conv:DateFormatConverter x:Name="DateFormatConverter" x:Key="DateFormatConverter"/>
         <conv:DoubleFormatConverter x:Name="DoubleFormatConverter" x:Key="DoubleFormatConverter"/>
         <conv:DoubleToStringValidatorConverter x:Name="DoubleToStringValidatorConverter" x:Key="DoubleToStringValidatorConverter"/>
+        <conv:DoubleOrNoneFormatConverter x:Name="DoubleOrNoneFormatConverter" x:Key="DoubleOrNoneFormatConverter"/>
     </Page.Resources>
 
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -28,7 +29,7 @@
                                  RelativePanel.AlignRightWithPanel="True"
                                  RelativePanel.AlignTopWithPanel="True"
                                  Frame="{x:Bind Frame}" 
-                                 Title="Synchronization"/>
+                                 Title="Sync data"/>
 
         <!--  content  -->
         <Pivot x:Name="MyPivot"               
@@ -85,7 +86,7 @@
                                     <TextBlock Text="{x:Bind Issue.Subject}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" FontSize="12" Grid.Column="0"/>
                                     <TextBlock Text="{x:Bind Issue.Project.Name}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           VerticalAlignment="Center" FontSize="12" Grid.Column="1"/>
                                     <TextBlock Text="{x:Bind StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd H:mm\} }"   Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center" FontSize="12" Grid.Column="2"/>
-                                    <TextBlock Text="{x:Bind Hours, Converter={StaticResource DoubleFormatConverter}}"       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Right"  VerticalAlignment="Center" FontSize="12" Grid.Column="3" Padding="20,0" />
+                                    <TextBlock Text="{x:Bind Hours, Converter={StaticResource DoubleOrNoneFormatConverter}}"       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Right"  VerticalAlignment="Center" FontSize="12" Grid.Column="3" Padding="20,0" />
                                     <TextBlock Text="{x:Bind Comment}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center"  FontSize="12" Grid.Column="4" />
                                 </Grid>
                             </DataTemplate>

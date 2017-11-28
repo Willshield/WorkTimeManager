@@ -23,7 +23,7 @@
                                 Symbol="Favorite" />
                     <TextBlock Margin="12,0,0,0"
                                VerticalAlignment="Center"
-                               Text="Favorite Issues" />
+                               Text="Favorite issues" />
                 </StackPanel>
             </Controls:HamburgerButtonInfo>
 
@@ -75,7 +75,7 @@
                                 Symbol="Sync" />
                     <TextBlock Margin="12,0,0,0"
                                VerticalAlignment="Center"
-                               Text="Sync Data" />
+                               Text="Sync data" />
                 </StackPanel>
             </Controls:HamburgerButtonInfo>
 

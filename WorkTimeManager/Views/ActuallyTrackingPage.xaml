@@ -27,7 +27,7 @@
                              RelativePanel.AlignRightWithPanel="True"
                              RelativePanel.AlignTopWithPanel="True"
                              Frame="{x:Bind Frame}" 
-                             Title="Actually Tracking"/>
+                             Title="Actually tracked"/>
         
         <!-- Content -->
         <Grid Margin="20,40,20,0" Padding="0" Grid.Row="1" 

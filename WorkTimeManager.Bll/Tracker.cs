@@ -200,7 +200,7 @@ namespace WorkTimeManager.Bll
         {
             if (stopWatch.IsEnabled || paused == true)
             {
-                if (BllSettingsService.Instance.AskIfStop)
+                if (bllSettingsService.AskIfStop)
                 {
                     MessageDialog dialog = popupService.GetDefaultAskDialog("Are you sure?", "Stop working on issue and save", false);
                     var cmd = await dialog.ShowAsync();
@@ -236,7 +236,7 @@ namespace WorkTimeManager.Bll
         {
             if (stopWatch.IsEnabled || paused == true)
             {
-                if (BllSettingsService.Instance.AskIfStop)
+                if (bllSettingsService.AskIfStop)
                 {
                     MessageDialog dialog = popupService.GetDefaultAskDialog("Are you sure? Aborting will reset all worktime.", "Abort Tracking", false);
                     var cmd = await dialog.ShowAsync();
