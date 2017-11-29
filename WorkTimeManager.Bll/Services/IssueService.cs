@@ -79,10 +79,5 @@ namespace WorkTimeManager.Bll.Services
             }
         }
 
-        public async Task StartTracking(Issue issue)
-        {
-            await Tracker.Instance.AskStartTracking(issue, "");
-        }
-
     }
 }

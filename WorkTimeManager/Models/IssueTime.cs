@@ -4,8 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
+using Windows.UI.Popups;
+using WorkTimeManager.Bll;
+using WorkTimeManager.Bll.Factories;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Model.Models;
+using WorkTimeManager.Services;
 
 namespace WorkTimeManager.Models
 {
@@ -25,6 +29,7 @@ namespace WorkTimeManager.Models
             }
         }
 
+        private readonly PopupService popupService;
         public string Priority { get; set; }
         public DateTime Updated { get; set; }
 
@@ -37,7 +42,8 @@ namespace WorkTimeManager.Models
         public AwaitableDelegateCommand TrackingCommand { get { return new AwaitableDelegateCommand(StartTracking); } }
         public async Task StartTracking(AwaitableDelegateCommandParameter arg)
         {
-            await IssueService.Instance.StartTracking(this.ToEntity());
+            var tracker = new TrackingSafeStarterService();
+            await tracker.AskStartTracking(this.ToEntity());    
         }
 
         //Ctors

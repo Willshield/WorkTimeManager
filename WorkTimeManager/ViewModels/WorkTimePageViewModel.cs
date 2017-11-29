@@ -11,6 +11,7 @@ using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Model.Enums;
 using WorkTimeManager.Model.Models;
+using WorkTimeManager.Services;
 using WorkTimeManager.Services.SettingsServices;
 
 namespace WorkTimeManager.ViewModels
@@ -18,8 +19,9 @@ namespace WorkTimeManager.ViewModels
     public class WorkTimePageViewModel : ViewModelBase
     {
         private bool OrderbyDesc = false;
-        IIssueService issueService;
-        IWorkingTimeService workingTimeService;
+        private readonly IIssueService issueService;
+        private readonly IWorkingTimeService workingTimeService;
+        private readonly TrackingSafeStarterService trackingSafeStarterService;
         public List<WorktimeGroupBy> GroupByList { get; set; } = Enum.GetValues(typeof(WorktimeGroupBy)).Cast<WorktimeGroupBy>().ToList();
 
         public WorkTimePageViewModel()
@@ -37,6 +39,7 @@ namespace WorkTimeManager.ViewModels
             {
                 issueService = IssueService.Instance;
                 workingTimeService = WorkingTimeService.Instance;
+                trackingSafeStarterService = new TrackingSafeStarterService();
                 RefreshDbList();
             }
             SelectedGroupBy = (WorktimeGroupBy) UISettingsService.Instance.WorktimeGroupBy;
@@ -246,8 +249,9 @@ namespace WorkTimeManager.ViewModels
         public DelegateCommand StartTrackingCommand { get; }
         public async void StartTracking()
         {
-            await issueService.StartTracking(await issueService.GetIssueById(SelectedWorkTime.IssueID));
-            NavigationService.Navigate(typeof(Views.ActuallyTrackingPage));
+            var started_new = await trackingSafeStarterService.AskStartTracking(await issueService.GetIssueById(SelectedWorkTime.IssueID));
+            if(started_new)
+                NavigationService.Navigate(typeof(Views.ActuallyTrackingPage));
         }
         public bool IsValidWorktime()
         {

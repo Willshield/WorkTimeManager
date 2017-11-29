@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
+using Windows.UI.Popups;
 using WorkTimeManager.Bll;
 using WorkTimeManager.Bll.Factories;
 using WorkTimeManager.Bll.Interfaces;
@@ -15,7 +16,8 @@ namespace WorkTimeManager.ViewModels
     {
 
         private readonly PopupService popupService;
-        private readonly Tracker tracker;
+        private readonly BllSettingsService bllSettingsService = BllSettingsService.Instance;
+        private readonly TrackerService tracker;
         private readonly IIssueService issueService;
 
         public delegate void ExecuteChangingDelegate();
@@ -53,12 +55,12 @@ namespace WorkTimeManager.ViewModels
         {
             get
             {
-                if (tracker.GetTrackedIssue() != null)
+                if (tracker.TrackedIssue != null)
                 {
 
                     return Task.Run(() => {
 
-                        return issueService.GetAllTrackedIssueTime(tracker.GetTrackedIssue().IssueID);
+                        return issueService.GetAllTrackedIssueTime(tracker.TrackedIssue.IssueID);
 
                     }).Result;
                 }
@@ -96,7 +98,7 @@ namespace WorkTimeManager.ViewModels
             PauseCommand = new DelegateCommand(PauseTracking, CanPause);
 
             issueService = IssueService.Instance;
-            tracker = Tracker.Instance;
+            tracker = TrackerService.Instance;
             timeStamp = "00:00:00";
             tracker.TimeChanged += TimeChangedEventHandler;
             tracker.NewTracking += RefreshDisplayedData;
@@ -124,30 +126,60 @@ namespace WorkTimeManager.ViewModels
         public DelegateCommand AbortCommand { get; }
         public async void AbortTracking()
         {
-            await tracker.AskAbortTracking();
+            if (tracker.HasPendingTrack)
+            {
+                if (bllSettingsService.AskIfStop)
+                {
+                    MessageDialog dialog = popupService.GetDefaultAskDialog("Are you sure? Aborting will reset all worktime.", "Abort Tracking", false);
+                    var cmd = await dialog.ShowAsync();
+                    if (cmd.Label == "Yes")
+                    {
+                        tracker.AbortTracking();
+                    }
+                }
+                else {
+                    tracker.AbortTracking();
+                }
+            }
+            
             CanExecutesChanged.Invoke();
         }
 
         public bool CanAbort()
         {
-            return tracker.IsTracking || tracker.Paused;
+            return tracker.HasPendingTrack;
         }
 
         public DelegateCommand StopSaveCommand { get; }
         public async void StopSaveTracking()
         {
-            await tracker.AskStopTracking();
+            if (tracker.HasPendingTrack)
+            {
+                if (bllSettingsService.AskIfStop)
+                {
+                    MessageDialog dialog = popupService.GetDefaultAskDialog("Are you sure?", "Stop working on issue and save", false);
+                    var cmd = await dialog.ShowAsync();
+                    if (cmd.Label == "Yes")
+                    {
+                        tracker.StopAndSaveTracking();
+                    }
+                }
+                else {
+                    tracker.StopAndSaveTracking();
+                }
+            }
             CanExecutesChanged.Invoke();
         }
         public bool CanStopSave()
         {
-            return tracker.IsTracking || tracker.Paused;
+            return tracker.HasPendingTrack;
         }
 
+
         public DelegateCommand RestartCommand { get; }
-        public async void RestartTracking()
+        public void RestartTracking()
         {
-            await tracker.RestartTracking();
+            tracker.RestartTracking();
             CanExecutesChanged.Invoke();
         }
         public bool CanRestart()

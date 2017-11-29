@@ -120,7 +120,7 @@
     <Compile Include="Services\Network\DbSynchronizationService.cs" />
     <Compile Include="Services\IssueService.cs" />
     <Compile Include="Services\WorkingTimeService.cs" />
-    <Compile Include="Tracker.cs" />
+    <Compile Include="TrackerService.cs" />
     <EmbeddedResource Include="Properties\WorkTimeManager.Bll.rd.xml" />
   </ItemGroup>
   <ItemGroup>

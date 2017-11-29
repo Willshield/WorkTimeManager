@@ -21,9 +21,7 @@ namespace WorkTimeManager.Bll.Interfaces
         Task SetFavourite(int IssueID, bool isFav);
 
         Task<double> GetAllTrackedIssueTime(int IssueID);
-
-        Task StartTracking(Issue issue);
-
+        
 
     }
 }

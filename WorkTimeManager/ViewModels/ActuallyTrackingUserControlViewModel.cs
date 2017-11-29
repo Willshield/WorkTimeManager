@@ -10,10 +10,10 @@ namespace WorkTimeManager.ViewModels
 {
     public class ActuallyTrackingUserControlViewModel : ViewModelBase
     {
-        Tracker tracker;
+        TrackerService tracker;
         public ActuallyTrackingUserControlViewModel()
         {
-            tracker = Tracker.Instance;
+            tracker = TrackerService.Instance;
             timeStamp = "00:00:00";
             tracker.TimeChanged += TimeChangedEventHandler;
             tracker.NewTracking += SetDisplayedData;

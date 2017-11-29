@@ -13,13 +13,15 @@ using WorkTimeManager.Bll.DesignTimeServices;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Models;
 using WorkTimeManager.Model.Enums;
+using WorkTimeManager.Services;
 
 namespace WorkTimeManager.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        IIssueService issueService;
-        IWorkingTimeService workingTimeService;
+        private readonly IIssueService issueService;
+        private readonly TrackingSafeStarterService trackingSafeStarterService;
+        private readonly IWorkingTimeService workingTimeService;
         private ObservableCollection<IssueTime> list;
         public ObservableCollection<IssueTime> List
         {
@@ -41,6 +43,7 @@ namespace WorkTimeManager.ViewModels
             {
                 issueService = IssueService.Instance;
                 workingTimeService = WorkingTimeService.Instance;
+                trackingSafeStarterService = new TrackingSafeStarterService();
                 getData();
                 StartTrackingCommand = new DelegateCommand(StartTracking, CanStartTracking);
             }
@@ -67,9 +70,10 @@ namespace WorkTimeManager.ViewModels
         {
             if (SelectedIssue == null)
                 return;
-
-            await issueService.StartTracking(SelectedIssue.ToEntity());
-            NavigationService.Navigate(typeof(Views.ActuallyTrackingPage));
+            
+            var started_new = await trackingSafeStarterService.AskStartTracking(SelectedIssue.ToEntity());
+            if (started_new)
+                NavigationService.Navigate(typeof(Views.ActuallyTrackingPage));
         }
         private IssueTime selectedIssue;
         public IssueTime SelectedIssue
