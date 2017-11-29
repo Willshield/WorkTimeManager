@@ -5,11 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
 using WorkTimeManager.Bll.DesignTimeServices;
-using WorkTimeManager.Bll.Factories;
+using WorkTimeManager.Services;
 using WorkTimeManager.Bll.Interfaces;
-using WorkTimeManager.Bll.Interfaces.Network;
 using WorkTimeManager.Bll.Services;
-using WorkTimeManager.Bll.Services.Network;
 using WorkTimeManager.Model.Models;
 
 namespace WorkTimeManager.ViewModels

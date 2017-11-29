@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 
-namespace WorkTimeManager.Bll.Factories
+namespace WorkTimeManager.Services
 {
     public class PopupService
     {

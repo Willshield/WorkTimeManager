@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Template10.Mvvm;
 using Windows.UI.Popups;
 using WorkTimeManager.Bll;
-using WorkTimeManager.Bll.Factories;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Model.Models;
 using WorkTimeManager.Services;

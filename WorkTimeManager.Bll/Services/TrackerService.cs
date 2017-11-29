@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using WorkTimeManager.Bll.Factories;
 using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Model.Models;
@@ -151,7 +150,7 @@ namespace WorkTimeManager.Bll
             bllSettingsService.ActualTrackBackup = backupTime;
         }
 
-        public void StopAndSaveTracking()
+        public async Task StopAndSaveTracking()
         {
             if (HasPendingTrack)
             {
@@ -161,7 +160,7 @@ namespace WorkTimeManager.Bll
 
                 trackedTime.IssueID = TrackedIssue.IssueID;
                 trackedTime.Hours = ((double)time.Hours) + ((double)time.Minutes / 60.0) + ((double)time.Seconds / 3600.0);
-                workingTimeService.AddTimeEntry(trackedTime);
+                await workingTimeService.AddTimeEntry(trackedTime);
 
                 SetStartValues();
                 NewTracking();

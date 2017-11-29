@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
 using Windows.UI.Popups;
-using WorkTimeManager.Bll.Factories;
+using WorkTimeManager.Services;
 using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Interfaces.Network;
 using WorkTimeManager.Bll.Services;

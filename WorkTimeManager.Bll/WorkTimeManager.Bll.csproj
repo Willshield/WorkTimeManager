@@ -107,7 +107,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DesignTimeServices\DesignTimeDataService.cs" />
-    <Compile Include="Factories\PopupService.cs" />
     <Compile Include="Interfaces\IDbClearService.cs" />
     <Compile Include="Interfaces\Network\IAuthenticationService.cs" />
     <Compile Include="Interfaces\Network\IDbSynchronizationService.cs" />
@@ -120,7 +119,7 @@
     <Compile Include="Services\Network\DbSynchronizationService.cs" />
     <Compile Include="Services\IssueService.cs" />
     <Compile Include="Services\WorkingTimeService.cs" />
-    <Compile Include="TrackerService.cs" />
+    <Compile Include="Services\TrackerService.cs" />
     <EmbeddedResource Include="Properties\WorkTimeManager.Bll.rd.xml" />
   </ItemGroup>
   <ItemGroup>

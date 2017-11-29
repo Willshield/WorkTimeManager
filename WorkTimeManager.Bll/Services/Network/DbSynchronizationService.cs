@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using WorkTimeManager.Bll.Factories;
 using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Interfaces.Network;
 using WorkTimeManager.NetworkInterfaces;

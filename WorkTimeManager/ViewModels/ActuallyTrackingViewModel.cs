@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Template10.Mvvm;
 using Windows.UI.Popups;
 using WorkTimeManager.Bll;
-using WorkTimeManager.Bll.Factories;
+using WorkTimeManager.Services;
 using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Services;
 
@@ -161,11 +161,11 @@ namespace WorkTimeManager.ViewModels
                     var cmd = await dialog.ShowAsync();
                     if (cmd.Label == "Yes")
                     {
-                        tracker.StopAndSaveTracking();
+                        await tracker.StopAndSaveTracking();
                     }
                 }
                 else {
-                    tracker.StopAndSaveTracking();
+                    await tracker.StopAndSaveTracking();
                 }
             }
             CanExecutesChanged.Invoke();

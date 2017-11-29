@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using WorkTimeManager.Bll;
-using WorkTimeManager.Bll.Factories;
 using WorkTimeManager.Model.Models;
 
 namespace WorkTimeManager.Services
@@ -38,7 +37,7 @@ namespace WorkTimeManager.Services
                 }
                 else if (cmd.Label == PopupService.YES)
                 {
-                    tracker.StopAndSaveTracking();
+                    await tracker.StopAndSaveTracking();
                     tracker.StartTracking(issue);
                     return true;
                 }
