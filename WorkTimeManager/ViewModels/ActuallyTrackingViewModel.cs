@@ -18,6 +18,8 @@ namespace WorkTimeManager.ViewModels
         private readonly Tracker tracker;
         private readonly IIssueService issueService;
 
+        public delegate void ExecuteChangingDelegate();
+        public event ExecuteChangingDelegate CanExecutesChanged;
 
         private string timeStamp;
         public string TimeStamp
@@ -100,6 +102,11 @@ namespace WorkTimeManager.ViewModels
             tracker.NewTracking += RefreshDisplayedData;
 
             TimeStamp = tracker.Time.ToString();
+
+            CanExecutesChanged += PauseCommand.RaiseCanExecuteChanged;
+            CanExecutesChanged += RestartCommand.RaiseCanExecuteChanged;
+            CanExecutesChanged += AbortCommand.RaiseCanExecuteChanged;
+            CanExecutesChanged += StopSaveCommand.RaiseCanExecuteChanged;
         }
 
         public void RefreshDisplayedData()
@@ -114,19 +121,11 @@ namespace WorkTimeManager.ViewModels
             TimeStamp = t.ToString();
         }
 
-        private void RaiseCanExecuteChangedEvents()
-        {
-            PauseCommand.RaiseCanExecuteChanged();
-            RestartCommand.RaiseCanExecuteChanged();
-            AbortCommand.RaiseCanExecuteChanged();
-            StopSaveCommand.RaiseCanExecuteChanged();
-        }
-
         public DelegateCommand AbortCommand { get; }
         public async void AbortTracking()
         {
             await tracker.AskAbortTracking();
-            RaiseCanExecuteChangedEvents();
+            CanExecutesChanged.Invoke();
         }
 
         public bool CanAbort()
@@ -138,7 +137,7 @@ namespace WorkTimeManager.ViewModels
         public async void StopSaveTracking()
         {
             await tracker.AskStopTracking();
-            RaiseCanExecuteChangedEvents();
+            CanExecutesChanged.Invoke();
         }
         public bool CanStopSave()
         {
@@ -149,7 +148,7 @@ namespace WorkTimeManager.ViewModels
         public async void RestartTracking()
         {
             await tracker.RestartTracking();
-            RaiseCanExecuteChangedEvents();
+            CanExecutesChanged.Invoke();
         }
         public bool CanRestart()
         {
@@ -160,7 +159,7 @@ namespace WorkTimeManager.ViewModels
         public void PauseTracking()
         {
             tracker.PauseTracking();
-            RaiseCanExecuteChangedEvents();
+            CanExecutesChanged.Invoke();
         }
         public bool CanPause()
         {

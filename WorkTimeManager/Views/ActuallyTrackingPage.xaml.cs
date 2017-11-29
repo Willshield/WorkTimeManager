@@ -31,6 +31,17 @@ namespace WorkTimeManager.Views
         {
             this.InitializeComponent();
             LoadInterval = ((DataLoadInterval)BllSettingsService.Instance.PullLastNDays).GetDisplayName();
+            SetButtonOpacities();
+            ViewModel.CanExecutesChanged += SetButtonOpacities;
+
+        }
+
+        public void SetButtonOpacities()
+        {
+            StopSave.Opacity = ViewModel.CanStopSave() ? 1 : 0.6;
+            Restart.Opacity = ViewModel.CanRestart() ? 1 : 0.6;
+            Abort.Opacity = ViewModel.CanAbort() ? 1 : 0.6;
+            Pause.Opacity = ViewModel.CanPause() ? 1 : 0.6;
         }
     }
 }

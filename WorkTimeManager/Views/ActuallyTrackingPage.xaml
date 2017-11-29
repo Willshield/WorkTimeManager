@@ -108,8 +108,6 @@
                         <usercontrols:IconedButton IconText ="&#xE711;"
                                            LabelText="Abort tracking"/>
                     </Button>
-                    <!--<Button Name="StopSave" Command="{Binding StopSaveCommand}" Content="Stop and save tracking" HorizontalAlignment="Center" Width="170" Margin="10"/>-->
-                    <!--<Button Name="Abort" RelativePanel.Below="StopSave" Command="{Binding AbortCommand}" Content="Abort tracking" HorizontalAlignment="Center" Width="170" Margin="10"/>-->
                 </RelativePanel>
                 <RelativePanel VerticalAlignment="Center" RelativePanel.AlignRightWithPanel="True" Name="seconcBtnCol">
                     <Button Width="150" Height="32" Padding="0" Command="{Binding RestartCommand}" Margin="10"
@@ -125,8 +123,6 @@
                         <usercontrols:IconedButton IconText ="&#xE769;"
                                            LabelText="Pause"/>
                     </Button>
-                    <!--<Button Name="Restart" Command="{Binding RestartCommand}" Content="Restart" HorizontalAlignment="Center" Width="170" Margin="10"/>-->
-                    <!--<Button Name="Pause" RelativePanel.Below="Restart" Command="{Binding PauseCommand}" Content="Pause" HorizontalAlignment="Center" Width="170" Margin="10"/>-->
                 </RelativePanel>
             </RelativePanel>
 
