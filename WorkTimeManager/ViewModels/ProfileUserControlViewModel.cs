@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
+using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Services;
 using WorkTimeManager.Model.Models;
 
@@ -12,6 +13,7 @@ namespace WorkTimeManager.ViewModels
     public class ProfileUserControlViewModel : ViewModelBase
     {
         private readonly BllSettingsService bllSettingsService = BllSettingsService.Instance;
+        private readonly IWorkingTimeService workingTimeService = WorkingTimeService.Instance;
 
         private Profile profile;
         public Profile UserProfile
@@ -35,7 +37,7 @@ namespace WorkTimeManager.ViewModels
 
         public async void SetHours()
         {
-            Hours = await WorkingTimeService.Instance.GetWorkingHoursToday();
+            Hours = await workingTimeService.GetWorkingHoursToday();
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
 using WorkTimeManager.Bll;
+using WorkTimeManager.Bll.Factories;
 using WorkTimeManager.Bll.Interfaces;
 using WorkTimeManager.Bll.Services;
 
@@ -12,36 +13,11 @@ namespace WorkTimeManager.ViewModels
 {
     public class ActuallyTrackingViewModel : ViewModelBase
     {
-        private Tracker tracker;
-        private IIssueService issueService;
 
-        public ActuallyTrackingViewModel()
-        {
-            AbortCommand = new DelegateCommand(AbortTracking, CanAbort);
-            StopSaveCommand = new DelegateCommand(StopSaveTracking, CanStopSave);
-            RestartCommand = new DelegateCommand(RestartTracking, CanRestart);
-            PauseCommand = new DelegateCommand(PauseTracking, CanPause);
+        private readonly PopupService popupService;
+        private readonly Tracker tracker;
+        private readonly IIssueService issueService;
 
-            issueService = IssueService.Instance;
-            tracker = Tracker.Instance;
-            timeStamp = "00:00:00";
-            tracker.TimeChanged += TimeChangedEventHandler;
-            tracker.NewTracking += RefreshDisplayedData;
-
-            TimeStamp = tracker.Time.ToString();
-        }
-
-        public void RefreshDisplayedData()
-        {
-            Comment = "";
-            TimeStamp = "00:00:00";
-
-        }
-
-        private void TimeChangedEventHandler(TimeSpan t)
-        {
-            TimeStamp = t.ToString();
-        }
 
         private string timeStamp;
         public string TimeStamp
@@ -88,6 +64,64 @@ namespace WorkTimeManager.ViewModels
             }
         }
 
+        public string Description
+        {
+            get { return tracker.IssueDescription; }
+        }
+
+        public string IssueTracker
+        {
+            get { return tracker.IssueTracker; }
+        }
+
+        public string ProjectName
+        {
+            get { return tracker.ProjectName; }
+        }
+
+        public string Subject
+        {
+            get { return tracker.IssueSubject; }
+        }
+
+
+        public ActuallyTrackingViewModel()
+        {
+            popupService = new PopupService();
+            AbortCommand = new DelegateCommand(AbortTracking, CanAbort);
+            StopSaveCommand = new DelegateCommand(StopSaveTracking, CanStopSave);
+            RestartCommand = new DelegateCommand(RestartTracking, CanRestart);
+            PauseCommand = new DelegateCommand(PauseTracking, CanPause);
+
+            issueService = IssueService.Instance;
+            tracker = Tracker.Instance;
+            timeStamp = "00:00:00";
+            tracker.TimeChanged += TimeChangedEventHandler;
+            tracker.NewTracking += RefreshDisplayedData;
+
+            TimeStamp = tracker.Time.ToString();
+        }
+
+        public void RefreshDisplayedData()
+        {
+            Comment = "";
+            TimeStamp = "00:00:00";
+
+        }
+
+        private void TimeChangedEventHandler(TimeSpan t)
+        {
+            TimeStamp = t.ToString();
+        }
+
+        private void RaiseCanExecuteChangedEvents()
+        {
+            PauseCommand.RaiseCanExecuteChanged();
+            RestartCommand.RaiseCanExecuteChanged();
+            AbortCommand.RaiseCanExecuteChanged();
+            StopSaveCommand.RaiseCanExecuteChanged();
+        }
+
         public DelegateCommand AbortCommand { get; }
         public async void AbortTracking()
         {
@@ -132,36 +166,6 @@ namespace WorkTimeManager.ViewModels
         {
             return tracker.IsTracking;
         }
-
-        public string Description
-        {
-            get { return tracker.IssueDescription; }
-        }
-
-        public string IssueTracker
-        {
-            get { return tracker.IssueTracker; }
-        }
-
-        public string ProjectName
-        {
-            get { return tracker.ProjectName; }
-        }
-
-        public string Subject
-        {
-            get { return tracker.IssueSubject; }
-        }
-
-
-        private void RaiseCanExecuteChangedEvents()
-        {
-            PauseCommand.RaiseCanExecuteChanged();
-            RestartCommand.RaiseCanExecuteChanged();
-            AbortCommand.RaiseCanExecuteChanged();
-            StopSaveCommand.RaiseCanExecuteChanged();
-        }
-
 
     }
 }

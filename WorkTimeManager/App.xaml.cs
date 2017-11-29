@@ -60,7 +60,7 @@ namespace WorkTimeManager
             {
                 db.Database.Migrate();
             }
-            
+
             if (BllSettingsService.Instance.CurrentUser == null)
             {
                 await NavigationService.NavigateAsync(typeof(Views.ProfilePage));
