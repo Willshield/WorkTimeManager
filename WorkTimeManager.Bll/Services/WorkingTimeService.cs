@@ -95,7 +95,9 @@ namespace WorkTimeManager.Bll.Services
                 var rounding = (Rounding)bllSettingsService.RoundingTo;
                 worktime.Hours = round(rounding, worktime.Hours, bllSettingsService.AlwaysUp);
                 await db.SaveChangesAsync();
+                bllSettingsService.SpareTime += SpareTimeChange;
             }
+            SpareTimeChange = 0.0;
         }
 
         private double SpareTimeChange = 0.0;

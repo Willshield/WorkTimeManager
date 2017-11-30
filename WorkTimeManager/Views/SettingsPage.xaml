@@ -91,7 +91,7 @@
                                RelativePanel.RightOf="RoundingLabel"
                                RelativePanel.AlignVerticalCenterWith="RoundingLabel"
                                Name="LoadingLabel"/>
-                    <TextBlock Text="Rounding to" Style="{ThemeResource BaseTextBlockStyle}"
+                    <TextBlock Text="Load worktimes from the" Style="{ThemeResource BaseTextBlockStyle}"
                                RelativePanel.Below="LoadingLabel"
                                RelativePanel.AlignLeftWith="LoadingLabel"
                                Name="LoadingLabel2"/>

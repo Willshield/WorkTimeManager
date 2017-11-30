@@ -10,7 +10,7 @@ namespace WorkTimeManager.ViewModels
 {
     public class ActuallyTrackingUserControlViewModel : ViewModelBase
     {
-        TrackerService tracker;
+        private readonly TrackerService tracker;
         public ActuallyTrackingUserControlViewModel()
         {
             tracker = TrackerService.Instance;

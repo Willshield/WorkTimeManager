@@ -22,9 +22,9 @@ namespace WorkTimeManager.ViewModels
         public delegate void EditListRefreshedEvent();
         public event EditListRefreshedEvent EditListRefreshed;
 
-        IDbSynchronizationService Syncer;
-        IWorkingTimeService workingTimeService;
-        PopupService popupService = new PopupService();
+        private readonly IDbSynchronizationService Syncer;
+        private readonly IWorkingTimeService workingTimeService;
+        private readonly PopupService popupService = new PopupService();
 
         public DelegateCommand PushCommand { get; }
         public DelegateCommand PullCommand { get; }
