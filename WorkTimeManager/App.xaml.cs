@@ -37,7 +37,7 @@ namespace WorkTimeManager
             var settings = UISettingsService.Instance;
             RequestedTheme = settings.AppTheme;
             CacheMaxDuration = settings.CacheMaxDuration;
-            ShowShellBackButton = settings.UseShellBackButton;
+            ShowShellBackButton = settings.UseTheShellBackButton;
 
             #endregion           
             

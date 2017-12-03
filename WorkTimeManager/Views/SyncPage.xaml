@@ -58,7 +58,7 @@
                                FontSize="20" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
                         <TextBlock Name="Project" Text="Project" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
                                FontSize="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                        <TextBlock Name="StartTime" Text="Work started" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                        <TextBlock Name="StartTime" Text="Spent on" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
                                FontSize="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
                         <TextBlock Name="Hours" Text="Hours worked" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
                                FontSize="20" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
@@ -85,7 +85,7 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{x:Bind Issue.Subject}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Center" FontSize="12" Grid.Column="0"/>
                                     <TextBlock Text="{x:Bind Issue.Project.Name}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"           VerticalAlignment="Center" FontSize="12" Grid.Column="1"/>
-                                    <TextBlock Text="{x:Bind StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd H:mm\} }"   Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center" FontSize="12" Grid.Column="2"/>
+                                    <TextBlock Text="{x:Bind StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd\} }"   Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center" FontSize="12" Grid.Column="2"/>
                                     <TextBlock Text="{x:Bind Hours, Converter={StaticResource DoubleOrNoneFormatConverter}}"       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Right"  VerticalAlignment="Center" FontSize="12" Grid.Column="3" Padding="20,0" />
                                     <TextBlock Text="{x:Bind Comment}"     Foreground="{ThemeResource ApplicationForegroundThemeBrush}"     VerticalAlignment="Center"  FontSize="12" Grid.Column="4" />
                                 </Grid>

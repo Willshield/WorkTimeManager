@@ -13,12 +13,12 @@ namespace WorkTimeManager.Bll.DesignTimeServices
     {
         public Task AddTimeEntry(WorkTime workTime)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task DeleteWorktime(int workTimeId)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task<Issue> GetActuallyTracked()
@@ -53,7 +53,7 @@ namespace WorkTimeManager.Bll.DesignTimeServices
 
         public Task<bool> GetIsAnyDirty()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(false);
         }
 
         public Task<Issue> GetIssueById(int id)
@@ -126,47 +126,47 @@ namespace WorkTimeManager.Bll.DesignTimeServices
 
         public Task GroupMergeWorktimesWithDirty()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task MergeWorktimeWithDirty(int workTimeId)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task RoundDirtyWorktimes()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task RoundWorktime(int workTimeId)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task SetFavourite(int id, bool isFavourite)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task StartTracking(int IssueID)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task StartTracking(Issue issue)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task UpdateWorktime(WorkTime workTime)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task UpdateWorktimes(IEnumerable<WorkTime> workTimes)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }

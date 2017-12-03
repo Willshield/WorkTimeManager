@@ -65,7 +65,7 @@ namespace WorkTimeManager.Bll.Services
         {
             using (var db = new WorkTimeContext())
             {
-                return await db.Issues.Include(i => i.Project).Include(i => i.WorkTimes).ToListAsync();
+                return await db.Issues.Include(i => i.Project).Include(i => i.WorkTimes).Include(i => i.Project).ToListAsync();
             }
         }
 

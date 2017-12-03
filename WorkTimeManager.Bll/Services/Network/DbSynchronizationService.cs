@@ -138,7 +138,7 @@ namespace WorkTimeManager.Bll.Services.Network
 
         private DateTime? GetIntervalFrom()
         {
-            var loadinterval = (DataLoadInterval) BllSettingsService.Instance.PullLastNDays;
+            var loadinterval = (DataLoadInterval) bllSettingsService.PullLastNDays;
 
             switch (loadinterval)
             {

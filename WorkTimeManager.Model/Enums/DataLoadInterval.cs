@@ -11,11 +11,11 @@ namespace WorkTimeManager.Model.Enums
     {
         [DisplayName("Worktimes from last week")]
         IsLastWeek,
-        [DisplayName("Worktimes from last two week")]
+        [DisplayName("Worktimes from the last two weeks")]
         IsLastTwoWeek,
         [DisplayName("Worktimes from last month")]
         IsLastMonth,
-        [DisplayName("Worktimes from last two month")]
+        [DisplayName("Worktimes from the last two months")]
         IsLastTwoMonth,
         [DisplayName("Worktimes from last year")]
         IsLastYear,

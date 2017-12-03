@@ -10,12 +10,12 @@ using WorkTimeManager.Model.Exceptions;
 using WorkTimeManager.Redmine.Dto;
 using WorkTimeManager.Redmine.Dtos;
 using WorkTimeManager.Redmine.Interfaces;
+using WorkTimeManager.Model.Models;
 
 namespace WorkTimeManager.Redmine.Service
 {
     public class RedmineService : INetworkDataService
     {
-        //public readonly Uri serverUrl = new Uri("http://onlab.m.redmine.org");         //Todo: ?key=4f56fb8188c5f48811efe9a47b7ef50ad3443318
         private Uri serverUrl;
         public RedmineService(Uri _serverUrl)
         {
@@ -64,7 +64,7 @@ namespace WorkTimeManager.Redmine.Service
             }
             catch (HttpRequestException rex)
             {
-                throw new RequestStatusCodeException("Loading data failed.", true);
+                throw new RequestStatusCodeException("Sending data failed.", true);
             }
 
         }
@@ -123,6 +123,15 @@ namespace WorkTimeManager.Redmine.Service
             await PostTAsync<Post_Time_Entry>(new Uri(serverUrl, $"time_entries.json"), dto);
         }
 
+        public async Task PostTimeEntries(string token, List<WorkTime> t)
+        {
+            foreach (var wt in t)
+            {
+                var dto = new Post_Time_Entry(wt, token);
+                await PostTAsync<Post_Time_Entry>(new Uri(serverUrl, $"time_entries.json"), dto);
+            }
+        }
+
         private string getTokenString(string token)
         {
             return "&key=" + token;
@@ -141,5 +150,7 @@ namespace WorkTimeManager.Redmine.Service
             }
             return String.Join("", "&spent_on=><", from.Value.ToString("yyyy-MM-dd"), "|", to.Value.ToString("yyyy-MM-dd"));
         }
+
+
     }
 }

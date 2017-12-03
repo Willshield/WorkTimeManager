@@ -95,7 +95,7 @@
                                 <ColumnDefinition Width="140"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{x:Bind Subject }" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center" Grid.Column="0"  FontSize="18"/>
-                            <TextBlock Text="{x:Bind Project.Name}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="1"  FontSize="18"/>
+                            <TextBlock Text="{x:Bind Project.Name}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" VerticalAlignment="Center" Grid.Column="1"  FontSize="18"/>
                             <TextBlock Text="{x:Bind Tracker}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Column="2"  FontSize="18"/>
                         </Grid>
                     </DataTemplate>

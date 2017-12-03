@@ -111,8 +111,8 @@ namespace WorkTimeManager.ViewModels
 
         public bool UseShellBackButton
         {
-            get { return _UIsettings.UseShellBackButton; }
-            set { _UIsettings.UseShellBackButton = value; base.RaisePropertyChanged(); }
+            get { return _UIsettings.UseTheShellBackButton; }
+            set { _UIsettings.UseTheShellBackButton = value; base.RaisePropertyChanged(); }
         }
 
         public bool UseLightThemeButton

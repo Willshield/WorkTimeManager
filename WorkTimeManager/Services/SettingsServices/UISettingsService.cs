@@ -14,12 +14,12 @@ namespace WorkTimeManager.Services.SettingsServices
             _helper = new Template10.Services.SettingsService.SettingsHelper();
         }
 
-        public bool UseShellBackButton
+        public bool UseTheShellBackButton
         {
-            get { return _helper.Read<bool>(nameof(UseShellBackButton), true); }
+            get { return _helper.Read<bool>(nameof(UseTheShellBackButton), false); }
             set
             {
-                _helper.Write(nameof(UseShellBackButton), value);
+                _helper.Write(nameof(UseTheShellBackButton), value);
                 BootStrapper.Current.NavigationService.GetDispatcherWrapper().Dispatch(() =>
                 {
                     BootStrapper.Current.ShowShellBackButton = value;
