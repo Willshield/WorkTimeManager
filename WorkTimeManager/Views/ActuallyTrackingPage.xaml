@@ -75,7 +75,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
                 <TextBlock Text="Spent on:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
-                <TextBlock Text="{Binding StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd H:mm\} }" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+                <TextBlock Text="{Binding StartTime, Converter={StaticResource DateFormatConverter},ConverterParameter=\{0:yyyy/MM/dd\} }" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
             </StackPanel>
             <TextBlock Text="Description:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
             <TextBox Text="{Binding Comment, Mode=TwoWay}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="12" TextWrapping="Wrap" Height="100" Grid.Row="4" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Disabled" />
