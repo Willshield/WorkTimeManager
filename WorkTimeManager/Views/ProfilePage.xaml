@@ -36,13 +36,13 @@
                 <StackPanel Margin="20,10"  Orientation="Horizontal" Grid.Row="1" Grid.Column="0"
                             Name="LoginDisplay"
                             RelativePanel.Below="NameDisplay">
-                    <TextBlock Text="Name:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                    <TextBlock Text="Username:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding UserName}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
                 </StackPanel>
                 <StackPanel Margin="20,10"  Orientation="Horizontal" Grid.Row="1" Grid.Column="0"
                             Name="EmailDisplay"
                             RelativePanel.Below="LoginDisplay">
-                    <TextBlock Text="Name:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
+                    <TextBlock Text="Email:" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}" Opacity=".6" MaxLines="1" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Email}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontSize="15" VerticalAlignment="Center"  Margin="10,0,0,0"/>
                 </StackPanel>
 
