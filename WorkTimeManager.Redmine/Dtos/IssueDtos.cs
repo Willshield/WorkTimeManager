@@ -58,7 +58,7 @@ namespace WorkTimeManager.Redmine.Dto
             tmp.Tracker = tracker.name;
             tmp.Project = new WorkTimeManager.Model.Models.Project();
             tmp.ProjectID = project.id;
-            tmp.Project.Name = project.name; //removable
+            tmp.Project.Name = project.name; 
             tmp.Subject = subject;
             tmp.Description = description;
             tmp.Priority = priority.name;
