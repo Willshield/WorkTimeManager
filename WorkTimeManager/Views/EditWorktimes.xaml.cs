@@ -16,13 +16,8 @@ using WorkTimeManager.Model.Models;
 using Newtonsoft.Json;
 using WorkTimeManager.Models;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace WorkTimeManager.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class EditWorktimes : Page
     {
         public EditWorktimes()

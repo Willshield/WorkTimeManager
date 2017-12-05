@@ -200,7 +200,6 @@ namespace WorkTimeManager.ViewModels
                     }
                     break;
                 case WorktimeGroupBy.Week:
-                    //int lastdayNum = (lastDate.DayOfWeek.GetHashCode() + 1) % 7;
                     int dayNum = (thisDate.DayOfWeek.GetHashCode() + 6) % 7;
                     var date = thisDate.Date.AddDays(-dayNum);
                     if (DateTime.Now.CompareTo(date) == -1 || DateTime.Now.CompareTo(date.AddDays(7)) == 1)

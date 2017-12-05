@@ -16,13 +16,8 @@ using Windows.UI.Xaml.Navigation;
 using WorkTimeManager.Model.Enums;
 using WorkTimeManager.Model.Models;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace WorkTimeManager.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class WorkingTimePage : Page
     {
         public WorkingTimePage()
@@ -30,7 +25,6 @@ namespace WorkTimeManager.Views
             this.InitializeComponent();
 
             WorkTimeListView.ContainerContentChanging += HighlightHeaders;
-            //EditButton.Opacity = 0.6; //Todo: remove
             TrackButton.Opacity = 0.6;
         }
         
@@ -75,7 +69,7 @@ namespace WorkTimeManager.Views
             WorkTime wt = args.Item as WorkTime;
             if (wt.IssueID == -1)
             {
-                args.ItemContainer.Background = Application.Current.Resources["SystemControlHighlightAccentBrush"] as SolidColorBrush;  //(SolidColorBrush)Application.Current.Resources["grey"];
+                args.ItemContainer.Background = Application.Current.Resources["SystemControlHighlightAccentBrush"] as SolidColorBrush; 
             } else
             {
                 args.ItemContainer.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
@@ -87,11 +81,9 @@ namespace WorkTimeManager.Views
         {
             if (!ViewModel.IsValidWorktime())
             {
-                //EditButton.Opacity = 0.6; //Todo: remove
                 TrackButton.Opacity = 0.6;
             } else
             {
-                //EditButton.Opacity = 1; //Todo: remove
                 TrackButton.Opacity = 1;
             }
         }
